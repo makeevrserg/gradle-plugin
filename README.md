@@ -6,8 +6,7 @@ This repository contains basic implementation for version catalogs and build-con
 ```kotlin
 plugins {
     // Standalone
-    // detekt foramtter and analyzer
-    
+    // detekt foramtter and analyzer 
     id("com.makeevrserg.gradleplugin.detekt")
 }
 ```

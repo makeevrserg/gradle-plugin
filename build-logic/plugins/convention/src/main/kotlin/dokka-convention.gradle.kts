@@ -12,7 +12,7 @@ tasks.dokkaHtml.configure {
     suppressObviousFunctions.set(false)
 
     dokkaSourceSets.configureEach {
-        jdkVersion.set(ConventionProject.JAVA_VERSION.majorVersion.toInt())
+        jdkVersion.set(ConventionProject.TARGET_JAVA_VERSION.majorVersion.toInt())
         includeNonPublic.set(false)
         skipDeprecated.set(false)
         reportUndocumented.set(true)

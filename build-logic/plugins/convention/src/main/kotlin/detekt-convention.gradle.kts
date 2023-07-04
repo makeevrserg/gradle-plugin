@@ -33,7 +33,7 @@ tasks.withType<Detekt> {
     buildUponDefaultConfig = true
 
     // Target version of the generated JVM bytecode. It is used for type resolution.
-    this.jvmTarget = ConventionProject.JAVA_VERSION.majorVersion
+    this.jvmTarget = ConventionProject.TARGET_JAVA_VERSION.majorVersion
 }
 
 dependencies {

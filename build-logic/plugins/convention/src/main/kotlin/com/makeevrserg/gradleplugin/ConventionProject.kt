@@ -9,7 +9,8 @@ import java.util.Properties
  * This file contains custom secret and other required fields
  */
 object ConventionProject {
-    val JAVA_VERSION = JavaVersion.VERSION_11
+    val TARGET_JAVA_VERSION = JavaVersion.VERSION_11
+    val SOURCE_JAVA_VERSION = JavaVersion.VERSION_1_8
     val Project.KEY_ALIAS: String
         get() = getCredential(this, "KEY_ALIAS")
     val Project.KEY_PASSWORD: String
@@ -18,7 +19,7 @@ object ConventionProject {
         get() = getCredential(this, "STORE_PASSWORD")
 
     private fun getCredential(project: Project, path: String): String {
-        val properties: Properties = Properties()
+        val properties = Properties()
         val localProperties = project.rootProject.file("local.properties")
         if (!localProperties.exists()) return "NO_LOCAL_PROPERTIES"
         val inputStream: InputStream = localProperties.inputStream()

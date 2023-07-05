@@ -1,6 +1,6 @@
-import com.makeevrserg.gradleplugin.ConventionProject.KEY_ALIAS
-import com.makeevrserg.gradleplugin.ConventionProject.KEY_PASSWORD
-import com.makeevrserg.gradleplugin.ConventionProject.STORE_PASSWORD
+import com.makeevrserg.gradleplugin.project.ConventionProject.KEY_ALIAS
+import com.makeevrserg.gradleplugin.project.ConventionProject.KEY_PASSWORD
+import com.makeevrserg.gradleplugin.project.ConventionProject.STORE_PASSWORD
 
 plugins {
     id("android-app-convention")

@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.gradle.shadow) apply true
     id("dokka-root")
     id("com.makeevrserg.gradleplugin.detekt")
+    id("com.makeevrserg.gradleplugin.root.info")
 }
 
 tasks.register("cleanProject", Delete::class) {

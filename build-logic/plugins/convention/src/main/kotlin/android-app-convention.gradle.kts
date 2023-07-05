@@ -1,4 +1,4 @@
-import com.makeevrserg.gradleplugin.ApplicationVariantAction
+
 
 plugins {
     id("com.android.application")
@@ -11,8 +11,5 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-    }
-    buildTypes {
-        applicationVariants.all(ApplicationVariantAction(project))
     }
 }

@@ -1,6 +1,5 @@
-package com.makeevrserg.gradleplugin
+package com.makeevrserg.gradleplugin.project
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.InputStream
 import java.util.Properties
@@ -9,8 +8,6 @@ import java.util.Properties
  * This file contains custom secret and other required fields
  */
 object ConventionProject {
-    val TARGET_JAVA_VERSION = JavaVersion.VERSION_11
-    val SOURCE_JAVA_VERSION = JavaVersion.VERSION_1_8
     val Project.KEY_ALIAS: String
         get() = getCredential(this, "KEY_ALIAS")
     val Project.KEY_PASSWORD: String

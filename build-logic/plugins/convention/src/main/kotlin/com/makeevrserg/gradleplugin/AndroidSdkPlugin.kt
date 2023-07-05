@@ -1,7 +1,7 @@
 package com.makeevrserg.gradleplugin
 
 import com.android.build.gradle.BaseExtension
-import libs
+import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -9,15 +9,15 @@ import org.gradle.kotlin.dsl.configure
 class AndroidSdkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.configure<BaseExtension> {
-            compileSdkVersion(target.libs.versions.project.sdk.compile.get().toInt())
+            compileSdkVersion(target.gradleProperty("android.sdk.compile").integer)
 
             defaultConfig {
-                minSdk = target.libs.versions.project.sdk.min.get().toInt()
-                targetSdk = target.libs.versions.project.sdk.target.get().toInt()
+                minSdk = target.gradleProperty("android.sdk.min").integer
+                targetSdk = target.gradleProperty("android.sdk.target").integer
             }
             compileOptions {
-                sourceCompatibility = ConventionProject.TARGET_JAVA_VERSION
-                targetCompatibility = ConventionProject.SOURCE_JAVA_VERSION
+                sourceCompatibility = target.gradleProperty("java.source").javaVersion
+                targetCompatibility = target.gradleProperty("java.target").javaVersion
             }
         }
     }

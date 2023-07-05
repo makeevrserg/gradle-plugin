@@ -26,5 +26,13 @@ gradlePlugin {
             id = "${libs.versions.project.group.get()}.java.core"
             implementationClass = "${libs.versions.project.group.get()}.JvmSourceTargetPlugin"
         }
+        create("root-info") {
+            id = "${libs.versions.project.group.get()}.root.info"
+            implementationClass = "${libs.versions.project.group.get()}.InfoRootPlugin"
+        }
+        create("apk-name") {
+            id = "${libs.versions.project.group.get()}.apk.name"
+            implementationClass = "${libs.versions.project.group.get()}.ApkNamePlugin"
+        }
     }
 }

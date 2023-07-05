@@ -1,4 +1,5 @@
-import com.makeevrserg.gradleplugin.ConventionProject
+
+import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
@@ -33,7 +34,7 @@ tasks.withType<Detekt> {
     buildUponDefaultConfig = true
 
     // Target version of the generated JVM bytecode. It is used for type resolution.
-    this.jvmTarget = ConventionProject.TARGET_JAVA_VERSION.majorVersion
+    jvmTarget = gradleProperty("java.ktarget").javaVersion.majorVersion
 }
 
 dependencies {

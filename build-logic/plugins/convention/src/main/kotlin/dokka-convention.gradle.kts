@@ -1,4 +1,5 @@
-import com.makeevrserg.gradleplugin.ConventionProject
+
+import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 group = libs.versions.project.group.get()
@@ -12,7 +13,7 @@ tasks.dokkaHtml.configure {
     suppressObviousFunctions.set(false)
 
     dokkaSourceSets.configureEach {
-        jdkVersion.set(ConventionProject.TARGET_JAVA_VERSION.majorVersion.toInt())
+        jdkVersion.set(gradleProperty("java.target").javaVersion.majorVersion.toInt())
         includeNonPublic.set(false)
         skipDeprecated.set(false)
         reportUndocumented.set(true)

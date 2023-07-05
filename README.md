@@ -1,18 +1,41 @@
-# Gradle Plugin
+# Gradle Plugin [WIP]
 
 This repository contains basic implementation for version catalogs and build-convention
 
-## Standalone
-```kotlin
-plugins {
-    // Standalone
-    // detekt foramtter and analyzer 
-    id("com.makeevrserg.gradleplugin.detekt")
-}
+## Setup
+
+In your gradle.properties define required fields
+
+```properties
+# Android
+makeevrserg.android.sdk.compile=33
+makeevrserg.android.sdk.min=21
+makeevrserg.android.sdk.target=33
+# Java
+makeevrserg.java.source=8
+makeevrserg.java.target=11
+makeevrserg.java.ktarget=11
+# Project
+makeevrserg.project.name=GradlePlugin
+makeevrserg.project.group=com.makeevrserg.gradleplugin
+makeevrserg.project.version.string=0.0.2
+makeevrserg.project.description=GradlePlugin for my kotlin projects
 ```
-## Convention plugins
+
+Inside your gradle file
+
 ```kotlin
 plugins {
+    // for full detekt support
+    id("com.makeevrserg.gradleplugin.detekt")
+    // to setup sdk and compile options
+    id("com.makeevrserg.gradleplugin.android.core")
+    // to setup java source/target and kotlin compile options
+    id("com.makeevrserg.gradleplugin.java.core")
+    // auto naming .apk files
+    id("com.makeevrserg.gradleplugin.apk.name")
+    // to setup group/version/description
+    id("com.makeevrserg.gradleplugin.root.info")
     // Dokka for root build.gradle.kts
     // If there's readme - it will be main page of documentation
     id("dokka-root")
@@ -20,8 +43,5 @@ plugins {
     // You can also include README.md inside module
     // and dokka will create this README as main page
     id("dokka-convention")
-    // This convention will setup common android configurations like sdk compile/kotlin options
-    id("android-app-convention")
-    id("android-library-convention")
 }
 ```

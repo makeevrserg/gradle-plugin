@@ -1,6 +1,5 @@
 package com.makeevrserg.gradleplugin
 
-import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project

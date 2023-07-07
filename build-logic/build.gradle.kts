@@ -1,10 +1,8 @@
 import java.io.InputStream
 import java.util.Properties
+
 plugins {
     `kotlin-dsl`
-    id("org.gradle.maven-publish")
-    id("signing")
-    id("java-gradle-plugin")
 }
 
 fun getSecretProperty(property: String): String {
@@ -54,7 +52,7 @@ subprojects {
                 description.set("Custom gradle plugin for my libraries and projects")
                 url.set("https://github.com/makeevrserg/gradle-plugin")
                 groupId = klibs.versions.project.group.get()
-                artifactId = klibs.versions.project.group.get()
+                artifactId = this@subprojects.name
 
                 licenses {
                     license {
@@ -77,13 +75,13 @@ subprojects {
                 }
             }
         }
-    }
 
-    configure<SigningExtension> {
-        val signingKey = getSecretProperty("SIGNING_KEY")
-        val signingKeyId = getSecretProperty("SIGNING_KEY_ID")
-        val signingPassword = getSecretProperty("SIGNING_PASSWORD")
-        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        sign(publishing.publications)
+        configure<SigningExtension> {
+            val signingKey = getSecretProperty("SIGNING_KEY")
+            val signingKeyId = getSecretProperty("SIGNING_KEY_ID")
+            val signingPassword = getSecretProperty("SIGNING_PASSWORD")
+            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+            sign(publications)
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.makeevrserg.gradleplugin.util
 
-import java.io.InputStream
 import java.util.Properties
 import org.gradle.api.GradleException
 import org.gradle.api.Project

@@ -1,7 +1,5 @@
 plugins {
     `kotlin-dsl`
-    id("org.gradle.maven-publish")
-    id("signing")
     id("java-gradle-plugin")
 }
 

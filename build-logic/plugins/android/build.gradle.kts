@@ -1,14 +1,12 @@
 plugins {
     `kotlin-dsl`
-    id("org.gradle.maven-publish")
-    id("signing")
     id("java-gradle-plugin")
 }
 
 dependencies {
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.android.toolsBuild)
-    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.lint.detekt.gradle)
     implementation(libs.dokka.android)
     implementation(libs.dokka.gradle.plugin)

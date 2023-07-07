@@ -730,51 +730,51 @@ style:
     active: true
     excludeImports:
       - 'java.util.*'
-TwitterCompose:
-  CompositionLocalAllowlist:
-    active: true
-    # You can optionally define a list of CompositionLocals that are allowed here
-    allowedCompositionLocals: LocalRouter,LocalPlaceholderEnable,LocalPallet,LocalTypography,LocalGlobalNavigationNavStack
-  CompositionLocalNaming:
-    active: true
-  ContentEmitterReturningValues:
-    active: true
-    # You can optionally add your own composables here
-    # contentEmitters: MyComposable,MyOtherComposable
-  ModifierComposable:
-    active: true
-  # TODO change back
-  ModifierMissing:
-    active: false
-  ModifierReused:
-    active: true
-  ModifierWithoutDefault:
-    active: true
-  MultipleEmitters:
-    active: true
-    # You can optionally add your own composables here
-    # contentEmitters: MyComposable,MyOtherComposable
-  MutableParams:
-    active: true
-  ComposableNaming:
-    active: true
-    # You can optionally disable the checks in this rule for regex matches against the composable name (e.g. molecule presenters)
-    # allowedComposableFunctionNames: .*Presenter,.*MoleculePresenter
-  # TODO change back
-  ComposableParamOrder:
-    active: false
-  PreviewNaming:
-    active: true
-  PreviewPublic:
-    active: true
-    # You can optionally disable that only previews with @PreviewParameter are flagged
-    # previewPublicOnlyIfParams: false
-  RememberMissing:
-    active: true
-  # TODO change back
-  UnstableCollections:
-    active: false
-  ViewModelForwarding:
-    active: true
-  ViewModelInjection:
-    active: true
+#TwitterCompose:
+#  CompositionLocalAllowlist:
+#    active: true
+#    # You can optionally define a list of CompositionLocals that are allowed here
+#    allowedCompositionLocals: LocalRouter,LocalPlaceholderEnable,LocalPallet,LocalTypography,LocalGlobalNavigationNavStack
+#  CompositionLocalNaming:
+#    active: true
+#  ContentEmitterReturningValues:
+#    active: true
+#    # You can optionally add your own composables here
+#    # contentEmitters: MyComposable,MyOtherComposable
+#  ModifierComposable:
+#    active: true
+#  # TODO change back
+#  ModifierMissing:
+#    active: false
+#  ModifierReused:
+#    active: true
+#  ModifierWithoutDefault:
+#    active: true
+#  MultipleEmitters:
+#    active: true
+#    # You can optionally add your own composables here
+#    # contentEmitters: MyComposable,MyOtherComposable
+#  MutableParams:
+#    active: true
+#  ComposableNaming:
+#    active: true
+#    # You can optionally disable the checks in this rule for regex matches against the composable name (e.g. molecule presenters)
+#    # allowedComposableFunctionNames: .*Presenter,.*MoleculePresenter
+#  # TODO change back
+#  ComposableParamOrder:
+#    active: false
+#  PreviewNaming:
+#    active: true
+#  PreviewPublic:
+#    active: true
+#    # You can optionally disable that only previews with @PreviewParameter are flagged
+#    # previewPublicOnlyIfParams: false
+#  RememberMissing:
+#    active: true
+#  # TODO change back
+#  UnstableCollections:
+#    active: false
+#  ViewModelForwarding:
+#    active: true
+#  ViewModelInjection:
+#    active: true

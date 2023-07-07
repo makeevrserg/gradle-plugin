@@ -8,7 +8,6 @@ plugins {
     id("signing")
     id("java-gradle-plugin")
 }
-
 group = libs.versions.project.group.get()
 version = libs.versions.project.version.string.get()
 
@@ -32,6 +31,14 @@ gradlePlugin {
         create("detekt") {
             id = "${libs.versions.project.group.get()}.detekt"
             implementationClass = "${libs.versions.project.group.get()}.CoreDetektPlugin"
+        }
+        create("dokka-module") {
+            id = "${libs.versions.project.group.get()}.dokka.module"
+            implementationClass = "${libs.versions.project.group.get()}.DokkaModulePlugin"
+        }
+        create("dokka-root") {
+            id = "${libs.versions.project.group.get()}.dokka.root"
+            implementationClass = "${libs.versions.project.group.get()}.DokkaRootPlugin"
         }
         create("java-core") {
             id = "${libs.versions.project.group.get()}.java.core"

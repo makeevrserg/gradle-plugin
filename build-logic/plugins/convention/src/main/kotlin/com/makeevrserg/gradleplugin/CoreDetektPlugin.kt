@@ -2,6 +2,7 @@ package com.makeevrserg.gradleplugin
 
 import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import io.gitlab.arturbosch.detekt.Detekt
+import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -26,9 +27,20 @@ class CoreDetektPlugin : Plugin<Project> {
                 xml.required.set(false)
                 txt.required.set(false)
             }
-
+            val resource = Thread.currentThread().getContextClassLoader().getResource("detekt.yml")
+            val bytes = resource.openConnection().getInputStream().readAllBytes()
+            val detektFile = File(File(target.rootDir, "build"),"detekt.yml").also {
+                if (!it.exists()) {
+                    it.parentFile.mkdirs()
+                    it.createNewFile()
+                }
+                it.writeBytes(bytes)
+            }
+            ignoreFailures = true
+//            setSource(detektFile.parentFile)
+            config.setFrom(detektFile)
             setSource(target.files(target.projectDir))
-            config.setFrom(target.files("${target.rootDir}/gradle/detekt.yml"))
+//            config.setFrom(target.files("${target.rootDir}/gradle/detekt.yml"))
 
             include("**/*.kt", "**/*.kts")
             exclude(

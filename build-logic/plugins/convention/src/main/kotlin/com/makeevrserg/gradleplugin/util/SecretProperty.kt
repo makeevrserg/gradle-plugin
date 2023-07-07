@@ -13,15 +13,14 @@ class SecretProperty(path: String, private val project: Project) : BaseProperty(
             System.getenv(property)?.let { return it }
             // if not ci getting from local.properties
             val properties = Properties().apply {
-                val localProperties = project.rootProject.file("local.properties")
-                if (!localProperties.exists()) throw GradleException("No local.properties file found")
-                val inputStream: InputStream = localProperties.inputStream()
-                load(inputStream)
+                val secretPropsFile = project.rootProject.file("local.properties")
+                if (!secretPropsFile.exists()) throw GradleException("No local.properties file found")
+                load(secretPropsFile.reader())
             }
             return properties.getProperty(property) ?: throw GradleException("Required property $property not defined!")
         }
 
     companion object {
-        fun Project.secretProperty(path: String) = GradleProperty(path, this)
+        fun Project.secretProperty(path: String) = SecretProperty(path, this)
     }
 }

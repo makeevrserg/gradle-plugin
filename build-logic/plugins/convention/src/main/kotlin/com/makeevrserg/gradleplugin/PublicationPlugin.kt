@@ -38,8 +38,8 @@ class PublicationPlugin : Plugin<Project> {
         val license: String = target.gradleProperty("publish.license").string
         val developersList: List<Developer> = target.gradleProperty("publish.developers").developers
 
-        val OSSRH_USERNAME: String = target.secretProperty("publish.OSSRH_USERNAME").string
-        val OSSRH_PASSWORD: String = target.secretProperty("publish.OSSRH_PASSWORD").string
+        val OSSRH_USERNAME: String = target.secretProperty("OSSRH_USERNAME").string
+        val OSSRH_PASSWORD: String = target.secretProperty("OSSRH_PASSWORD").string
 
         val gitHubUrl = "https://github.com/$gitHubOrganization/$gitHubName"
         val sshUrl = "scm:git:ssh://github.com/$gitHubOrganization/$gitHubName.git"

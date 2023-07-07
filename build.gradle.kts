@@ -15,3 +15,4 @@ tasks.register("cleanProject", Delete::class) {
     }
     clearProject(rootProject)
 }
+

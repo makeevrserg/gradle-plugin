@@ -36,6 +36,7 @@ class PublicationPlugin : Plugin<Project> {
         val gitHubOrganization: String = target.gradleProperty("publish.repo.org").string
         val gitHubName: String = target.gradleProperty("publish.repo.name").string
         val license: String = target.gradleProperty("publish.license").string
+        val publishGroupId: String = target.gradleProperty("publish.groupId").string
         val developersList: List<Developer> = target.gradleProperty("publish.developers").developers
 
         val OSSRH_USERNAME: String = target.secretProperty("OSSRH_USERNAME").string
@@ -56,12 +57,14 @@ class PublicationPlugin : Plugin<Project> {
                 }
             }
 
-            publications.withType<MavenPublication> {
+            publications.create<MavenPublication>("default") {
                 artifact(target.createOrGetJavaDoc())
                 pom {
                     this.name.set(libraryName)
                     this.description.set(description)
                     this.url.set(gitHubUrl)
+                    groupId = publishGroupId
+                    artifactId = target.name
                     licenses {
                         license {
                             this.name.set(license)
@@ -92,9 +95,7 @@ class PublicationPlugin : Plugin<Project> {
         target.configure<SigningExtension> {
             val signingKeyId: String = target.secretProperty("SIGNING_KEY_ID").string
             val signingPassword: String = target.secretProperty("SIGNING_PASSWORD").string
-            val signingKey: String = target.secretProperty("SIGNING_KEY").string.let { base64Key ->
-                String(Base64.getDecoder().decode(base64Key))
-            }
+            val signingKey: String = target.secretProperty("SIGNING_KEY").string
             useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
             sign(target.extensions.getByType<PublishingExtension>().publications)
         }

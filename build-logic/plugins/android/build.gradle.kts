@@ -1,7 +1,6 @@
 import java.io.InputStream
 import java.util.Base64
 import java.util.Properties
-
 plugins {
     `kotlin-dsl`
     id("org.gradle.maven-publish")
@@ -21,29 +20,32 @@ java {
 
 dependencies {
     implementation(libs.kotlin.gradlePlugin)
+    compileOnly(libs.android.toolsBuild)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.lint.detekt.gradle)
+    compileOnly(libs.dokka.android)
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.dokka.core)
     implementation(libs.dokka.base)
+    implementation(projects.buildLogic.plugins.convention)
 }
 gradlePlugin {
     plugins {
-        create("detekt") {
-            id = "${libs.versions.project.group.get()}.detekt"
-            implementationClass = "${libs.versions.project.group.get()}.CoreDetektPlugin"
+        create("android-core") {
+            id = "${libs.versions.project.group.get()}.android.core"
+            implementationClass = "${libs.versions.project.group.get()}.AndroidSdkPlugin"
         }
-        create("java-core") {
-            id = "${libs.versions.project.group.get()}.java.core"
-            implementationClass = "${libs.versions.project.group.get()}.JvmSourceTargetPlugin"
+        create("android-apk-name") {
+            id = "${libs.versions.project.group.get()}.android.apk.name"
+            implementationClass = "${libs.versions.project.group.get()}.ApkNamePlugin"
         }
-        create("root-info") {
-            id = "${libs.versions.project.group.get()}.root.info"
-            implementationClass = "${libs.versions.project.group.get()}.InfoRootPlugin"
+        create("android-publication") {
+            id = "${libs.versions.project.group.get()}.android.publication"
+            implementationClass = "${libs.versions.project.group.get()}.AndroidPublicationPlugin"
         }
-        create("publication") {
-            id = "${libs.versions.project.group.get()}.publication"
-            implementationClass = "${libs.versions.project.group.get()}.PublicationPlugin"
+        create("detekt-compose") {
+            id = "${libs.versions.project.group.get()}.detekt.compose"
+            implementationClass = "${libs.versions.project.group.get()}.ComposeDetektPlugin"
         }
     }
 }

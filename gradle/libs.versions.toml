@@ -15,7 +15,7 @@ kotlin-version = "1.8.20"
 kotlin-dokka = "1.8.10"
 kotlin-coroutines = "1.6.4"
 kotlin-compilerExtensionVersion = "1.4.5"
-kotlin-android-application = "8.0.1"
+kotlin-android-application = "7.4.2"
 kotlin-serialization-json = "1.5.0"
 # Compose
 kotlin-compose = "1.4.0"

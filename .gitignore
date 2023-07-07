@@ -12,6 +12,7 @@
 .DS_Store
 /build-logic/build
 /build-logic/plugins/convention/build
+/build-logic/plugins/android/build
 /build
 /buildSrc/build
 /captures

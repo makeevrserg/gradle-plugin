@@ -6,9 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.gradle.dokka) apply true
     alias(libs.plugins.gradle.shadow) apply true
-    id("dokka-root")
-    id("com.makeevrserg.gradleplugin.detekt")
-    id("com.makeevrserg.gradleplugin.root.info")
 }
 
 tasks.register("cleanProject", Delete::class) {
@@ -18,3 +15,4 @@ tasks.register("cleanProject", Delete::class) {
     }
     clearProject(rootProject)
 }
+

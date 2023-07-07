@@ -45,3 +45,9 @@ plugins {
     id("dokka-convention")
 }
 ```
+
+## Gratitude
+Thanks for moko gradle plugins and arkivanov for inspiration
+- [moko mobile-multiplatform-gradle-plugin](https://github.com/icerockdev/mobile-multiplatform-gradle-plugin)
+- [moko moko-gradle-plugin](https://github.com/icerockdev/moko-gradle-plugin)
+- [arkivanov  gradle-setup-plugin](https://github.com/arkivanov/gradle-setup-plugin)

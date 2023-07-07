@@ -37,10 +37,8 @@ class CoreDetektPlugin : Plugin<Project> {
                 it.writeBytes(bytes)
             }
             ignoreFailures = true
-//            setSource(detektFile.parentFile)
             config.setFrom(detektFile)
             setSource(target.files(target.projectDir))
-//            config.setFrom(target.files("${target.rootDir}/gradle/detekt.yml"))
 
             include("**/*.kt", "**/*.kts")
             exclude(

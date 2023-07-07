@@ -1,21 +1,8 @@
-import java.io.InputStream
-import java.util.Base64
-import java.util.Properties
 plugins {
     `kotlin-dsl`
     id("org.gradle.maven-publish")
     id("signing")
     id("java-gradle-plugin")
-}
-
-group = libs.versions.project.group.get()
-version = libs.versions.project.version.string.get()
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-    withJavadocJar()
-    withSourcesJar()
 }
 
 dependencies {
@@ -29,6 +16,7 @@ dependencies {
     implementation(libs.dokka.base)
     implementation(projects.buildLogic.plugins.convention)
 }
+
 gradlePlugin {
     plugins {
         create("android-core") {
@@ -48,71 +36,4 @@ gradlePlugin {
             implementationClass = "${libs.versions.project.group.get()}.ComposeDetektPlugin"
         }
     }
-}
-
-fun getSecretProperty(property: String): String {
-    val property = "makeevrserg.$property"
-    // try to get system ci property
-    System.getenv(property)?.let { return it }
-    // if not ci getting from local.properties
-    val properties = Properties().apply {
-        val localProperties = project.rootProject.file("local.properties")
-        if (!localProperties.exists()) throw GradleException("No local.properties file found")
-        val inputStream: InputStream = localProperties.inputStream()
-        load(inputStream)
-    }
-    return properties.getProperty(property) ?: throw GradleException("Required property $property not defined!")
-}
-
-publishing {
-
-    repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        name = "OSSRH"
-
-        credentials {
-            username = getSecretProperty("OSSRH_USERNAME")
-            password = getSecretProperty("OSSRH_PASSWORD")
-        }
-    }
-    publications.register("mavenJava", MavenPublication::class) {
-        from(components["java"])
-
-        pom {
-            name.set("GradlePlugin")
-            description.set("Custom gradle plugin for my libraries and projects")
-            url.set("https://github.com/makeevrserg/gradle-plugin")
-            licenses {
-                license {
-                    name.set("Apache-2.0")
-                    distribution.set("repo")
-                    url.set("https://github.com/makeevrserg/gradle-plugin/blob/master/LICENSE.md")
-                }
-            }
-
-            developers {
-                developer {
-                    id.set("makeevrserg")
-                    name.set("Roman Makeev")
-                    email.set("makeevrserg@gmail.com")
-                }
-            }
-
-            scm {
-                connection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
-                developerConnection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
-                url.set("https://github.com/makeevrserg/gradle-plugin")
-            }
-        }
-    }
-
-}
-
-
-
-signing {
-    val SIGNING_KEY = getSecretProperty("SIGNING_KEY")
-    val SIGNING_KEY_ID = getSecretProperty("SIGNING_KEY_ID")
-    val SIGNING_PASSWORD = getSecretProperty("SIGNING_PASSWORD")
-    useInMemoryPgpKeys(SIGNING_KEY_ID, SIGNING_KEY, SIGNING_PASSWORD)
-    sign(publishing.publications)
 }

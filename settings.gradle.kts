@@ -26,7 +26,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "GradlePlugin"
 
 // SubProjects
-include("samples:android-app")
-include("samples:android-library")
-include("samples:kmm-compose")
-include("samples:kmm-lib")
+//include("samples:android-app")
+//include("samples:android-library")
+//include("samples:kmm-compose")
+//include("samples:kmm-lib")

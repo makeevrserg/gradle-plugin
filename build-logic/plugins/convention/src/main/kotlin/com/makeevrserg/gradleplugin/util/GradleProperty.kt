@@ -1,26 +1,30 @@
 package com.makeevrserg.gradleplugin.util
 
+import com.makeevrserg.gradleplugin.models.Developer
 import org.gradle.api.GradleException
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 
-class GradleProperty(path: String, private val project: Project) {
-    private val prop = "makeevrserg.$path"
+class GradleProperty(path: String, private val project: Project) : BaseProperty(path) {
 
     @Suppress("MemberNameEqualsClassName")
-    private val gradleProperty: Any
-        get() = project.property(prop) ?: throw GradleException("Required property $prop not defined!")
+    override val anyProperty: Any
+        get() = project.property(property) ?: throw GradleException("Required property $property not defined!")
 
-    private inline fun <reified T> withCatching(block: () -> T) = runCatching {
-        block.invoke()
-    }.onFailure { it.printStackTrace() }.getOrNull() ?: throw GradleException("Can't transform $prop into ${T::class}")
+    private fun parseDeveloper(text: String): Developer {
+        val items: List<String> = text.split("|").map { it.trim() }
+        if (items.size != 3) throw GradleException("Developer profile should have 3 parts with | delimiter. For example: makeevrserg|Makeev Roman|makeevrserg@gmail.com")
+        return Developer(
+            id = items[0],
+            name = items[1],
+            email = items[2]
+        )
+    }
 
-    val string: String
-        get() = withCatching { gradleProperty.toString() }
-    val integer: Int
-        get() = withCatching { gradleProperty.toString().toInt() }
-    val javaVersion: JavaVersion
-        get() = withCatching { JavaVersion.toVersion(gradleProperty.toString().toInt()) }
+    val developers: List<Developer>
+        get() = withCatching {
+            project.gradleProperty("publish.developers").string.split(",").map(::parseDeveloper)
+        }
+
     companion object {
         fun Project.gradleProperty(path: String) = GradleProperty(path, this)
     }

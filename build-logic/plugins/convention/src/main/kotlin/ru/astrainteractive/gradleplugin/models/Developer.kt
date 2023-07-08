@@ -1,4 +1,4 @@
-package com.makeevrserg.gradleplugin.models
+package ru.astrainteractive.gradleplugin.models
 
 data class Developer(
     val id: String,

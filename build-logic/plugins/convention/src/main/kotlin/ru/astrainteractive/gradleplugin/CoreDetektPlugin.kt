@@ -1,6 +1,6 @@
-package com.makeevrserg.gradleplugin
+package ru.astrainteractive.gradleplugin
 
-import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
+import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import io.gitlab.arturbosch.detekt.Detekt
 import java.io.File
 import org.gradle.api.Plugin

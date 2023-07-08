@@ -8,19 +8,19 @@ In your root `build.gradle.kts`
 ```kotlin
 buildscript {
     dependencies {
-        classpath("com.makeevrserg.gradleplugin:convention:<last-version>>")
+        classpath("ru.astrainteractive.gradleplugin:convention:<last-version>>")
     }
 }
 // Apply dokka root and detekt for all project
-apply(plugin = "com.makeevrserg.gradleplugin.dokka.root")
-apply(plugin = "com.makeevrserg.gradleplugin.detekt")
+apply(plugin = "ru.astrainteractive.gradleplugin.dokka.root")
+apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
 // For subprojects apply dokkaModule, pulication, infor and java.core if module have kotlin.jvm
 subprojects.forEach {
-    it.apply(plugin = "com.makeevrserg.gradleplugin.dokka.module")
-    it.apply(plugin = "com.makeevrserg.gradleplugin.publication")
-    it.apply(plugin = "com.makeevrserg.gradleplugin.root.info")
+    it.apply(plugin = "ru.astrainteractive.gradleplugin.dokka.module")
+    it.apply(plugin = "ru.astrainteractive.gradleplugin.publication")
+    it.apply(plugin = "ru.astrainteractive.gradleplugin.root.info")
     it.plugins.withId("org.jetbrains.kotlin.jvm") {
-        it.apply(plugin = "com.makeevrserg.gradleplugin.java.core")
+        it.apply(plugin = "ru.astrainteractive.gradleplugin.java.core")
     }
 }
 ```
@@ -30,7 +30,7 @@ subprojects.forEach {
 ```kotlin
 plugins {
     // This plugin will apply detekt plugin and it's custom detekt.yml 
-    id("com.makeevrserg.gradleplugin.detekt")
+    id("ru.astrainteractive.gradleplugin.detekt")
 }
 ```
 See required properties in [Java core](#java-core)
@@ -54,7 +54,7 @@ See required properties in [Java core](#java-core)
 
 ```kotlin
 plugins {
-    id("com.makeevrserg.gradleplugin.root.info")
+    id("ru.astrainteractive.gradleplugin.root.info")
 }
 // This will be applied
 group = "Group from gradle.properties -> makeevrserg.project.group"
@@ -66,7 +66,7 @@ In your root gradle.properties
 
 ```properties
 makeevrserg.project.name=GradlePlugin
-makeevrserg.project.group=com.makeevrserg.gradleplugin
+makeevrserg.project.group=ru.astrainteractive.gradleplugin
 makeevrserg.project.version.string=0.0.2
 makeevrserg.project.description=GradlePlugin for my kotlin projects
 ```
@@ -80,7 +80,7 @@ plugins {
     // source/target compatibility
     // kotlin.options.jvmTarget
     // And also register java components for maven publication
-    id("com.makeevrserg.gradleplugin.java.core")
+    id("ru.astrainteractive.gradleplugin.java.core")
 }
 ```
 In your gradle.properties
@@ -95,7 +95,7 @@ makeevrserg.java.ktarget=11
 ```kotlin
 plugins {
     // This plugin will create publication to sonatype repository
-    id("com.makeevrserg.gradleplugin.publication")
+    id("ru.astrainteractive.gradleplugin.publication")
 }
 ```
 In your gradle.properties

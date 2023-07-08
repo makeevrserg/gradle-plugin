@@ -1,8 +1,8 @@
 plugins {
     id("com.android.library")
-    id("com.makeevrserg.gradleplugin.android.core")
-    id("com.makeevrserg.gradleplugin.java.core")
-    id("com.makeevrserg.gradleplugin.detekt")
+    id("ru.astrainteractive.gradleplugin.android.core")
+    id("ru.astrainteractive.gradleplugin.java.core")
+    id("ru.astrainteractive.gradleplugin.detekt")
 }
 android {
     namespace = libs.versions.project.group.get()

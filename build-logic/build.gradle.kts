@@ -1,8 +1,10 @@
+import com.gradle.publish.PluginBundleExtension
 import java.io.InputStream
 import java.util.Properties
 
 plugins {
     `kotlin-dsl`
+    id("com.gradle.plugin-publish") version "0.15.0" apply false
 }
 
 fun getSecretProperty(property: String): String {
@@ -22,21 +24,26 @@ fun getSecretProperty(property: String): String {
 val klibs = libs
 
 subprojects {
-    apply(plugin = "org.gradle.maven-publish")
-    apply(plugin = "signing")
-    apply(plugin = "java-gradle-plugin")
+    val project = this
+    val moduleName = project.name
 
-    group = klibs.versions.project.group.get()
-    version = klibs.versions.project.version.string.get()
+    project.apply(plugin = "org.gradle.maven-publish")
+    project.apply(plugin = "signing")
+    project.apply(plugin = "java-gradle-plugin")
+    project.apply(plugin = "com.gradle.plugin-publish")
 
-    configure<JavaPluginExtension> {
+    project.group = klibs.versions.project.group.get()
+    project.version = klibs.versions.project.version.string.get()
+    project.description = klibs.versions.project.description.get()
+
+    project.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
         withJavadocJar()
         withSourcesJar()
     }
 
-    configure<PublishingExtension> {
+    project.configure<PublishingExtension> {
         repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
             name = "OSSRH"
             credentials {
@@ -44,21 +51,24 @@ subprojects {
                 password = getSecretProperty("OSSRH_PASSWORD")
             }
         }
-
         publications.register("mavenJava", MavenPublication::class) {
-            from(components["java"])
+            from(project.components["java"])
+        }
+        publications.withType<MavenPublication> {
+
             pom {
-                name.set("GradlePlugin")
-                description.set("Custom gradle plugin for my libraries and projects")
-                url.set("https://github.com/makeevrserg/gradle-plugin")
+                name.set(klibs.versions.project.name.get())
+                description.set(klibs.versions.project.description.get())
+                url.set(klibs.versions.project.web.get())
+
                 groupId = klibs.versions.project.group.get()
-                artifactId = this@subprojects.name
+                artifactId = moduleName
 
                 licenses {
                     license {
                         name.set("Apache-2.0")
                         distribution.set("repo")
-                        url.set("https://github.com/makeevrserg/gradle-plugin/blob/master/LICENSE.md")
+                        url.set("${klibs.versions.project.web.get()}/blob/master/LICENSE.md")
                     }
                 }
                 developers {
@@ -71,17 +81,31 @@ subprojects {
                 scm {
                     connection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
                     developerConnection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
-                    url.set("https://github.com/makeevrserg/gradle-plugin")
+                    url.set(klibs.versions.project.web.get())
                 }
             }
         }
 
-        configure<SigningExtension> {
+        project.configure<SigningExtension> {
             val signingKey = getSecretProperty("SIGNING_KEY")
             val signingKeyId = getSecretProperty("SIGNING_KEY_ID")
             val signingPassword = getSecretProperty("SIGNING_PASSWORD")
             useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
             sign(publications)
         }
+
+        project.configure<PluginBundleExtension> {
+            website = klibs.versions.project.web.get()
+            vcsUrl = klibs.versions.project.web.get()
+            description = klibs.versions.project.description.get()
+            tags = listOf("kotlin")
+
+            mavenCoordinates {
+                groupId = project.group as String
+                artifactId = project.name
+                version = project.version as String
+            }
+        }
+
     }
 }

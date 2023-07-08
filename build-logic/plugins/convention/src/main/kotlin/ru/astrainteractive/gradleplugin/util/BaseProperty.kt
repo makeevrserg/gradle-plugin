@@ -1,4 +1,4 @@
-package com.makeevrserg.gradleplugin.util
+package ru.astrainteractive.gradleplugin.util
 
 import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion

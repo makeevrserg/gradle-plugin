@@ -1,4 +1,4 @@
-package com.makeevrserg.gradleplugin
+package ru.astrainteractive.gradleplugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

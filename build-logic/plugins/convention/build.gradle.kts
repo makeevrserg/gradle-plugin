@@ -1,6 +1,9 @@
+import com.gradle.publish.PluginBundleExtension
+
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+    id("com.gradle.plugin-publish")
 }
 
 dependencies {
@@ -13,30 +16,42 @@ dependencies {
 }
 
 gradlePlugin {
+    website.set("https://github.com/makeevrserg/gradle-plugin")
+    vcsUrl.set("https://github.com/makeevrserg/gradle-plugin")
+    description = libs.versions.project.description.get()
     plugins {
         create("detekt") {
             id = "${libs.versions.project.group.get()}.detekt"
             implementationClass = "${libs.versions.project.group.get()}.CoreDetektPlugin"
+            displayName = name
         }
         create("dokka-module") {
             id = "${libs.versions.project.group.get()}.dokka.module"
             implementationClass = "${libs.versions.project.group.get()}.DokkaModulePlugin"
+            displayName = name
         }
         create("dokka-root") {
             id = "${libs.versions.project.group.get()}.dokka.root"
             implementationClass = "${libs.versions.project.group.get()}.DokkaRootPlugin"
+            displayName = name
         }
         create("java-core") {
             id = "${libs.versions.project.group.get()}.java.core"
             implementationClass = "${libs.versions.project.group.get()}.JvmSourceTargetPlugin"
+            displayName = name
         }
         create("root-info") {
             id = "${libs.versions.project.group.get()}.root.info"
             implementationClass = "${libs.versions.project.group.get()}.InfoRootPlugin"
+            displayName = name
         }
         create("publication") {
             id = "${libs.versions.project.group.get()}.publication"
             implementationClass = "${libs.versions.project.group.get()}.PublicationPlugin"
+            displayName = name
         }
     }
 }
+
+
+

@@ -1,4 +1,4 @@
-package com.makeevrserg.gradleplugin.util
+package ru.astrainteractive.gradleplugin.util
 
 import java.util.Properties
 import org.gradle.api.GradleException

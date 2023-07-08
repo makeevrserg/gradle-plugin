@@ -11,6 +11,7 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build-logic/build
+/build-logic/plugins/build
 /build-logic/plugins/convention/build
 /build-logic/plugins/android/build
 /build

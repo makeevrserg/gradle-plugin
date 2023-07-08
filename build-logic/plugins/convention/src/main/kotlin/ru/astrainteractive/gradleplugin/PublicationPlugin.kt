@@ -1,9 +1,8 @@
-package com.makeevrserg.gradleplugin
+package ru.astrainteractive.gradleplugin
 
-import com.makeevrserg.gradleplugin.models.Developer
-import com.makeevrserg.gradleplugin.util.GradleProperty.Companion.gradleProperty
-import com.makeevrserg.gradleplugin.util.SecretProperty.Companion.secretProperty
-import java.util.Base64
+import ru.astrainteractive.gradleplugin.models.Developer
+import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
+import ru.astrainteractive.gradleplugin.util.SecretProperty.Companion.secretProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -12,9 +11,7 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
 
 class PublicationPlugin : Plugin<Project> {

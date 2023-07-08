@@ -1,6 +1,6 @@
-package com.makeevrserg.gradleplugin.util
+package ru.astrainteractive.gradleplugin.util
 
-import com.makeevrserg.gradleplugin.models.Developer
+import ru.astrainteractive.gradleplugin.models.Developer
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 

@@ -15,8 +15,8 @@ dependencies {
 }
 
 gradlePlugin {
-    website.set("https://github.com/makeevrserg/gradle-plugin")
-    vcsUrl.set("https://github.com/makeevrserg/gradle-plugin")
+    website.set(libs.versions.project.web.get())
+    vcsUrl.set(libs.versions.project.web.get())
     description = libs.versions.project.description.get()
     isAutomatedPublishing = false
     plugins {

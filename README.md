@@ -5,10 +5,14 @@ This repository contains basic implementation for version catalogs and build-con
 ## Setup
 
 In your root `build.gradle.kts`
+
 ```kotlin
 buildscript {
     dependencies {
+        // core gradle convention
         classpath("ru.astrainteractive.gradleplugin:convention:<last-version>>")
+        // android-specific
+        classpath("ru.astrainteractive.gradleplugin:android:<last-version>>")
     }
 }
 // Apply dokka root and detekt for all project
@@ -33,6 +37,7 @@ plugins {
     id("ru.astrainteractive.gradleplugin.detekt")
 }
 ```
+
 See required properties in [Java core](#java-core)
 
 ### Dokka
@@ -48,6 +53,7 @@ plugins {
     id("dokka-convention")
 }
 ```
+
 See required properties in [Java core](#java-core)
 
 ### Root info
@@ -83,11 +89,40 @@ plugins {
     id("ru.astrainteractive.gradleplugin.java.core")
 }
 ```
+
 In your gradle.properties
+
 ```properties
 makeevrserg.java.source=8
 makeevrserg.java.target=11
 makeevrserg.java.ktarget=11
+```
+
+### Android detekt-compose
+
+This plugin is dependent on [core-detekt](#detekt)
+
+```kotlin
+plugins {
+    id("ru.astrainteractive.gradleplugin.detekt")
+}    
+```
+
+### Android sdk plugin
+```kotlin
+plugins {
+    // This plugin will add sdk source/target/min
+    id("ru.astrainteractive.gradleplugin.android.core")
+}    
+```
+
+### Android publication
+```kotlin
+plugins {
+    // This plugin will take release sources for publish
+    id("ru.astrainteractive.gradleplugin.android.publication")
+
+}
 ```
 
 ### Publication plugin
@@ -98,7 +133,9 @@ plugins {
     id("ru.astrainteractive.gradleplugin.publication")
 }
 ```
+
 In your gradle.properties
+
 ```properties
 makeevrserg.publish.name=AstraLibs
 makeevrserg.publish.groupId=ru.astrainteractive.astralibs
@@ -108,7 +145,9 @@ makeevrserg.publish.repo.name=AstraLibs
 makeevrserg.publish.license=Custom
 makeevrserg.publish.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com
 ```
+
 In your local.properties
+
 ```properties
 makeevrserg.OSSRH_USERNAME=OSSRH_USERNAME
 makeevrserg.OSSRH_PASSWORD=OSSRH_PASSWORD
@@ -116,6 +155,16 @@ makeevrserg.SIGNING_KEY=SIGNING_KEY
 makeevrserg.SIGNING_KEY_ID=SIGNING_KEY_ID
 makeevrserg.SIGNING_PASSWORD=SIGNING_PASSWORD
 ```
+
+### Property usage
+With convention plugin added to classpath you can access to gradle.properties and secret properties, located it your local.properties or System.env in case of CI
+```kotlin
+// This will take makeevrserg.somevar from gradle.properties
+val gradleProperty = target.gradleProperty("somevar").javaVersion
+// This will take makeevrserg.secretvar from local.properties or System.getenv if run by CI
+val gradleProperty = target.secretProperty("secretvar").javaVersion
+```
+
 ## Gratitude
 
 Thanks for moko gradle plugins and arkivanov for inspiration

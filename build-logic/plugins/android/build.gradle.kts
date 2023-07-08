@@ -16,6 +16,10 @@ dependencies {
 }
 
 gradlePlugin {
+    website.set(libs.versions.project.web.get())
+    vcsUrl.set(libs.versions.project.web.get())
+    description = libs.versions.project.description.get()
+    isAutomatedPublishing = false
     plugins {
         create("android-core") {
             id = "${libs.versions.project.group.get()}.android.core"

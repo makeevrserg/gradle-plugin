@@ -36,7 +36,6 @@ class CoreDetektPlugin : Plugin<Project> {
                 }
                 it.writeBytes(bytes)
             }
-            ignoreFailures = true
             config.setFrom(detektFile)
             setSource(target.files(target.projectDir))
 

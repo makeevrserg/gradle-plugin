@@ -3,7 +3,6 @@ import com.gradle.publish.PluginBundleExtension
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish")
 }
 
 dependencies {
@@ -19,6 +18,7 @@ gradlePlugin {
     website.set("https://github.com/makeevrserg/gradle-plugin")
     vcsUrl.set("https://github.com/makeevrserg/gradle-plugin")
     description = libs.versions.project.description.get()
+    isAutomatedPublishing = false
     plugins {
         create("detekt") {
             id = "${libs.versions.project.group.get()}.detekt"

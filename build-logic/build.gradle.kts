@@ -53,9 +53,6 @@ subprojects {
         }
         publications.register("mavenJava", MavenPublication::class) {
             from(project.components["java"])
-        }
-        publications.withType<MavenPublication> {
-
             pom {
                 name.set(klibs.versions.project.name.get())
                 description.set(klibs.versions.project.description.get())

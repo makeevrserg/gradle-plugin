@@ -1,3 +1,5 @@
+![version](https://img.shields.io/maven-central/v/ru.astrainteractive.gradleplugin/convention?style=flat-square)
+
 # Gradle Plugin [WIP]
 
 This repository contains basic implementation for version catalogs and build-convention
@@ -10,9 +12,9 @@ In your root `build.gradle.kts`
 buildscript {
     dependencies {
         // core gradle convention
-        classpath("ru.astrainteractive.gradleplugin:convention:<last-version>>")
+        classpath("ru.astrainteractive.gradleplugin:convention:<latest-version>>")
         // android-specific
-        classpath("ru.astrainteractive.gradleplugin:android:<last-version>>")
+        classpath("ru.astrainteractive.gradleplugin:android:<latest-version>>")
     }
 }
 // Apply dokka root and detekt for all project

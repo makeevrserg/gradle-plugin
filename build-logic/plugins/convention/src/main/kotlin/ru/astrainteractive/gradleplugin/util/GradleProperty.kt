@@ -4,7 +4,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import ru.astrainteractive.gradleplugin.models.Developer
 
-class GradleProperty(path: String, private val project: Project) : BaseProperty(path) {
+class GradleProperty(path: String, private val project: Project) : BaseProperty("$BASE_PREFIX.$path") {
 
     @Suppress("MemberNameEqualsClassName")
     override val anyProperty: Any

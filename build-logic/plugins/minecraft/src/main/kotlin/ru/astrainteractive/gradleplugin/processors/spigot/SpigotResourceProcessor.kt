@@ -1,6 +1,7 @@
-package ru.astrainteractive.gradleplugin.processors
+package ru.astrainteractive.gradleplugin.processors.spigot
 
 import ru.astrainteractive.gradleplugin.models.Developer
+import ru.astrainteractive.gradleplugin.processors.ResourceProcessor
 
 interface SpigotResourceProcessor : ResourceProcessor<SpigotResourceProcessor.SpigotProcessorInfo> {
     data class SpigotProcessorInfo(

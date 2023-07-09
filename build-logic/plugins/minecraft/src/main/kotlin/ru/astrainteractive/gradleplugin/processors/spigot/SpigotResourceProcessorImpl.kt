@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.processors
+package ru.astrainteractive.gradleplugin.processors.spigot
 
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy

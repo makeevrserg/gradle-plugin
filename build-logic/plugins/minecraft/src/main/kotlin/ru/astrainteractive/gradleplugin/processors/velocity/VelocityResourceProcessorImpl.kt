@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.processors
+package ru.astrainteractive.gradleplugin.processors.velocity
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.expand
@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.named
 import ru.astrainteractive.gradleplugin.models.Developer
 import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 
-internal class VelocityResourceProcessorImpl(private val project: Project) : SpigotResourceProcessor {
+internal class VelocityResourceProcessorImpl(private val project: Project) : VelocityResourceProcessor {
 
     override fun process() {
         val projectInfo = project.projectInfo

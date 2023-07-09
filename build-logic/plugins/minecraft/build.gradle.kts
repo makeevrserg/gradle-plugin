@@ -19,5 +19,11 @@ gradlePlugin {
     vcsUrl.set(libs.versions.project.web.get())
     description = libs.versions.project.description.get()
     isAutomatedPublishing = false
-    plugins {}
+    plugins {
+        create("empty-minecraft") {
+            id = "${libs.versions.project.group.get()}.minecraft.empty"
+            implementationClass = "${libs.versions.project.group.get()}.EmptyMinecraftPlugin"
+            displayName = name
+        }
+    }
 }

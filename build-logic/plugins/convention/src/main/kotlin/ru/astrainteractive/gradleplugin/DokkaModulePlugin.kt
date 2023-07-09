@@ -1,15 +1,14 @@
 package ru.astrainteractive.gradleplugin
 
-import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
 
 class DokkaModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {
-
         with(target.plugins) {
             apply("org.jetbrains.dokka")
         }
@@ -18,7 +17,7 @@ class DokkaModulePlugin : Plugin<Project> {
             suppressObviousFunctions.set(false)
 
             dokkaSourceSets.configureEach {
-                jdkVersion.set(target.gradleProperty("java.target").javaVersion.majorVersion.toInt())
+                jdkVersion.set(target.jinfo.jtarget.majorVersion.toInt())
                 includeNonPublic.set(false)
                 skipDeprecated.set(false)
                 reportUndocumented.set(true)
@@ -35,7 +34,5 @@ class DokkaModulePlugin : Plugin<Project> {
                 }
             }
         }
-
-
     }
 }

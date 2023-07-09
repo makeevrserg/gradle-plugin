@@ -1,15 +1,16 @@
 package ru.astrainteractive.gradleplugin
 
-import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 
 class InfoRootPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val projectInfo = target.projectInfo
         target.rootProject.allprojects {
-            group = target.gradleProperty("project.group").string
-            version = target.gradleProperty("project.version.string").string
-            description = target.gradleProperty("project.description").string
+            group = projectInfo.group
+            version = projectInfo.versionString
+            description = projectInfo.description
         }
     }
 }

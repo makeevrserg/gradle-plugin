@@ -2,10 +2,10 @@ package ru.astrainteractive.gradleplugin
 
 import com.android.build.gradle.AbstractAppExtension
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
-import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 
 /**
  * This plugin will name output android apk file with custom name like below:
@@ -14,13 +14,14 @@ import org.gradle.kotlin.dsl.configure
  */
 class ApkNamePlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val projectInfo = target.projectInfo
         target.configure<AbstractAppExtension> {
             buildTypes {
                 applicationVariants.onEach { variant ->
                     variant.outputs.onEach { output ->
                         if (output is BaseVariantOutputImpl) {
-                            val name = target.gradleProperty("project.name").string
-                            val version = target.gradleProperty("project.version.string").string
+                            val name = projectInfo.name
+                            val version = projectInfo.versionString
                             output.outputFileName = "${name}_${version}_${variant.name}.apk"
                         }
                     }

@@ -1,23 +1,26 @@
 package ru.astrainteractive.gradleplugin
 
 import com.android.build.gradle.BaseExtension
-import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.androidSdkInfo
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
 
 class AndroidSdkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val jinfo = target.jinfo
+        val androidSdkInfo = target.androidSdkInfo
         target.configure<BaseExtension> {
-            compileSdkVersion(target.gradleProperty("android.sdk.compile").integer)
+            compileSdkVersion(androidSdkInfo.compile)
 
             defaultConfig {
-                minSdk = target.gradleProperty("android.sdk.min").integer
-                targetSdk = target.gradleProperty("android.sdk.target").integer
+                minSdk = androidSdkInfo.min
+                targetSdk = androidSdkInfo.target
             }
             compileOptions {
-                sourceCompatibility = target.gradleProperty("java.source").javaVersion
-                targetCompatibility = target.gradleProperty("java.target").javaVersion
+                sourceCompatibility = jinfo.jsource
+                targetCompatibility = jinfo.jtarget
             }
         }
     }

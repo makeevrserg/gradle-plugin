@@ -1,8 +1,8 @@
 package ru.astrainteractive.gradleplugin.util
 
-import ru.astrainteractive.gradleplugin.models.Developer
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import ru.astrainteractive.gradleplugin.models.Developer
 
 class GradleProperty(path: String, private val project: Project) : BaseProperty(path) {
 
@@ -12,7 +12,11 @@ class GradleProperty(path: String, private val project: Project) : BaseProperty(
 
     private fun parseDeveloper(text: String): Developer {
         val items: List<String> = text.split("|").map { it.trim() }
-        if (items.size != 3) throw GradleException("Developer profile should have 3 parts with | delimiter. For example: makeevrserg|Makeev Roman|makeevrserg@gmail.com")
+        if (items.size != 3) {
+            throw GradleException(
+                "Developer profile should have 3 parts with | delimiter. For example: makeevrserg|Makeev Roman|makeevrserg@gmail.com"
+            )
+        }
         return Developer(
             id = items[0],
             name = items[1],
@@ -21,9 +25,7 @@ class GradleProperty(path: String, private val project: Project) : BaseProperty(
     }
 
     val developers: List<Developer>
-        get() = withCatching {
-            project.gradleProperty("publish.developers").string.split(",").map(::parseDeveloper)
-        }
+        get() = withCatching { string.split(",").map(::parseDeveloper) }
 
     companion object {
         fun Project.gradleProperty(path: String) = GradleProperty(path, this)

@@ -8,7 +8,9 @@ abstract class BaseProperty(path: String) {
 
     protected inline fun <reified T> withCatching(block: () -> T) = runCatching {
         block.invoke()
-    }.onFailure { it.printStackTrace() }.getOrNull() ?: throw GradleException("Can't transform $property into ${T::class}")
+    }.onFailure { it.printStackTrace() }.getOrNull() ?: throw GradleException(
+        "Can't transform $property into ${T::class}"
+    )
 
     protected abstract val anyProperty: Any
 
@@ -18,5 +20,4 @@ abstract class BaseProperty(path: String) {
         get() = withCatching { anyProperty.toString().toInt() }
     val javaVersion: JavaVersion
         get() = withCatching { JavaVersion.toVersion(anyProperty.toString().toInt()) }
-
 }

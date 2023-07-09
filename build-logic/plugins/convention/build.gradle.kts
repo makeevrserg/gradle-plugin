@@ -1,4 +1,4 @@
-import com.gradle.publish.PluginBundleExtension
+
 
 plugins {
     `kotlin-dsl`
@@ -52,6 +52,3 @@ gradlePlugin {
         }
     }
 }
-
-
-

@@ -1,13 +1,13 @@
 package ru.astrainteractive.gradleplugin
 
-import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import io.gitlab.arturbosch.detekt.Detekt
-import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
+import java.io.File
 
 class CoreDetektPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -29,7 +29,7 @@ class CoreDetektPlugin : Plugin<Project> {
             }
             val resource = Thread.currentThread().getContextClassLoader().getResource("detekt.yml")
             val bytes = resource.openConnection().getInputStream().readAllBytes()
-            val detektFile = File(File(target.rootDir, "build"),"detekt.yml").also {
+            val detektFile = File(File(target.rootDir, "build"), "detekt.yml").also {
                 if (!it.exists()) {
                     it.parentFile.mkdirs()
                     it.createNewFile()
@@ -50,13 +50,12 @@ class CoreDetektPlugin : Plugin<Project> {
             buildUponDefaultConfig = true
 
             // Target version of the generated JVM bytecode. It is used for type resolution.
-            jvmTarget = target.gradleProperty("java.ktarget").javaVersion.majorVersion
+            jvmTarget = target.jinfo.ktarget.majorVersion
         }
 
         target.dependencies {
             "detektPlugins"("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.2")
             "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
         }
-
     }
 }

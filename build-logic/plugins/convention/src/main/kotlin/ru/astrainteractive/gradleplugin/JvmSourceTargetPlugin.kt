@@ -1,6 +1,5 @@
 package ru.astrainteractive.gradleplugin
 
-import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -12,14 +11,16 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
 
 class JvmSourceTargetPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val jinfo = target.jinfo
         target.configure<JavaPluginExtension> {
             withSourcesJar()
             withJavadocJar()
-            sourceCompatibility = target.gradleProperty("java.source").javaVersion
-            targetCompatibility = target.gradleProperty("java.target").javaVersion
+            sourceCompatibility = jinfo.jsource
+            targetCompatibility = jinfo.jtarget
         }
         target.tasks.withType<JavaCompile> {
             options.encoding = "UTF-8"
@@ -27,7 +28,7 @@ class JvmSourceTargetPlugin : Plugin<Project> {
         target.tasks
             .withType<KotlinCompile>()
             .configureEach {
-                kotlinOptions.jvmTarget = target.gradleProperty("java.ktarget").javaVersion.majorVersion
+                kotlinOptions.jvmTarget = jinfo.ktarget.majorVersion
             }
         target.plugins.withId("org.gradle.maven-publish") {
             target.configure<PublishingExtension> {

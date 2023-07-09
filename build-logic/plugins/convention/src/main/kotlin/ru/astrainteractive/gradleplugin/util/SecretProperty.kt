@@ -1,8 +1,8 @@
 package ru.astrainteractive.gradleplugin.util
 
-import java.util.Properties
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import java.util.Properties
 
 class SecretProperty(path: String, private val project: Project) : BaseProperty(path) {
     @Suppress("MemberNameEqualsClassName")

@@ -1,15 +1,14 @@
 package ru.astrainteractive.gradleplugin
 
-import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
+import java.io.File
 
-class DokkaRootPlugin: Plugin<Project> {
+class DokkaRootPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-
         with(target.plugins) {
             apply("org.jetbrains.dokka")
         }
@@ -31,6 +30,5 @@ class DokkaRootPlugin: Plugin<Project> {
                 }
             }
         }
-
     }
 }

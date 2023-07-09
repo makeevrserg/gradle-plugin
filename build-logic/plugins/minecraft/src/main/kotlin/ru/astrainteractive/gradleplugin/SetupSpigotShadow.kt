@@ -18,7 +18,8 @@ fun Project.setupSpigotShadow(
 
     val projectInfo = projectInfo
 
-    val shadowJar = tasks.named<ShadowJar>("shadowJar").configure {
+    val shadowJar = tasks.named<ShadowJar>("shadowJar")
+    shadowJar.configure {
         isReproducibleFileOrder = true
         mergeServiceFiles()
         dependsOn(configurations)

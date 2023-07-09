@@ -7,7 +7,6 @@ data class PublishInfo(
     val gitHubName: String,
     val license: String,
     val publishGroupId: String,
-    val developersList: List<Developer>,
     val ossrhUsername: String,
     val ossrhPassword: String,
     val signingKeyId: String,

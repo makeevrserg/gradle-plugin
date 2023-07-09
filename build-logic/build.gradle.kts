@@ -2,10 +2,10 @@ import com.gradle.publish.PluginBundleExtension
 import java.io.InputStream
 import java.util.Properties
 
-
 plugins {
     `kotlin-dsl`
     id("com.gradle.plugin-publish") version "0.15.0" apply false
+    alias(libs.plugins.gradle.shadow) apply false
 }
 
 fun getSecretProperty(property: String): String {

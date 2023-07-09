@@ -10,6 +10,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.plugins.signing.SigningExtension
+import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 import ru.astrainteractive.gradleplugin.util.ProjectProperties.publishInfo
 
 class PublicationPlugin : Plugin<Project> {
@@ -27,6 +28,7 @@ class PublicationPlugin : Plugin<Project> {
             apply("signing")
         }
         val publishInfo = target.publishInfo
+        val projectInfo = target.projectInfo
 
         target.configure<PublishingExtension> {
             repositories {
@@ -57,7 +59,7 @@ class PublicationPlugin : Plugin<Project> {
                     }
 
                     developers {
-                        publishInfo.developersList.forEach { dev ->
+                        projectInfo.developersList.forEach { dev ->
                             developer {
                                 id.set(dev.id)
                                 name.set(dev.name)

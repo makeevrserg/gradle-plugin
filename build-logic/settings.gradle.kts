@@ -10,9 +10,9 @@ pluginManagement {
         maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }
-
 dependencyResolutionManagement {
     repositories {
+        gradlePluginPortal()
         mavenCentral()
         mavenLocal()
         google()
@@ -26,3 +26,4 @@ rootProject.name = "build-logic"
 
 include(":plugins:convention")
 include(":plugins:android")
+include(":plugins:minecraft")

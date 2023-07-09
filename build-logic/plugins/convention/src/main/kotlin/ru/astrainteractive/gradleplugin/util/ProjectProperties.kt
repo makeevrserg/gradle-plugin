@@ -27,7 +27,9 @@ object ProjectProperties {
             name = gradleProperty("project.name").string,
             group = gradleProperty("project.group").string,
             versionString = gradleProperty("project.version.string").string,
-            description = gradleProperty("project.description").string
+            description = gradleProperty("project.description").string,
+            url = gradleProperty("project.url").string,
+            developersList = gradleProperty("publish.developers").developers,
         )
 
     val Project.publishInfo: PublishInfo
@@ -38,7 +40,6 @@ object ProjectProperties {
             gitHubName = gradleProperty("publish.repo.name").string,
             license = gradleProperty("publish.license").string,
             publishGroupId = gradleProperty("publish.groupId").string,
-            developersList = gradleProperty("publish.developers").developers,
             ossrhUsername = secretProperty("OSSRH_USERNAME").string,
             ossrhPassword = secretProperty("OSSRH_PASSWORD").string,
             signingKeyId = secretProperty("SIGNING_KEY_ID").string,

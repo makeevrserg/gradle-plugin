@@ -5,7 +5,7 @@ project-description = "GradlePlugin for my kotlin projects"
 project-group = "ru.astrainteractive.gradleplugin"
 project-web = "https://github.com/makeevrserg/gradle-plugin"
 project-version-code = "4"
-project-version-string = "0.0.3"
+project-version-string = "0.0.4"
 project-sdk-compile = "33"
 project-sdk-min = "21"
 project-sdk-target = "33"
@@ -39,7 +39,7 @@ lint-detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-form
 lint-detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "lint-detekt-ruleset-compiler" }
 lint-detekt-ruleset-compose = { module = "com.twitter.compose.rules:detekt", version.ref = "lint-detekt-ruleset-compose" }
 # Shadow
-shadow = { module = "gradle.plugin.com.github.johnrengelman:shadow", version.ref = "shadow" }
+gradle-shadow = { module = "gradle.plugin.com.github.johnrengelman:shadow", version.ref = "shadow" }
 # Kotlin
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
 android-toolsBuild = { module = "com.android.tools.build:gradle", version.ref = "kotlin-android-application" }

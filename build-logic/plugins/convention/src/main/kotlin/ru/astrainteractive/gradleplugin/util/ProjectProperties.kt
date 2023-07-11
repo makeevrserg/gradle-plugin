@@ -29,7 +29,7 @@ object ProjectProperties {
             versionString = gradleProperty("project.version.string").string,
             description = gradleProperty("project.description").string,
             url = gradleProperty("project.url").string,
-            developersList = gradleProperty("publish.developers").developers,
+            developersList = gradleProperty("project.developers").developers,
         )
 
     val Project.publishInfo: PublishInfo

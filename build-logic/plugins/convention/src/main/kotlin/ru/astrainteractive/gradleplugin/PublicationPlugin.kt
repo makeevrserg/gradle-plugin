@@ -3,22 +3,31 @@ package ru.astrainteractive.gradleplugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
 import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 import ru.astrainteractive.gradleplugin.util.ProjectProperties.publishInfo
 
 class PublicationPlugin : Plugin<Project> {
-    private fun Project.createOrGetJavaDoc(): Task {
+    private fun Project.createOrGetJavaDoc(): Task? {
         val taskName = "javadocJar"
+        val classifierName = "javadoc"
+
+        val javaDocTask = tasks.withType<AbstractArchiveTask>().firstOrNull {
+            it.archiveClassifier.get() == classifierName
+        }
+        if (javaDocTask != null) return null
         val foundTask = tasks.findByName(taskName)
         return foundTask ?: tasks.create<Jar>(taskName).apply {
-            archiveClassifier.set("javadoc")
+            archiveClassifier.set(classifierName)
         }
     }
 
@@ -48,9 +57,9 @@ class PublicationPlugin : Plugin<Project> {
                     }
                 }
             }
-
-            publications.create<MavenPublication>("default") {
-                artifact(target.createOrGetJavaDoc())
+            publications.create<MavenPublication>("default")
+            publications.withType<MavenPublication> {
+                target.createOrGetJavaDoc()?.let(::artifact)
                 pom {
                     this.name.set(publishInfo.libraryName)
                     this.description.set(projectInfo.description)

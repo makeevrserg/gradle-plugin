@@ -40,6 +40,11 @@ gradlePlugin {
             implementationClass = "${libs.versions.project.group.get()}.JvmSourceTargetPlugin"
             displayName = name
         }
+        create("stub-javadoc") {
+            id = "${libs.versions.project.group.get()}.stub.javadoc"
+            implementationClass = "${libs.versions.project.group.get()}.StubJavaDocPlugin"
+            displayName = name
+        }
         create("root-info") {
             id = "${libs.versions.project.group.get()}.root.info"
             implementationClass = "${libs.versions.project.group.get()}.InfoRootPlugin"

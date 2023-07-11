@@ -17,19 +17,6 @@ import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 import ru.astrainteractive.gradleplugin.util.ProjectProperties.publishInfo
 
 class PublicationPlugin : Plugin<Project> {
-    private fun Project.createOrGetJavaDoc(): Task? {
-        val taskName = "javadocJar"
-        val classifierName = "javadoc"
-
-        val javaDocTask = tasks.withType<AbstractArchiveTask>().firstOrNull {
-            it.archiveClassifier.get() == classifierName
-        }
-        if (javaDocTask != null) return null
-        val foundTask = tasks.findByName(taskName)
-        return foundTask ?: tasks.create<Jar>(taskName).apply {
-            archiveClassifier.set(classifierName)
-        }
-    }
 
     override fun apply(target: Project) {
 
@@ -59,7 +46,6 @@ class PublicationPlugin : Plugin<Project> {
             }
             publications.create<MavenPublication>("default")
             publications.withType<MavenPublication> {
-                target.createOrGetJavaDoc()?.let(::artifact)
                 pom {
                     this.name.set(publishInfo.libraryName)
                     this.description.set(projectInfo.description)

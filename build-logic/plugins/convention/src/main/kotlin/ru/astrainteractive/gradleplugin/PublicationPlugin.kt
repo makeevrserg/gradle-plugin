@@ -23,12 +23,19 @@ class PublicationPlugin : Plugin<Project> {
     }
 
     override fun apply(target: Project) {
+
+        val publishInfo = runCatching {
+            target.publishInfo
+        }.getOrNull() ?: run {
+            target.logger.warn("PublicationPlugin: No publish info found")
+            return
+        }
+        val projectInfo = target.projectInfo
+
         with(target.plugins) {
             apply("org.gradle.maven-publish")
             apply("signing")
         }
-        val publishInfo = target.publishInfo
-        val projectInfo = target.projectInfo
 
         target.configure<PublishingExtension> {
             repositories {

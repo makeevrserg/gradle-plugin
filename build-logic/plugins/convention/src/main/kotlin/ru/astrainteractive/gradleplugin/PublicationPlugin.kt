@@ -53,7 +53,7 @@ class PublicationPlugin : Plugin<Project> {
                 artifact(target.createOrGetJavaDoc())
                 pom {
                     this.name.set(publishInfo.libraryName)
-                    this.description.set(description)
+                    this.description.set(projectInfo.description)
                     this.url.set(publishInfo.gitHubUrl)
                     groupId = publishInfo.publishGroupId
                     artifactId = target.name

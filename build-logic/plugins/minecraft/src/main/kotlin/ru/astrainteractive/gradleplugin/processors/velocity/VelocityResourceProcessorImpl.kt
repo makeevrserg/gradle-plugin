@@ -10,7 +10,7 @@ internal class VelocityResourceProcessorImpl(private val project: Project) : Vel
 
     override fun process() {
         val projectInfo = project.projectInfo
-        val processorInfo = VelocityResourceProcessor.VelocityProcessorInfo(
+        val processorInfo = VelocityResourceProcessor.Info(
             main = "${projectInfo.group}.${projectInfo.name}",
             name = projectInfo.name,
             version = projectInfo.versionString,

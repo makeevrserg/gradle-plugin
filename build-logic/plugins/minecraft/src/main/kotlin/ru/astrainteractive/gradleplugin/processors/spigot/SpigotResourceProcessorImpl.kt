@@ -11,7 +11,7 @@ internal class SpigotResourceProcessorImpl(private val project: Project) : Spigo
 
     override fun process() {
         val projectInfo = project.projectInfo
-        val processorInfo = SpigotResourceProcessor.SpigotProcessorInfo(
+        val processorInfo = SpigotResourceProcessor.Info(
             main = "${projectInfo.group}.${projectInfo.name}",
             name = projectInfo.name,
             prefix = projectInfo.name,

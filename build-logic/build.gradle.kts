@@ -2,11 +2,19 @@ import com.gradle.publish.PluginBundleExtension
 import java.io.InputStream
 import java.util.Properties
 
+buildscript {
+    dependencies {
+        classpath("ru.astrainteractive.gradleplugin:convention:0.0.10")
+    }
+}
+
 plugins {
     `kotlin-dsl`
     id("com.gradle.plugin-publish") version "0.15.0" apply false
     alias(libs.plugins.gradle.shadow) apply false
 }
+
+apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
 
 fun getSecretProperty(property: String): String {
     val property = "makeevrserg.$property"

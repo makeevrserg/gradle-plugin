@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength")
+
 package ru.astrainteractive.gradleplugin.util
 
 import org.gradle.api.GradleException

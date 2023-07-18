@@ -5,19 +5,11 @@ project-description = "GradlePlugin for my kotlin projects"
 project-group = "ru.astrainteractive.gradleplugin"
 project-web = "https://github.com/makeevrserg/gradle-plugin"
 project-version-code = "4"
-project-version-string = "0.0.11"
-project-sdk-compile = "33"
-project-sdk-min = "21"
-project-sdk-target = "33"
-cocoapods-deployment-target = "16.0"
-cocoapods-homepage = "https://github.com/makeevrserg"
+project-version-string = "0.1.0"
 # Kotlin
 kotlin-version = "1.9.0"
 kotlin-dokka = "1.8.10"
-kotlin-coroutines = "1.6.4"
-kotlin-compilerExtensionVersion = "1.4.5"
 kotlin-android-application = "7.4.2"
-kotlin-serialization-json = "1.5.0"
 # Compose
 kotlin-compose = "1.4.0"
 # Shadow
@@ -26,13 +18,12 @@ shadow = "7.1.2"
 lint-detekt = "1.22.0"
 lint-detekt-ruleset-compiler = "0.0.2"
 lint-detekt-ruleset-compose = "0.0.26"
-# Dokka
-dokka = "1.8.10"
 [libraries]
-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
-dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
-dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "dokka" }
-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+# Dokka
+dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "kotlin-dokka" }
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin-dokka" }
+dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "kotlin-dokka" }
+dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "kotlin-dokka" }
 # Linter
 lint-detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "lint-detekt" }
 lint-detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "lint-detekt" }

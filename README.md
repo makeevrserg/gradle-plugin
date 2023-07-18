@@ -77,6 +77,7 @@ makeevrserg.project.name=GradlePlugin
 makeevrserg.project.group=ru.astrainteractive.gradleplugin
 makeevrserg.project.version.string=0.0.2
 makeevrserg.project.description=GradlePlugin for my kotlin projects
+makeevrserg.project.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com
 ```
 
 ### Java core
@@ -145,7 +146,6 @@ makeevrserg.publish.description=Core utilities for spigot development
 makeevrserg.publish.repo.org=Astra-Interactive
 makeevrserg.publish.repo.name=AstraLibs
 makeevrserg.publish.license=Custom
-makeevrserg.publish.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com
 ```
 
 In your local.properties

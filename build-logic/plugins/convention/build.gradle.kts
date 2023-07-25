@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.kotlin.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.lint.detekt.gradle)
     implementation(libs.dokka.gradle.plugin)

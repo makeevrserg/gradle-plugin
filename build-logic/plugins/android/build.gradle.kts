@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.kotlin.gradlePlugin)
-    implementation(libs.android.toolsBuild)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.android.toolsBuild)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.lint.detekt.gradle)
     implementation(libs.dokka.android)

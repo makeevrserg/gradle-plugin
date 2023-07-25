@@ -17,8 +17,10 @@ class JvmSourceTargetPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val jinfo = target.jinfo
         target.configure<JavaPluginExtension> {
-            withSourcesJar()
-            withJavadocJar()
+            kotlin.runCatching {
+                withSourcesJar()
+                withJavadocJar()
+            }
             sourceCompatibility = jinfo.jsource
             targetCompatibility = jinfo.jtarget
         }

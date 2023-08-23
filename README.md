@@ -1,6 +1,6 @@
 ![version](https://img.shields.io/maven-central/v/ru.astrainteractive.gradleplugin/convention?style=flat-square)
 
-# Gradle Plugin [WIP]
+# Gradle Plugin
 
 This repository contains basic implementation for version catalogs and build-convention
 

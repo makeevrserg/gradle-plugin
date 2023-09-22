@@ -22,7 +22,12 @@ gradlePlugin {
     plugins {
         create("detekt") {
             id = "${libs.versions.project.group.get()}.detekt"
-            implementationClass = "${libs.versions.project.group.get()}.CoreDetektPlugin"
+            implementationClass = "${libs.versions.project.group.get()}.detekt.DefaultDetektPlugin"
+            displayName = name
+        }
+        create("detekt-compose") {
+            id = "${libs.versions.project.group.get()}.detekt"
+            implementationClass = "${libs.versions.project.group.get()}.detekt.ComposeDetektPlugin"
             displayName = name
         }
         create("dokka-module") {

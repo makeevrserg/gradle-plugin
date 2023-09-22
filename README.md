@@ -37,6 +37,8 @@ subprojects.forEach {
 plugins {
     // This plugin will apply detekt plugin and it's custom detekt.yml 
     id("ru.astrainteractive.gradleplugin.detekt")
+    // Or if compose exists in this module use detekt-compose
+    id("ru.astrainteractive.gradleplugin.detekt-compose")
 }
 ```
 
@@ -151,11 +153,11 @@ makeevrserg.publish.license=Custom
 In your local.properties
 
 ```properties
-makeevrserg.OSSRH_USERNAME=OSSRH_USERNAME
-makeevrserg.OSSRH_PASSWORD=OSSRH_PASSWORD
-makeevrserg.SIGNING_KEY=SIGNING_KEY
-makeevrserg.SIGNING_KEY_ID=SIGNING_KEY_ID
-makeevrserg.SIGNING_PASSWORD=SIGNING_PASSWORD
+OSSRH_USERNAME=OSSRH_USERNAME
+OSSRH_PASSWORD=OSSRH_PASSWORD
+SIGNING_KEY=SIGNING_KEY
+SIGNING_KEY_ID=SIGNING_KEY_ID
+SIGNING_PASSWORD=SIGNING_PASSWORD
 ```
 
 ### Property usage

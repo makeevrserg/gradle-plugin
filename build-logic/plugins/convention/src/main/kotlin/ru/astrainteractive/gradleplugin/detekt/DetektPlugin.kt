@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin
+package ru.astrainteractive.gradleplugin.detekt
 
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Plugin
@@ -9,13 +9,17 @@ import org.gradle.kotlin.dsl.withType
 import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
 import java.io.File
 
-class CoreDetektPlugin : Plugin<Project> {
+class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
     override fun apply(target: Project) {
         with(target.plugins) {
             apply("io.gitlab.arturbosch.detekt")
         }
         target.tasks.register<Detekt>("detektFormat") {
             autoCorrect = true
+        }
+        val detektYmlFileName = when {
+            useCompose -> "detekt-compose.yml"
+            else -> "detekt.yml"
         }
 
         target.tasks.withType<Detekt> {
@@ -27,9 +31,9 @@ class CoreDetektPlugin : Plugin<Project> {
                 xml.required.set(false)
                 txt.required.set(false)
             }
-            val resource = Thread.currentThread().getContextClassLoader().getResource("detekt.yml")
+            val resource = Thread.currentThread().getContextClassLoader().getResource(detektYmlFileName)
             val bytes = resource.openConnection().getInputStream().readAllBytes()
-            val detektFile = File(File(target.rootDir, "build"), "detekt.yml").also {
+            val detektFile = File(File(target.rootDir, "build"), detektYmlFileName).also {
                 if (!it.exists()) {
                     it.parentFile.mkdirs()
                     it.createNewFile()
@@ -56,6 +60,9 @@ class CoreDetektPlugin : Plugin<Project> {
         target.dependencies {
             "detektPlugins"("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.2")
             "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+            if (useCompose) {
+                "detektPlugins"("com.twitter.compose.rules:detekt:0.0.26")
+            }
         }
     }
 }

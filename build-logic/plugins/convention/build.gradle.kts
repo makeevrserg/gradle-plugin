@@ -26,7 +26,7 @@ gradlePlugin {
             displayName = name
         }
         create("detekt-compose") {
-            id = "${libs.versions.project.group.get()}.detekt"
+            id = "${libs.versions.project.group.get()}.detekt-compose"
             implementationClass = "${libs.versions.project.group.get()}.detekt.ComposeDetektPlugin"
             displayName = name
         }

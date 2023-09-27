@@ -41,9 +41,5 @@ gradlePlugin {
             id = "${libs.versions.project.group.get()}.android.publication"
             implementationClass = "${libs.versions.project.group.get()}.AndroidPublicationPlugin"
         }
-        create("detekt-compose") {
-            id = "${libs.versions.project.group.get()}.detekt.compose"
-            implementationClass = "${libs.versions.project.group.get()}.ComposeDetektPlugin"
-        }
     }
 }

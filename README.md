@@ -114,6 +114,7 @@ plugins {
 ```
 
 ### Android sdk plugin
+
 ```kotlin
 plugins {
     // This plugin will add sdk source/target/min
@@ -121,7 +122,43 @@ plugins {
 }    
 ```
 
+### Android compose plugin
+
+```kotlin
+plugins {
+    // this will enable buildFeatures.compose
+    // and will set composeOptions.kotlinCompilerExtensionVersion
+    id("ru.astrainteractive.gradleplugin.android.compose")
+}    
+```
+
+In your gradle.properties
+
+```properties
+makeevrserg.android.kotlinCompilerExtensionVersion=1.5.1
+```
+
+### Android apk sign plugin
+
+```kotlin
+plugins {
+    // this will create default sign config for apk
+    // keystore.jks will be taken from current project folder
+    // if no keystore.jks - no signing configs will be applied
+    id("ru.astrainteractive.gradleplugin.android.apk-sign")
+}    
+```
+
+In your local.properties
+
+```properties
+KEY_PASSWORD=MY_PASSWORD
+KEY_ALIAS=MY_ALIAS
+STORE_PASSWORD=MY_STORE_PASSWORD
+```
+
 ### Android publication
+
 ```kotlin
 plugins {
     // This plugin will take release sources for publish
@@ -161,7 +198,10 @@ SIGNING_PASSWORD=SIGNING_PASSWORD
 ```
 
 ### Property usage
-With convention plugin added to classpath you can access to gradle.properties and secret properties, located it your local.properties or System.env in case of CI
+
+With convention plugin added to classpath you can access to gradle.properties and secret properties, located it your
+local.properties or System.env in case of CI
+
 ```kotlin
 // This will take makeevrserg.somevar from gradle.properties
 val gradleProperty = target.gradleProperty("somevar").javaVersion

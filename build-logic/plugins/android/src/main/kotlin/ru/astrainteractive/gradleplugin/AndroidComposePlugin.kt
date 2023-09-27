@@ -9,13 +9,11 @@ import ru.astrainteractive.gradleplugin.util.GradleProperty.Companion.gradleProp
 class AndroidComposePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        target.afterEvaluate {
-            target.configure<BaseExtension> {
-                buildFeatures.compose = true
-                composeOptions.kotlinCompilerExtensionVersion = gradleProperty(
-                    path = "android.kotlinCompilerExtensionVersion"
-                ).string
-            }
+        target.configure<BaseExtension> {
+            buildFeatures.compose = true
+            composeOptions.kotlinCompilerExtensionVersion = target.gradleProperty(
+                path = "android.kotlinCompilerExtensionVersion"
+            ).string
         }
     }
 }

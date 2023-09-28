@@ -4,6 +4,8 @@
 
 This repository contains basic implementation for version catalogs and build-convention
 
+You can use it as fork, or just setup it via plugin ↓
+
 ## Setup
 
 In your root `build.gradle.kts`
@@ -17,6 +19,8 @@ buildscript {
         classpath("ru.astrainteractive.gradleplugin:android:<latest-version>>")
     }
 }
+// If you are too lazy to define it in each gralde.kts, just paste it in root
+
 // Apply dokka root and detekt for all project
 apply(plugin = "ru.astrainteractive.gradleplugin.dokka.root")
 apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
@@ -29,6 +33,18 @@ subprojects.forEach {
         it.apply(plugin = "ru.astrainteractive.gradleplugin.java.core")
     }
 }
+```
+
+### Property usage
+
+With convention plugin added to classpath you can access to gradle.properties and secret properties, located it your
+local.properties or System.env in case of CI
+
+```kotlin
+// This will take makeevrserg.somevar from gradle.properties
+val gradleProperty = target.gradleProperty("somevar").javaVersion
+// This will take makeevrserg.secretvar from local.properties or System.getenv if run by CI
+val gradleProperty = target.secretProperty("secretvar").javaVersion
 ```
 
 ### Detekt
@@ -103,6 +119,38 @@ makeevrserg.java.target=11
 makeevrserg.java.ktarget=11
 ```
 
+### Publication plugin
+
+```kotlin
+plugins {
+    // This plugin will create publication to sonatype repository
+    id("ru.astrainteractive.gradleplugin.publication")
+}
+```
+
+In your gradle.properties
+
+```properties
+makeevrserg.publish.name=AstraLibs
+makeevrserg.publish.groupId=ru.astrainteractive.astralibs
+makeevrserg.publish.description=Core utilities for spigot development
+makeevrserg.publish.repo.org=Astra-Interactive
+makeevrserg.publish.repo.name=AstraLibs
+makeevrserg.publish.license=Custom
+```
+
+In your local.properties
+
+```properties
+OSSRH_USERNAME=OSSRH_USERNAME
+OSSRH_PASSWORD=OSSRH_PASSWORD
+SIGNING_KEY=SIGNING_KEY
+SIGNING_KEY_ID=SIGNING_KEY_ID
+SIGNING_PASSWORD=SIGNING_PASSWORD
+```
+
+## Android plugins
+
 ### Android detekt-compose
 
 This plugin is dependent on [core-detekt](#detekt)
@@ -167,46 +215,22 @@ plugins {
 }
 ```
 
-### Publication plugin
-
+## Minecraft plugins
 ```kotlin
-plugins {
-    // This plugin will create publication to sonatype repository
-    id("ru.astrainteractive.gradleplugin.publication")
-}
-```
-
-In your gradle.properties
-
-```properties
-makeevrserg.publish.name=AstraLibs
-makeevrserg.publish.groupId=ru.astrainteractive.astralibs
-makeevrserg.publish.description=Core utilities for spigot development
-makeevrserg.publish.repo.org=Astra-Interactive
-makeevrserg.publish.repo.name=AstraLibs
-makeevrserg.publish.license=Custom
-```
-
-In your local.properties
-
-```properties
-OSSRH_USERNAME=OSSRH_USERNAME
-OSSRH_PASSWORD=OSSRH_PASSWORD
-SIGNING_KEY=SIGNING_KEY
-SIGNING_KEY_ID=SIGNING_KEY_ID
-SIGNING_PASSWORD=SIGNING_PASSWORD
-```
-
-### Property usage
-
-With convention plugin added to classpath you can access to gradle.properties and secret properties, located it your
-local.properties or System.env in case of CI
-
-```kotlin
-// This will take makeevrserg.somevar from gradle.properties
-val gradleProperty = target.gradleProperty("somevar").javaVersion
-// This will take makeevrserg.secretvar from local.properties or System.getenv if run by CI
-val gradleProperty = target.secretProperty("secretvar").javaVersion
+// Processors will configure your plugin.yml 
+// and etc. with properties from gradle.properties
+setupSpigotProcessor()
+setupVelocityProcessor()
+setupForgeProcessor()
+setupFabricProcessor()
+// Configure your path to saved shadow
+setupSpigotShadow()
+// Configure multiplatform development
+// This will create sourceSet bukkitMain along with main
+// This will be published as separate module
+configureAstraSourceSet("bukkit")
+// This will configure bukkit, velocity, fabric, forge
+configureDefaultAstraHierarchy()
 ```
 
 ## Gratitude

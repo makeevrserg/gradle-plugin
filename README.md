@@ -215,7 +215,7 @@ plugins {
 }
 ```
 
-## Minecraft plugins
+## Minecraft plugins [Experimental]
 ```kotlin
 // Processors will configure your plugin.yml 
 // and etc. with properties from gradle.properties

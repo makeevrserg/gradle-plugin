@@ -11,39 +11,53 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 
 class JvmSourceSet(
-    project: Project,
-    sourceSetName: String,
+    private val project: Project,
+    private val sourceSetName: String,
 ) {
-    private val sourceSetFullName = "${sourceSetName}Main"
-
-    init {
+    private val sourceSetMainFullName = "${sourceSetName}Main"
+    private val sourceSetTestFullName = "${sourceSetName}Test"
+    private fun configureSourceSetContainer() {
         project.configure<SourceSetContainer> {
             val main = getByName("main")
-            create(sourceSetFullName) {
-                compileClasspath += main.compileClasspath
-                runtimeClasspath += main.runtimeClasspath
-                compileClasspath += main.output
-                runtimeClasspath += main.output
+            val test = getByName("test")
+            create(sourceSetMainFullName) {
+                compileClasspath += main.compileClasspath + main.output
+                runtimeClasspath += main.runtimeClasspath + main.output
+            }
+            create(sourceSetTestFullName) {
+                compileClasspath += test.compileClasspath + test.output
+                runtimeClasspath += test.runtimeClasspath + test.output
             }
         }
-        project.configurations.create("${sourceSetFullName}Compile") {
+    }
+
+    private fun configureCompile() {
+        project.configurations.create("${sourceSetMainFullName}Compile") {
             extendsFrom(project.configurations["implementation"])
         }
+        project.configurations.create("${sourceSetTestFullName}Compile") {
+            extendsFrom(project.configurations["testImplementation"])
+        }
+    }
+
+    private fun configurePublishing() {
+        if (project.extensions.findByType(PublishingExtension::class.java) == null) return
         project.configure<PublishingExtension> {
             publications {
-                val sourceJar = project.tasks.register("${sourceSetFullName}Jar", Jar::class.java) {
+                val sourceJar = project.tasks.register("${sourceSetMainFullName}Jar", Jar::class.java) {
                     val sourceSets = project.extensions.getByType(JavaPluginExtension::class.java).sourceSets
-                    from(sourceSets[sourceSetFullName].output)
+                    from(sourceSets[sourceSetMainFullName].output)
                 }
-                val sourceSourcesJar = project.tasks.register("${sourceSetFullName}SourcesJar", Jar::class.java) {
+                val sourceSourcesJar = project.tasks.register("${sourceSetMainFullName}SourcesJar", Jar::class.java) {
                     archiveClassifier.set("sources")
                     val sourceSets = project.extensions.getByType(JavaPluginExtension::class.java).sourceSets
-                    from(sourceSets[sourceSetFullName].allSource)
+                    from(sourceSets[sourceSetMainFullName].allSource)
                 }
-                val sourceJavaDocJar = project.tasks.register("${sourceSetFullName}JavadocJar", Jar::class.java) {
+                val sourceJavaDocJar = project.tasks.register("${sourceSetMainFullName}JavadocJar", Jar::class.java) {
                     archiveClassifier.set("javadoc")
                 }
-                register("maven$sourceSetFullName", MavenPublication::class) {
+
+                register("maven$sourceSetMainFullName", MavenPublication::class) {
                     artifactId = "${project.name}-$sourceSetName"
                     artifact(sourceJar.get())
                     artifact(sourceSourcesJar.get())
@@ -51,6 +65,12 @@ class JvmSourceSet(
                 }
             }
         }
+    }
+
+    init {
+        configureSourceSetContainer()
+        configureCompile()
+        configurePublishing()
     }
 
     companion object {

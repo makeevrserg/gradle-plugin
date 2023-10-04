@@ -216,6 +216,7 @@ plugins {
 ```
 
 ## Minecraft plugins [Experimental]
+
 ```kotlin
 // Processors will configure your plugin.yml 
 // and etc. with properties from gradle.properties
@@ -231,6 +232,41 @@ setupSpigotShadow()
 configureAstraSourceSet("bukkit")
 // This will configure bukkit, velocity, fabric, forge
 configureDefaultAstraHierarchy()
+```
+
+Thus, project structure will look like below:
+
+    ├── shared   
+    │   ├── src/bukkitMain/kotlin
+    │   ├── src/velocityMain/kotlin
+    │   ├── src/velocityTest/kotlin
+    │   └── src/main/kotlin
+    ├── bukkit
+    │   └── src/main/kotlin      
+
+To enable bukkit dependencies from `:shared` into `:bukkit` make this:
+
+```kotlin
+// In your :bukkit
+dependencies {
+    implementation(projects.shared.bukkitMain)
+    // Or this
+    implementation(project(":shared").bukkitMain)
+}
+```
+
+To use platform-specific dependencies, use this:
+
+```kotlin
+// In your `:shared`
+dependencies {
+    // This will be added to bukkit source set
+    "bukkitMainCompileOnly"(libs.minecraft.paper.api)
+    // Shared test dependencies
+    testImplementation(libs.tests.kotlin.test)
+    // Bukkit test dependencies
+    "bukkitTestImplementation"("com.github.seeseemelk:MockBukkit-v1.16:1.0.0")
+}
 ```
 
 ## Gratitude

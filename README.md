@@ -269,6 +269,13 @@ dependencies {
 }
 ```
 
+Don't forget gradle modules could sync in different order. So in some cases you are required to write:
+
+```kotlin 
+// Inside :spigot->build.gradle.kts
+evaluationDependsOn(":modules:my-shared-module")
+```
+
 ## Gratitude
 
 Thanks for moko gradle plugins and arkivanov for inspiration

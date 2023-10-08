@@ -11,7 +11,7 @@ class SecretProperty(path: String, private val project: Project) : BaseProperty(
             // try to get system ci property
             val systemEnvProperty = System.getenv(property)
             if (systemEnvProperty == null) {
-                println("System.enviroment $property is missing. Getting it from local.properties")
+                project.logger.warn("System.enviroment $property is missing. Getting it from local.properties")
             } else {
                 return systemEnvProperty
             }

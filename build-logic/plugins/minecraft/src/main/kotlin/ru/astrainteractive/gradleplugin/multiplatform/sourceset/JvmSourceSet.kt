@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.sourceset
+package ru.astrainteractive.gradleplugin.multiplatform.sourceset
 
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 
-class JvmSourceSet(
+internal class JvmSourceSet(
     private val project: Project,
     private val sourceSetName: String,
 ) {
@@ -67,22 +67,9 @@ class JvmSourceSet(
         }
     }
 
-    init {
+    fun configure() {
         configureSourceSetContainer()
         configureCompile()
         configurePublishing()
-    }
-
-    companion object {
-        fun Project.configureAstraSourceSet(name: String) {
-            JvmSourceSet(this, name)
-        }
-
-        fun Project.configureDefaultAstraHierarchy() {
-            configureAstraSourceSet("bukkit")
-            configureAstraSourceSet("velocity")
-            configureAstraSourceSet("fabric")
-            configureAstraSourceSet("forge")
-        }
     }
 }

@@ -218,20 +218,29 @@ plugins {
 ## Minecraft plugins [Experimental]
 
 ```kotlin
-// Processors will configure your plugin.yml 
-// and etc. with properties from gradle.properties
-setupSpigotProcessor()
-setupVelocityProcessor()
-setupForgeProcessor()
-setupFabricProcessor()
-// Configure your path to saved shadow
-setupSpigotShadow()
-// Configure multiplatform development
-// This will create sourceSet bukkitMain along with main
-// This will be published as separate module
-configureAstraSourceSet("bukkit")
-// This will configure bukkit, velocity, fabric, forge
-configureDefaultAstraHierarchy()
+plugins {
+    id("ru.astrainteractive.gradleplugin.minecraft.multiplatform")
+}
+minecraftMultiplatform {
+    // Create sourceSets one by one
+    bukkit()
+    velocity()
+    fabric()
+    forge()
+    // Or create all at once
+    defaultHierarchy()
+}
+dependencies {
+    implementation("some.shared.dependency")
+    // Bukkit
+    "bukkitMainCompileOnly"("spigot.only.dependency")
+    // This will be added to bukkit source set
+    "bukkitMainCompileOnly"(libs.minecraft.paper.api)
+    // Shared test dependencies
+    testImplementation(libs.tests.kotlin.test)
+    // Bukkit test dependencies
+    "bukkitTestImplementation"("com.github.seeseemelk:MockBukkit-v1.16:1.0.0")
+}
 ```
 
 Thus, project structure will look like below:
@@ -248,24 +257,12 @@ To enable bukkit dependencies from `:shared` into `:bukkit` make this:
 
 ```kotlin
 // In your :bukkit
-dependencies {
-    implementation(projects.shared.bukkitMain)
-    // Or this
-    implementation(project(":shared").bukkitMain)
-}
-```
-
-To use platform-specific dependencies, use this:
-
-```kotlin
-// In your `:shared`
-dependencies {
-    // This will be added to bukkit source set
-    "bukkitMainCompileOnly"(libs.minecraft.paper.api)
-    // Shared test dependencies
-    testImplementation(libs.tests.kotlin.test)
-    // Bukkit test dependencies
-    "bukkitTestImplementation"("com.github.seeseemelk:MockBukkit-v1.16:1.0.0")
+minecraftMultiplatform {
+    dependencies {
+        implementation(projects.shared.bukkitMain)
+        // Or this
+        implementation(project(":shared").bukkitMain)
+    }
 }
 ```
 
@@ -273,6 +270,8 @@ Don't forget gradle modules could sync in different order. So in some cases you 
 
 ```kotlin 
 // Inside :spigot->build.gradle.kts
+// When using `implementation(projects.shared.bukkitMain)` 
+// - evaluationDependsOn applied automatically
 evaluationDependsOn(":modules:my-shared-module")
 ```
 

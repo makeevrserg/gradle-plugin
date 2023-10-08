@@ -25,5 +25,10 @@ gradlePlugin {
             implementationClass = "${libs.versions.project.group.get()}.EmptyMinecraftPlugin"
             displayName = name
         }
+        create("minecraft-multiplatform") {
+            id = "${libs.versions.project.group.get()}.minecraft.multiplatform"
+            implementationClass = "${libs.versions.project.group.get()}.multiplatform.MinecraftMultiplatformPlugin"
+            displayName = name
+        }
     }
 }

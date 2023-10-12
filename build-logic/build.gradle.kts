@@ -1,4 +1,4 @@
-import com.gradle.publish.PluginBundleExtension
+
 import java.io.InputStream
 import java.util.Properties
 
@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "0.15.0" apply false
+    id("com.gradle.plugin-publish") version "1.2.0" apply false
     alias(libs.plugins.gradle.shadow) apply false
 }
 
@@ -33,6 +33,7 @@ fun getSecretProperty(property: String): String {
 val klibs = libs
 
 subprojects {
+
     val project = this
     val moduleName = project.name
 
@@ -60,8 +61,12 @@ subprojects {
                 password = getSecretProperty("OSSRH_PASSWORD")
             }
         }
-        publications.register("mavenJava", MavenPublication::class) {
-            from(project.components["java"])
+
+//        publications.register("mavenJava", MavenPublication::class) {
+//            from(project.components["java"])
+//        }
+
+        publications.withType<MavenPublication> {
             pom {
                 name.set(klibs.versions.project.name.get())
                 description.set(klibs.versions.project.description.get())
@@ -99,18 +104,9 @@ subprojects {
             useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
             sign(publications)
         }
-
-        project.configure<PluginBundleExtension> {
-            website = klibs.versions.project.web.get()
-            vcsUrl = klibs.versions.project.web.get()
-            description = klibs.versions.project.description.get()
-            tags = listOf("kotlin")
-
-            mavenCoordinates {
-                groupId = project.group as String
-                artifactId = project.name
-                version = project.version as String
-            }
+        val signingTasks = project.tasks.withType<Sign>()
+        project.tasks.withType<AbstractPublishToMaven>().configureEach {
+            dependsOn(signingTasks)
         }
     }
 }

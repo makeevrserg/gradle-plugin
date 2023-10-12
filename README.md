@@ -6,7 +6,71 @@ This repository contains basic implementation for version catalogs and build-con
 
 You can use it as fork, or just setup it via plugin ↓
 
-## Setup
+## Setup as plugins
+
+<details>
+  <summary> <b>(Click to expand)</b> libs.version.toml</summary>
+
+```toml
+[versions]
+# klibs
+klibs-gradleplugin = "<latest-version>"
+
+[plugins]
+# klibs - core
+klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
+klibs-gradle-detekt-compose = { id = "ru.astrainteractive.gradleplugin.detekt.compose", version.ref = "klibs-gradleplugin" }
+klibs-gradle-dokka-root = { id = "ru.astrainteractive.gradleplugin.dokka.root", version.ref = "klibs-gradleplugin" }
+klibs-gradle-dokka-module = { id = "ru.astrainteractive.gradleplugin.dokka.module", version.ref = "klibs-gradleplugin" }
+klibs-gradle-java-core = { id = "ru.astrainteractive.gradleplugin.java.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-stub-javadoc = { id = "ru.astrainteractive.gradleplugin.stub.javadoc", version.ref = "klibs-gradleplugin" }
+klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
+klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.root.info", version.ref = "klibs-gradleplugin" }
+# klibs - android
+klibs-gradle-android-core = { id = "ru.astrainteractive.gradleplugin.android.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-compose = { id = "ru.astrainteractive.gradleplugin.android.compose", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-apk-sign = { id = "ru.astrainteractive.gradleplugin.android.apk.sign", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-apk-name = { id = "ru.astrainteractive.gradleplugin.android.apk.name", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-publication = { id = "ru.astrainteractive.gradleplugin.android.publication", version.ref = "klibs-gradleplugin" }
+# klibs - minecraft
+klibs-gradle-minecraft-empty = { id = "ru.astrainteractive.gradleplugin.minecraft.empty", version.ref = "klibs-gradleplugin" }
+klibs-gradle-minecraft-multiplatform = { id = "ru.astrainteractive.gradleplugin.minecraft.multiplatform", version.ref = "klibs-gradleplugin" }
+
+```
+
+**Root build.gradle.kts**
+
+```kotlin
+plugins {
+    // klibs - core
+    alias(libs.plugins.klibs.gradle.detekt) apply false
+    alias(libs.plugins.klibs.gradle.detekt.compose) apply false
+    alias(libs.plugins.klibs.gradle.dokka.root) apply false
+    alias(libs.plugins.klibs.gradle.dokka.module) apply false
+    alias(libs.plugins.klibs.gradle.java.core) apply false
+    alias(libs.plugins.klibs.gradle.stub.javadoc) apply false
+    alias(libs.plugins.klibs.gradle.publication) apply false
+    alias(libs.plugins.klibs.gradle.rootinfo) apply false
+    // klibs - android
+    alias(libs.plugins.klibs.gradle.android.core) apply false
+    alias(libs.plugins.klibs.gradle.android.compose) apply false
+    alias(libs.plugins.klibs.gradle.android.apk.sign) apply false
+    alias(libs.plugins.klibs.gradle.android.apk.name) apply false
+    alias(libs.plugins.klibs.gradle.android.publication) apply false
+    // klibs - minecraft
+    alias(libs.plugins.klibs.gradle.minecraft.empty) apply false
+    alias(libs.plugins.klibs.gradle.minecraft.multiplatform) apply false
+}
+  ```
+
+</details>
+
+## Setup as classpath
+
+<details>
+  <summary><b>(Click to expand)</b> Root build.gradle.kts</summary>
+
+**libs.version.toml**
 
 In your root `build.gradle.kts`
 
@@ -17,6 +81,8 @@ buildscript {
         classpath("ru.astrainteractive.gradleplugin:convention:<latest-version>>")
         // android-specific
         classpath("ru.astrainteractive.gradleplugin:android:<latest-version>>")
+        // minecraft-specific
+        classpath("ru.astrainteractive.gradleplugin:minecraft:<latest-version>>")
     }
 }
 // If you are too lazy to define it in each gralde.kts, just paste it in root
@@ -34,6 +100,8 @@ subprojects.forEach {
     }
 }
 ```
+
+</details>
 
 ### Property usage
 
@@ -54,7 +122,7 @@ plugins {
     // This plugin will apply detekt plugin and it's custom detekt.yml 
     id("ru.astrainteractive.gradleplugin.detekt")
     // Or if compose exists in this module use detekt-compose
-    id("ru.astrainteractive.gradleplugin.detekt-compose")
+    id("ru.astrainteractive.gradleplugin.detekt.compose")
 }
 ```
 
@@ -66,11 +134,11 @@ See required properties in [Java core](#java-core)
 plugins {
     // Dokka for root build.gradle.kts
     // If there's readme - it will be main page of documentation
-    id("dokka-root")
+    id("ru.astrainteractive.gradleplugin.dokka.root")
     // Dokka for single module
     // You can also include README.md inside module
     // and dokka will create this README as main page
-    id("dokka-convention")
+    id("ru.astrainteractive.gradleplugin.dokka.module")
 }
 ```
 
@@ -193,7 +261,7 @@ plugins {
     // this will create default sign config for apk
     // keystore.jks will be taken from current project folder
     // if no keystore.jks - no signing configs will be applied
-    id("ru.astrainteractive.gradleplugin.android.apk-sign")
+    id("ru.astrainteractive.gradleplugin.android.apk.sign")
 }    
 ```
 

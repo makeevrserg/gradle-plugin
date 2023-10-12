@@ -1,6 +1,12 @@
+
+
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 dependencies {
@@ -18,17 +24,20 @@ gradlePlugin {
     website.set(libs.versions.project.web.get())
     vcsUrl.set(libs.versions.project.web.get())
     description = libs.versions.project.description.get()
-    isAutomatedPublishing = false
     plugins {
-        create("empty-minecraft") {
+        create("minecraft.empty") {
             id = "${libs.versions.project.group.get()}.minecraft.empty"
             implementationClass = "${libs.versions.project.group.get()}.EmptyMinecraftPlugin"
-            displayName = name
+            displayName = "KLibs minecraft empty stub plugin"
+            description = "Empty minecraft plugin"
+            tags.set(listOf("klibs"))
         }
-        create("minecraft-multiplatform") {
+        create("minecraft.multiplatform") {
             id = "${libs.versions.project.group.get()}.minecraft.multiplatform"
             implementationClass = "${libs.versions.project.group.get()}.multiplatform.MinecraftMultiplatformPlugin"
-            displayName = name
+            displayName = "KLibs minecraft multiplatform plugin"
+            description = "Minecraft multiplatform plugin"
+            tags.set(listOf("klibs"))
         }
     }
 }

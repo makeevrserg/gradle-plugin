@@ -1,8 +1,10 @@
-
-
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 dependencies {
@@ -18,47 +20,62 @@ gradlePlugin {
     website.set(libs.versions.project.web.get())
     vcsUrl.set(libs.versions.project.web.get())
     description = libs.versions.project.description.get()
-    isAutomatedPublishing = false
     plugins {
         create("detekt") {
             id = "${libs.versions.project.group.get()}.detekt"
             implementationClass = "${libs.versions.project.group.get()}.detekt.DefaultDetektPlugin"
-            displayName = name
+            displayName = "KLibs detekt plugin"
+            description = "Default setup for detekt plugin"
+            tags.set(listOf("klibs"))
         }
-        create("detekt-compose") {
-            id = "${libs.versions.project.group.get()}.detekt-compose"
+        create("detekt.compose") {
+            id = "${libs.versions.project.group.get()}.detekt.compose"
             implementationClass = "${libs.versions.project.group.get()}.detekt.ComposeDetektPlugin"
-            displayName = name
+            displayName = "KLibs compose-detekt plugin"
+            description = "Setup for detekt compose integration"
+            tags.set(listOf("klibs"))
         }
-        create("dokka-module") {
+        create("dokka.module") {
             id = "${libs.versions.project.group.get()}.dokka.module"
             implementationClass = "${libs.versions.project.group.get()}.DokkaModulePlugin"
-            displayName = name
+            displayName = "KLibs dokka for module configuration"
+            description = "Dokka generation for project module"
+            tags.set(listOf("klibs"))
         }
-        create("dokka-root") {
+        create("dokka.root") {
             id = "${libs.versions.project.group.get()}.dokka.root"
             implementationClass = "${libs.versions.project.group.get()}.DokkaRootPlugin"
-            displayName = name
+            displayName = "KLibs Dokka for root project"
+            description = "Dokka generator for root project"
+            tags.set(listOf("klibs"))
         }
-        create("java-core") {
+        create("java.core") {
             id = "${libs.versions.project.group.get()}.java.core"
             implementationClass = "${libs.versions.project.group.get()}.JvmSourceTargetPlugin"
-            displayName = name
+            displayName = "KLibs java configuration"
+            description = "Default java configuration"
+            tags.set(listOf("klibs"))
         }
-        create("stub-javadoc") {
+        create("stub.javadoc") {
             id = "${libs.versions.project.group.get()}.stub.javadoc"
             implementationClass = "${libs.versions.project.group.get()}.StubJavaDocPlugin"
-            displayName = name
+            displayName = "KLibs stub javadoc plugin"
+            description = "Generates stub javadoc"
+            tags.set(listOf("klibs"))
         }
-        create("root-info") {
+        create("root.info") {
             id = "${libs.versions.project.group.get()}.root.info"
             implementationClass = "${libs.versions.project.group.get()}.InfoRootPlugin"
-            displayName = name
+            displayName = "KLibs root info plugin"
+            description = "Generates version, description for module"
+            tags.set(listOf("klibs"))
         }
         create("publication") {
             id = "${libs.versions.project.group.get()}.publication"
             implementationClass = "${libs.versions.project.group.get()}.PublicationPlugin"
-            displayName = name
+            displayName = "KLibs publication plugin"
+            description = "Default pulbication plugin"
+            tags.set(listOf("klibs"))
         }
     }
 }

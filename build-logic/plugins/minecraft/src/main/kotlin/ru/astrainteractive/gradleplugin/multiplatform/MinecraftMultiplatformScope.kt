@@ -2,7 +2,9 @@ package ru.astrainteractive.gradleplugin.multiplatform
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.attributes.Attribute
 import org.gradle.api.tasks.SourceSetOutput
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import ru.astrainteractive.gradleplugin.multiplatform.sourceset.JvmSourceSet
 
 open class MinecraftMultiplatformScope(private val project: Project) {
@@ -92,4 +94,25 @@ open class MinecraftMultiplatformScope(private val project: Project) {
      */
     val ProjectDependency.fabricMain: SourceSetOutput
         get() = this.sourceSet("fabricMain")
+
+    @ExperimentalMultiplatform
+    fun KotlinMultiplatformExtension.bukkitTarget() {
+        createMinecraftTarget("bukkit")
+    }
+
+    @ExperimentalMultiplatform
+    fun KotlinMultiplatformExtension.velocityTarget() {
+        createMinecraftTarget("velocity")
+    }
+
+    @ExperimentalMultiplatform
+    fun KotlinMultiplatformExtension.createMinecraftTarget(target: String) {
+        val minecraftFrameworkAttribute = Attribute.of("MinecraftAttribute", String::class.java)
+        jvm(target) {
+            attributes.attribute(minecraftFrameworkAttribute, target)
+        }
+        val jvmMain = sourceSets.getByName("jvmMain")
+        val targetMain = sourceSets.getByName("${target}Main")
+        targetMain.dependsOn(jvmMain)
+    }
 }

@@ -343,6 +343,25 @@ Don't forget gradle modules could sync in different order. So in some cases you 
 evaluationDependsOn(":modules:my-shared-module")
 ```
 
+Also can be configured with KotlinMultiplatform(Experimental)
+```kotlin
+kotlin {
+    jvm {
+        withJava()
+    }
+    minecraftMultiplatform {
+        bukkitTarget()
+        velocityTarget()
+    }
+    sourceSets {
+        val bukkitMain by getting {
+            ...
+        }
+    }
+}
+
+```
+
 ## Gratitude
 
 Thanks for moko gradle plugins and arkivanov for inspiration

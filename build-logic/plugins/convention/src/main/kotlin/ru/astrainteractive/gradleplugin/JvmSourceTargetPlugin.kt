@@ -24,8 +24,10 @@ class JvmSourceTargetPlugin : Plugin<Project> {
             sourceCompatibility = jinfo.jsource
             targetCompatibility = jinfo.jtarget
         }
-        target.tasks.withType<JavaCompile> {
-            options.encoding = "UTF-8"
+        target.afterEvaluate {
+            target.tasks.withType<JavaCompile> {
+                options.encoding = "UTF-8"
+            }
         }
         target.tasks
             .withType<KotlinCompile>()

@@ -6,6 +6,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
@@ -19,14 +20,17 @@ internal class JvmSourceSet(
     private fun configureSourceSetContainer() {
         project.configure<SourceSetContainer> {
             val main = getByName("main")
-            val test = getByName("test")
-            create(sourceSetMainFullName) {
+            val sourceSetMain = create(sourceSetMainFullName) {
                 compileClasspath += main.compileClasspath + main.output
                 runtimeClasspath += main.runtimeClasspath + main.output
             }
-            create(sourceSetTestFullName) {
-                compileClasspath += test.compileClasspath + test.output
-                runtimeClasspath += test.runtimeClasspath + test.output
+            val sourceSetTest = create(sourceSetTestFullName) {
+                compileClasspath += sourceSetMain.compileClasspath + sourceSetMain.output
+                runtimeClasspath += sourceSetMain.runtimeClasspath + sourceSetMain.output
+            }
+            project.tasks.create("${sourceSetName}Test", Test::class.java) {
+                testClassesDirs += sourceSetTest.output.classesDirs
+                classpath += sourceSetTest.runtimeClasspath
             }
         }
     }

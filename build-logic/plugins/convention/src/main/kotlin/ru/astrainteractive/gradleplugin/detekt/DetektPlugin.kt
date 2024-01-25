@@ -6,7 +6,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
 import java.io.File
 
 class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
@@ -54,7 +54,7 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
             buildUponDefaultConfig = true
 
             // Target version of the generated JVM bytecode. It is used for type resolution.
-            jvmTarget = target.jinfo.ktarget.majorVersion
+            jvmTarget = target.requireJinfo.ktarget.majorVersion
         }
 
         target.dependencies {

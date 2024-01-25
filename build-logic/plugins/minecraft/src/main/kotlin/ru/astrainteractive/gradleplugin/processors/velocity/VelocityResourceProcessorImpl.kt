@@ -3,13 +3,13 @@ package ru.astrainteractive.gradleplugin.processors.velocity
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.expand
 import org.gradle.kotlin.dsl.named
-import ru.astrainteractive.gradleplugin.models.Developer
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
+import ru.astrainteractive.gradleplugin.model.Developer
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
 internal class VelocityResourceProcessorImpl(private val project: Project) : VelocityResourceProcessor {
 
     override fun process() {
-        val projectInfo = project.projectInfo
+        val projectInfo = project.requireProjectInfo
         val processorInfo = VelocityResourceProcessor.Info(
             main = "${projectInfo.group}.${projectInfo.name}",
             name = projectInfo.name,

@@ -3,12 +3,12 @@ package ru.astrainteractive.gradleplugin.processors.fabric
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.expand
 import org.gradle.kotlin.dsl.named
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
 class FabricResourceProcessorImpl(private val project: Project) : FabricResourceProcessor {
 
     override fun process() {
-        val projectInfo = project.projectInfo
+        val projectInfo = project.requireProjectInfo
         val processorInfo = FabricResourceProcessor.Info(
             version = projectInfo.versionString,
         )

@@ -11,11 +11,11 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
 
 class JvmSourceTargetPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        val jinfo = target.jinfo
+        val jinfo = target.requireJinfo
         target.configure<JavaPluginExtension> {
             kotlin.runCatching {
                 withSourcesJar()

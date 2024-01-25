@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.models
+package ru.astrainteractive.gradleplugin.model
 
 import org.gradle.api.JavaVersion
 

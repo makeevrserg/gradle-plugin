@@ -9,19 +9,19 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.publishInfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requirePublishInfo
 
 class PublicationPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         val publishInfo = runCatching {
-            target.publishInfo
+            target.requirePublishInfo
         }.getOrNull() ?: run {
             target.logger.warn("PublicationPlugin: No publish info found")
             return
         }
-        val projectInfo = target.projectInfo
+        val projectInfo = target.requireProjectInfo
 
         with(target.plugins) {
             apply("org.gradle.maven-publish")

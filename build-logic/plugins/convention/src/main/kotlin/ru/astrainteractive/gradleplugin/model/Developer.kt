@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.models
+package ru.astrainteractive.gradleplugin.model
 
 data class Developer(
     val id: String,

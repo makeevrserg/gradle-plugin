@@ -4,13 +4,13 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.kotlin.dsl.expand
 import org.gradle.kotlin.dsl.named
-import ru.astrainteractive.gradleplugin.models.Developer
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
+import ru.astrainteractive.gradleplugin.model.Developer
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
 internal class SpigotResourceProcessorImpl(private val project: Project) : SpigotResourceProcessor {
 
     override fun process() {
-        val projectInfo = project.projectInfo
+        val projectInfo = project.requireProjectInfo
         val processorInfo = SpigotResourceProcessor.Info(
             main = "${projectInfo.group}.${projectInfo.name}",
             name = projectInfo.name,

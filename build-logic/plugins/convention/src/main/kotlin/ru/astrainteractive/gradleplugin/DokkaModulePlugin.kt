@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.jinfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
 
 class DokkaModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -17,7 +17,7 @@ class DokkaModulePlugin : Plugin<Project> {
             suppressObviousFunctions.set(false)
 
             dokkaSourceSets.configureEach {
-                jdkVersion.set(target.jinfo.jtarget.majorVersion.toInt())
+                jdkVersion.set(target.requireJinfo.jtarget.majorVersion.toInt())
                 includeNonPublic.set(false)
                 skipDeprecated.set(false)
                 reportUndocumented.set(true)

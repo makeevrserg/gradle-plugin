@@ -1,6 +1,6 @@
 package ru.astrainteractive.gradleplugin.processors.velocity
 
-import ru.astrainteractive.gradleplugin.models.Developer
+import ru.astrainteractive.gradleplugin.model.Developer
 import ru.astrainteractive.gradleplugin.processors.ResourceProcessor
 
 interface VelocityResourceProcessor : ResourceProcessor<VelocityResourceProcessor.Info> {

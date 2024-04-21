@@ -17,12 +17,17 @@ class SecretPropertyValue(
             ?: project.rootProject.file("local.properties").takeIf(File::exists)
             ?: throw GradleException("No local.properties file found")
 
+    /**
+     * System.getenv doesn't allow dots
+     */
+    private val envKey: String = key.replace(".", "_")
+
     override val value: Result<String>
         get() = kotlin.runCatching {
             // try to get system ci property
-            val systemEnvProperty = System.getenv(key)
+            val systemEnvProperty = System.getenv(envKey)
             if (systemEnvProperty != null) return@runCatching systemEnvProperty.toString()
-            project.logger.warn("System.enviroment $key is missing. Getting it from local.properties")
+            project.logger.warn("System.enviroment $envKey is missing. Getting it from local.properties")
             // if not ci getting from local.properties
             val properties = Properties().apply {
                 val secretPropsFile = localPropertiesFile

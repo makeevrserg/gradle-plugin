@@ -53,15 +53,17 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
 
             buildUponDefaultConfig = true
 
+            allRules = true
+
             // Target version of the generated JVM bytecode. It is used for type resolution.
             jvmTarget = target.requireJinfo.ktarget.majorVersion
         }
 
         target.dependencies {
-            "detektPlugins"("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.2")
-            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+            "detektPlugins"("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.4")
+            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
             if (useCompose) {
-                "detektPlugins"("com.twitter.compose.rules:detekt:0.0.26")
+                "detektPlugins"("io.nlopez.compose.rules:detekt:0.3.20")
             }
         }
     }

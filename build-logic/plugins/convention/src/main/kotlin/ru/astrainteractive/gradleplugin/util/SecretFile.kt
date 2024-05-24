@@ -4,6 +4,8 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.konan.properties.saveToFile
 import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseSecretProperty
 import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.requireString
+import ru.astrainteractive.gradleplugin.util.LocalPropertiesExt.localPropertiesFile
+import ru.astrainteractive.gradleplugin.util.LocalPropertiesExt.requireLocalProperties
 import java.io.File
 import java.util.Base64
 
@@ -24,7 +26,7 @@ class SecretFile(
                 project.logger.info("File ${file.path} not exists")
                 return
             }
-            val properties = project.localProperties()
+            val properties = project.requireLocalProperties()
             properties.setProperty(key, Base64Util.toBase64(file))
             properties.saveToFile(org.jetbrains.kotlin.konan.file.File(project.localPropertiesFile().toPath()))
         } catch (e: Exception) {

@@ -4,7 +4,7 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireAndroidSdkInfo
+import ru.astrainteractive.gradleplugin.property.extension.AndroidModelPropertyValueExt.requireAndroidSdkInfo
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
 
 class AndroidSdkPlugin : Plugin<Project> {

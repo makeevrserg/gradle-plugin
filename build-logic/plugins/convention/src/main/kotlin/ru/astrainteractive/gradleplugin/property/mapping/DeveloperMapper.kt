@@ -3,7 +3,7 @@ package ru.astrainteractive.gradleplugin.property.mapping
 import org.gradle.api.GradleException
 import ru.astrainteractive.gradleplugin.model.Developer
 
-object DeveloperParser {
+object DeveloperMapper {
     fun parseDeveloper(value: String): Developer {
         val items: List<String> = value.split("|").map(String::trim)
         if (items.size != 3) {

@@ -1,7 +1,6 @@
 package ru.astrainteractive.gradleplugin.property.extension
 
 import org.gradle.api.Project
-import ru.astrainteractive.gradleplugin.model.AndroidSdkInfo
 import ru.astrainteractive.gradleplugin.model.Developer
 import ru.astrainteractive.gradleplugin.model.JInfo
 import ru.astrainteractive.gradleplugin.model.ProjectInfo
@@ -10,17 +9,10 @@ import ru.astrainteractive.gradleplugin.property.PropertyValue
 import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseGradleProperty
 import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseSecretProperty
 import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJavaVersion
-import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.requireInt
 import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.requireString
-import ru.astrainteractive.gradleplugin.property.mapping.DeveloperParser
+import ru.astrainteractive.gradleplugin.property.mapping.DeveloperMapper
 
 object ModelPropertyValueExt {
-    val Project.requireAndroidSdkInfo: AndroidSdkInfo
-        get() = AndroidSdkInfo(
-            compile = baseGradleProperty("android.sdk.compile").requireInt,
-            min = baseGradleProperty("android.sdk.min").requireInt,
-            target = baseGradleProperty("android.sdk.target").requireInt
-        )
     val Project.requireJinfo: JInfo
         get() = JInfo(
             ktarget = baseGradleProperty("java.ktarget").requireJavaVersion,
@@ -55,7 +47,7 @@ object ModelPropertyValueExt {
 
     // Developers
     val PropertyValue.developers: Result<List<Developer>>
-        get() = value.mapCatching(DeveloperParser::parseDevelopers)
+        get() = value.mapCatching(DeveloperMapper::parseDevelopers)
     val PropertyValue.requireDevelopers: List<Developer>
         get() = developers.getOrThrow()
 }

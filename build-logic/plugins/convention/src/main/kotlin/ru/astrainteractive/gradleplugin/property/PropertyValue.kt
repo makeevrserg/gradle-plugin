@@ -12,9 +12,21 @@ interface PropertyValue {
 
     companion object {
         private const val BASE_PREFIX = "makeevrserg"
-        fun Project.gradleProperty(path: String) = ProjectPropertyValue(this, path,)
-        fun Project.secretProperty(path: String) = SecretPropertyValue(this, path,)
-        fun Project.baseGradleProperty(path: String) = ProjectPropertyValue(this, "$BASE_PREFIX.$path")
-        fun Project.baseSecretProperty(path: String) = SecretPropertyValue(this, "$BASE_PREFIX.$path",)
+
+        fun Project.gradleProperty(path: String): ProjectPropertyValue {
+            return ProjectPropertyValue(this, path)
+        }
+
+        fun Project.secretProperty(path: String): SecretPropertyValue {
+            return SecretPropertyValue(this, path)
+        }
+
+        fun Project.baseGradleProperty(path: String): ProjectPropertyValue {
+            return ProjectPropertyValue(this, "$BASE_PREFIX.$path")
+        }
+
+        fun Project.baseSecretProperty(path: String): SecretPropertyValue {
+            return SecretPropertyValue(this, "$BASE_PREFIX.$path")
+        }
     }
 }

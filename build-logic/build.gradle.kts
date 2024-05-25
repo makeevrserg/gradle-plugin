@@ -4,13 +4,13 @@ import java.util.Properties
 
 buildscript {
     dependencies {
-        classpath("ru.astrainteractive.gradleplugin:convention:0.0.10")
+        classpath("ru.astrainteractive.gradleplugin:convention:0.5.2")
     }
 }
 
 plugins {
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.2.0" apply false
+    id("com.gradle.plugin-publish") version "1.2.1" apply false
     alias(libs.plugins.gradle.shadow) apply false
 }
 

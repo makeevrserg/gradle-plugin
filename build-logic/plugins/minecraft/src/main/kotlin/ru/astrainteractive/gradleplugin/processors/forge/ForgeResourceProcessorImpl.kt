@@ -4,11 +4,11 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.kotlin.dsl.expand
 import org.gradle.kotlin.dsl.named
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
 class ForgeResourceProcessorImpl(private val project: Project) : ForgeResourceProcessor {
     override fun process() {
-        val projectInfo = project.projectInfo
+        val projectInfo = project.requireProjectInfo
         val processorInfo = ForgeResourceProcessor.Info(
             displayName = projectInfo.name,
             version = projectInfo.versionString,

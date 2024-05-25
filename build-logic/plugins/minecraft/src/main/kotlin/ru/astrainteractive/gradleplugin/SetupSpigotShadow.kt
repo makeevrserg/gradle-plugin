@@ -4,7 +4,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.named
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 import java.io.File
 
 fun Project.setupSpigotShadow(
@@ -16,7 +16,7 @@ fun Project.setupSpigotShadow(
 
     apply(plugin = "com.github.johnrengelman.shadow")
 
-    val projectInfo = projectInfo
+    val projectInfo = requireProjectInfo
 
     val shadowJar = tasks.named<ShadowJar>("shadowJar")
     shadowJar.configure {

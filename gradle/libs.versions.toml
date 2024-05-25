@@ -5,7 +5,7 @@ project-description = "GradlePlugin for my kotlin projects"
 project-group = "ru.astrainteractive.gradleplugin"
 project-web = "https://github.com/makeevrserg/gradle-plugin"
 project-version-code = "4"
-project-version-string = "0.5.2"
+project-version-string = "1.0.0-alpha03"
 # Kotlin
 kotlin-version = "1.9.0"
 kotlin-dokka = "1.8.10"
@@ -15,9 +15,9 @@ kotlin-compose = "1.4.0"
 # Shadow
 shadow = "7.1.2"
 # Linter
-lint-detekt = "1.22.0"
-lint-detekt-ruleset-compiler = "0.0.2"
-lint-detekt-ruleset-compose = "0.0.26"
+lint-detekt = "1.23.6"
+lint-detekt-ruleset-compiler = "0.0.4"
+lint-detekt-ruleset-compose = "0.3.20"
 [libraries]
 # Dokka
 dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "kotlin-dokka" }

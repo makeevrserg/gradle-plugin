@@ -4,15 +4,16 @@ import com.android.build.gradle.AbstractAppExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import ru.astrainteractive.gradleplugin.util.SecretProperty.Companion.secretProperty
+import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseSecretProperty
+import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.stringOrEmpty
 
 class ApkSigningPlugin : Plugin<Project> {
     private val Project.keyPassword: String
-        get() = runCatching { secretProperty(KEY_PASSWORD_PATH).string }.getOrNull() ?: ""
+        get() = baseSecretProperty(KEY_PASSWORD_PATH).stringOrEmpty
     private val Project.keyAlias: String
-        get() = runCatching { secretProperty(KEY_ALIAS_PATH).string }.getOrNull() ?: ""
+        get() = baseSecretProperty(KEY_ALIAS_PATH).stringOrEmpty
     private val Project.storePassword: String
-        get() = runCatching { secretProperty(STORE_PASSWORD_PATH).string }.getOrNull() ?: ""
+        get() = baseSecretProperty(STORE_PASSWORD_PATH).stringOrEmpty
 
     override fun apply(target: Project) {
         target.configure<AbstractAppExtension> {

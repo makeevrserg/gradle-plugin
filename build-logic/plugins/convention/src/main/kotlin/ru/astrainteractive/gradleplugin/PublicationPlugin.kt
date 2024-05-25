@@ -14,6 +14,7 @@ import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt
 
 class PublicationPlugin : Plugin<Project> {
 
+    @Suppress("LongMethod")
     override fun apply(target: Project) {
         val publishInfo = runCatching {
             target.requirePublishInfo

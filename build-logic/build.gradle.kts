@@ -54,6 +54,8 @@ subprojects {
     }
 
     project.configure<PublishingExtension> {
+        val localProperties = project.rootProject.file("local.properties")
+        if (!localProperties.exists()) return@configure
         repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
             name = "OSSRH"
             credentials {

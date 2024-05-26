@@ -14,7 +14,7 @@ fun Project.setupSpigotShadow(
 ) {
     if (!destination.exists()) destination.mkdirs()
 
-    apply(plugin = "com.github.johnrengelman.shadow")
+    apply(plugin = "io.github.goooler.shadow")
 
     val projectInfo = requireProjectInfo
 

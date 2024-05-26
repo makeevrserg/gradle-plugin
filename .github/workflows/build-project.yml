@@ -5,6 +5,15 @@ jobs:
   build:
     name: Build project with gradle
     runs-on: ubuntu-latest
+    env:
+      SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+    strategy:
+      matrix:
+        target: [ "convention", "minecraft", "android" ]
     steps:
       - name: Checkout Git repo
         uses: actions/checkout@v4
@@ -15,7 +24,3 @@ jobs:
           java-version: '11'
       - name: Give gradle permission
         run: chmod +x gradlew
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: :build-logic:build --stacktrace

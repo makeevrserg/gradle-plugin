@@ -15,7 +15,15 @@ jobs:
           java-version: '11'
       - name: Give gradle permission
         run: chmod +x gradlew
-      - name: Build with Gradle
+      - name: Publish convention
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: :build-logic:build --stacktrace
+          arguments: :build-logic:plugins:convention:publishToMavenLocal --stacktrace
+      - name: Publish minecraft
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: :build-logic:plugins:minecraft:publishToMavenLocal --stacktrace
+      - name: Publish android
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: :build-logic:plugins:android:publishToMavenLocal --stacktrace

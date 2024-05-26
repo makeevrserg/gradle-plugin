@@ -17,7 +17,7 @@ plugins {
 apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
 
 fun getSecretProperty(property: String): String {
-    val property = "makeevrserg.$property"
+    val namedProperty = "makeevrserg.$property"
     // try to get system ci property
     System.getenv(property)?.let { return it }
     // if not ci getting from local.properties
@@ -27,7 +27,7 @@ fun getSecretProperty(property: String): String {
         val inputStream: InputStream = localProperties.inputStream()
         load(inputStream)
     }
-    return properties.getProperty(property) ?: throw GradleException("Required property $property not defined!")
+    return properties.getProperty(namedProperty) ?: throw GradleException("Required property $namedProperty not defined!")
 }
 
 val klibs = libs

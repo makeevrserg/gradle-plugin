@@ -6,6 +6,7 @@ on:
       - 'master'
       - 'prerelease/*'
 
+
 # Concurrency strategy:
 #   github.workflow: distinguish this workflow from others
 #   github.event_name: distinguish `push` event from `pull_request` event
@@ -31,3 +32,9 @@ jobs:
     name: Build project
     needs: [ gradle_validation, detekt_validation ]
     uses: ./.github/workflows/build-project.yml
+    with:
+      SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}

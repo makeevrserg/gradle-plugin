@@ -27,7 +27,9 @@ fun getSecretProperty(property: String): String {
         val inputStream: InputStream = localProperties.inputStream()
         load(inputStream)
     }
-    return properties.getProperty(namedProperty) ?: throw GradleException("Required property $namedProperty not defined!")
+    return properties.getProperty(namedProperty) ?: throw GradleException(
+        "Required property $namedProperty not defined!"
+    )
 }
 
 val klibs = libs

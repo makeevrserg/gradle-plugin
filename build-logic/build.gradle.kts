@@ -1,4 +1,3 @@
-
 import java.io.InputStream
 import java.util.Properties
 
@@ -17,9 +16,10 @@ plugins {
 apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
 
 fun getSecretProperty(property: String): String {
-    val namedProperty = "makeevrserg.$property"
     // try to get system ci property
-    System.getenv(property)?.let { return it }
+    System.getenv(property)
+        ?.let { value -> return value }
+        ?: run { logger.error("CI Doesn't have $property property, getting from local.properties") }
     // if not ci getting from local.properties
     val properties = Properties().apply {
         val localProperties = project.rootProject.file("local.properties")
@@ -27,15 +27,14 @@ fun getSecretProperty(property: String): String {
         val inputStream: InputStream = localProperties.inputStream()
         load(inputStream)
     }
-    return properties.getProperty(namedProperty) ?: throw GradleException(
-        "Required property $namedProperty not defined!"
-    )
+    val namedProperty = "makeevrserg.$property"
+    return properties.getProperty(namedProperty)
+        ?: throw GradleException("Required property $namedProperty not defined!")
 }
 
 val klibs = libs
 
 subprojects {
-
     val project = this
     val moduleName = project.name
 

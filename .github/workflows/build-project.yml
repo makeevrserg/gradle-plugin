@@ -5,6 +5,9 @@ jobs:
   build:
     name: Build project with gradle
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [ "convention", "minecraft", "android" ]
     steps:
       - name: Checkout Git repo
         uses: actions/checkout@v4
@@ -15,15 +18,7 @@ jobs:
           java-version: '11'
       - name: Give gradle permission
         run: chmod +x gradlew
-      - name: Publish convention
+      - name: Publish ${{ matrix.target }}
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: :build-logic:plugins:convention:publishToMavenLocal --stacktrace
-      - name: Publish minecraft
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: :build-logic:plugins:minecraft:publishToMavenLocal --stacktrace
-      - name: Publish android
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: :build-logic:plugins:android:publishToMavenLocal --stacktrace
+          arguments: :build-logic:plugins:${{ matrix.target }}:publishToMavenLocal --stacktrace

@@ -1,17 +1,6 @@
 name: "detekt-validation"
 on:
   workflow_call:
-    secrets:
-      SIGNING_KEY_ID:
-        required: true
-      SIGNING_PASSWORD:
-        required: true
-      OSSRH_USERNAME:
-        required: true
-      OSSRH_PASSWORD:
-        required: true
-      SIGNING_KEY:
-        required: true
 jobs:
   build:
     name: Build project with gradle
@@ -35,7 +24,3 @@ jobs:
           java-version: '11'
       - name: Give gradle permission
         run: chmod +x gradlew
-      - name: Publish ${{ matrix.target }}
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: :build-logic:plugins:${{ matrix.target }}:publishToMavenLocal --stacktrace

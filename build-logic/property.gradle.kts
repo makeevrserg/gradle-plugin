@@ -25,7 +25,7 @@ class SecretProperty(
     private fun findEnvValue(): String? {
         val envValue = System.getenv(envProperty)
         if (envValue == null) {
-            project.logger.error("Enviroment $envProperty property, getting from local.properties")
+            project.logger.error("Enviroment $envProperty property missing, getting from local.properties")
         } else {
             project.logger.error("Got $envProperty property from enviroment")
         }
@@ -35,13 +35,12 @@ class SecretProperty(
     private fun requireLocalPropertyValue(): String {
         val properties = Properties().apply {
             val localProperties = project.rootProject.file("local.properties")
-            if (!localProperties.exists()) throw GradleException("No local.properties file found")
+            if (!localProperties.exists()) return "EMPTY_PROPERTY_VALUE"
             val inputStream: InputStream = localProperties.inputStream()
             load(inputStream)
         }
         project.logger.info("Got $property from local properties")
-        return properties.getProperty(gradleProperty)
-            ?: throw GradleException("Required property $gradleProperty not defined!")
+        return properties.getProperty(gradleProperty) ?: "EMPTY_PROPERTY_VALUE"
     }
 
     override val value: String

@@ -23,8 +23,8 @@ class SecretProperty(
     private val gradleProperty = "makeevrserg.$property"
 
     private fun findEnvValue(): String? {
-        val envValue = System.getenv(envProperty)
-        if (envValue == null) {
+        val envValue = System.getenv(envProperty)?.toString()
+        if (envValue.isNullOrEmpty()) {
             project.logger.error("Enviroment $envProperty property missing, getting from local.properties")
         } else {
             project.logger.error("Got $envProperty property from enviroment")

@@ -77,5 +77,12 @@ gradlePlugin {
             description = "Default pulbication plugin"
             tags.set(listOf("klibs"))
         }
+        create("publication.kmp-signing") {
+            id = "$group.$name"
+            implementationClass = "$group.SigningPublicationPlugin"
+            displayName = "KLibs publication signing plugin"
+            description = "Default pulbication signing plugin"
+            tags.set(listOf("klibs"))
+        }
     }
 }

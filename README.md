@@ -25,6 +25,7 @@ klibs-gradle-dokka-module = { id = "ru.astrainteractive.gradleplugin.dokka.modul
 klibs-gradle-java-core = { id = "ru.astrainteractive.gradleplugin.java.core", version.ref = "klibs-gradleplugin" }
 klibs-gradle-stub-javadoc = { id = "ru.astrainteractive.gradleplugin.stub.javadoc", version.ref = "klibs-gradleplugin" }
 klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
+klibs-gradle-kmp-signing = { id = "ru.astrainteractive.gradleplugin.kmp-signing", version.ref = "klibs-gradleplugin" }
 klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.root.info", version.ref = "klibs-gradleplugin" }
 # klibs - android
 klibs-gradle-android-core = { id = "ru.astrainteractive.gradleplugin.android.core", version.ref = "klibs-gradleplugin" }

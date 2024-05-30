@@ -79,13 +79,17 @@ subprojects {
             }
         }
 
-        project.configure<SigningExtension> {
-            val signingKey = requireProperty("secret.signingKey")
-            val signingKeyId = requireProperty("secret.signingKeyId")
-            val signingPassword = requireProperty("secret.signingPassword")
-            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-            sign(publications)
+        project.afterEvaluate {
+            project.configure<SigningExtension> {
+                val signingKey = requireProperty("secret.signingKey")
+                val signingKeyId = requireProperty("secret.signingKeyId")
+                val signingPassword = requireProperty("secret.signingPassword")
+                useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+                sign(publications)
+                sign(project.extensions.getByType<PublishingExtension>().publications)
+            }
         }
+
         val signingTasks = project.tasks.withType<Sign>()
         project.tasks.withType<AbstractPublishToMaven>().configureEach {
             dependsOn(signingTasks)

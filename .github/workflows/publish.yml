@@ -33,7 +33,7 @@ jobs:
       - name: Run publish
         uses: gradle/gradle-build-action@v3
         with:
-        run: :build-logic:plugins:${{ matrix.target }}:publish
+          arguments: :build-logic:plugins:${{ matrix.target }}:publish
   release:
     needs: [ publish ]
     name: Create release

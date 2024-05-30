@@ -16,65 +16,79 @@ dependencies {
     implementation(libs.dokka.base)
 }
 
+fun requireProperty(name: String): String {
+    return extra.get(name)
+        ?.toString()
+        ?: throw GradleException("Not found $name extension")
+}
+
 gradlePlugin {
-    website.set(libs.versions.project.web.get())
-    vcsUrl.set(libs.versions.project.web.get())
-    description = libs.versions.project.description.get()
+    website.set(requireProperty("project.web"))
+    vcsUrl.set(requireProperty("project.web"))
+    description = requireProperty("project.description")
+    val group = requireProperty("project.group")
     plugins {
         create("detekt") {
-            id = "${libs.versions.project.group.get()}.detekt"
-            implementationClass = "${libs.versions.project.group.get()}.detekt.DefaultDetektPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.detekt.DefaultDetektPlugin"
             displayName = "KLibs detekt plugin"
             description = "Default setup for detekt plugin"
             tags.set(listOf("klibs"))
         }
         create("detekt.compose") {
-            id = "${libs.versions.project.group.get()}.detekt.compose"
-            implementationClass = "${libs.versions.project.group.get()}.detekt.ComposeDetektPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.detekt.ComposeDetektPlugin"
             displayName = "KLibs compose-detekt plugin"
             description = "Setup for detekt compose integration"
             tags.set(listOf("klibs"))
         }
         create("dokka.module") {
-            id = "${libs.versions.project.group.get()}.dokka.module"
-            implementationClass = "${libs.versions.project.group.get()}.DokkaModulePlugin"
+            id = "$group.$name"
+            implementationClass = "$group.DokkaModulePlugin"
             displayName = "KLibs dokka for module configuration"
             description = "Dokka generation for project module"
             tags.set(listOf("klibs"))
         }
         create("dokka.root") {
-            id = "${libs.versions.project.group.get()}.dokka.root"
-            implementationClass = "${libs.versions.project.group.get()}.DokkaRootPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.DokkaRootPlugin"
             displayName = "KLibs Dokka for root project"
             description = "Dokka generator for root project"
             tags.set(listOf("klibs"))
         }
         create("java.core") {
-            id = "${libs.versions.project.group.get()}.java.core"
-            implementationClass = "${libs.versions.project.group.get()}.JvmSourceTargetPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.JvmSourceTargetPlugin"
             displayName = "KLibs java configuration"
             description = "Default java configuration"
             tags.set(listOf("klibs"))
         }
         create("stub.javadoc") {
-            id = "${libs.versions.project.group.get()}.stub.javadoc"
-            implementationClass = "${libs.versions.project.group.get()}.StubJavaDocPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.StubJavaDocPlugin"
             displayName = "KLibs stub javadoc plugin"
             description = "Generates stub javadoc"
             tags.set(listOf("klibs"))
         }
         create("root.info") {
-            id = "${libs.versions.project.group.get()}.root.info"
-            implementationClass = "${libs.versions.project.group.get()}.InfoRootPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.InfoRootPlugin"
             displayName = "KLibs root info plugin"
             description = "Generates version, description for module"
             tags.set(listOf("klibs"))
         }
         create("publication") {
-            id = "${libs.versions.project.group.get()}.publication"
-            implementationClass = "${libs.versions.project.group.get()}.PublicationPlugin"
+            id = "$group.$name"
+            implementationClass = "$group.PublicationPlugin"
             displayName = "KLibs publication plugin"
             description = "Default pulbication plugin"
+            tags.set(listOf("klibs"))
+        }
+        create("publication.kmp-signing") {
+            id = "$group.$name"
+            implementationClass = "$group.SigningPublicationPlugin"
+            displayName = "KLibs publication signing plugin"
+            description = "Default pulbication signing plugin"
             tags.set(listOf("klibs"))
         }
     }

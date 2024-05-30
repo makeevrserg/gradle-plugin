@@ -19,22 +19,28 @@ dependencies {
     implementation(libs.gradle.shadow)
     implementation(projects.buildLogic.plugins.convention)
 }
+fun requireProperty(name: String): String {
+    return extra.get(name)
+        ?.toString()
+        ?: throw GradleException("Not found $name extension")
+}
 
 gradlePlugin {
-    website.set(libs.versions.project.web.get())
-    vcsUrl.set(libs.versions.project.web.get())
-    description = libs.versions.project.description.get()
+    website.set(requireProperty("project.web"))
+    vcsUrl.set(requireProperty("project.web"))
+    description = requireProperty("project.description")
+    val group = requireProperty("project.group")
     plugins {
         create("minecraft.empty") {
-            id = "${libs.versions.project.group.get()}.minecraft.empty"
-            implementationClass = "${libs.versions.project.group.get()}.EmptyMinecraftPlugin"
+            id = "$group.minecraft.empty"
+            implementationClass = "$group.EmptyMinecraftPlugin"
             displayName = "KLibs minecraft empty stub plugin"
             description = "Empty minecraft plugin"
             tags.set(listOf("klibs"))
         }
         create("minecraft.multiplatform") {
-            id = "${libs.versions.project.group.get()}.minecraft.multiplatform"
-            implementationClass = "${libs.versions.project.group.get()}.multiplatform.MinecraftMultiplatformPlugin"
+            id = "$group.minecraft.multiplatform"
+            implementationClass = "$group.multiplatform.MinecraftMultiplatformPlugin"
             displayName = "KLibs minecraft multiplatform plugin"
             description = "Minecraft multiplatform plugin"
             tags.set(listOf("klibs"))

@@ -1,54 +1,30 @@
-import java.io.InputStream
-import java.util.Properties
-
-buildscript {
-    dependencies {
-        classpath("ru.astrainteractive.gradleplugin:convention:1.1.2")
-    }
-}
-
 plugins {
     `kotlin-dsl`
     id("com.gradle.plugin-publish") version "1.2.1" apply false
     alias(libs.plugins.gradle.shadow) apply false
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.1.2" apply true
 }
 
 apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
+apply(from = "./property.gradle.kts")
 
-fun getSecretProperty(property: String): String {
-    // try to get system ci property
-    System.getenv(property)
-        ?.let { value ->
-            logger.error("Got $property property from enviroment")
-            return value
-        } ?: run { logger.error("Enviroment $property property, getting from local.properties") }
-    // if not ci getting from local.properties
-    val properties = Properties().apply {
-        val localProperties = project.rootProject.file("local.properties")
-        if (!localProperties.exists()) throw GradleException("No local.properties file found")
-        val inputStream: InputStream = localProperties.inputStream()
-        load(inputStream)
-    }
-    logger.info("Got $property from local properties")
-    val namedProperty = "makeevrserg.$property"
-    return properties.getProperty(namedProperty)
-        ?: throw GradleException("Required property $namedProperty not defined!")
+fun requireProperty(name: String): String {
+    return extra.get(name)
+        ?.toString()
+        ?: throw GradleException("Not found $name extension")
 }
-
-val klibs = libs
 
 subprojects {
     val project = this
     val moduleName = project.name
-
     project.apply(plugin = "org.gradle.maven-publish")
     project.apply(plugin = "signing")
     project.apply(plugin = "java-gradle-plugin")
     project.apply(plugin = "com.gradle.plugin-publish")
 
-    project.group = klibs.versions.project.group.get()
-    project.version = klibs.versions.project.version.string.get()
-    project.description = klibs.versions.project.description.get()
+    project.group = requireProperty("project.group")
+    project.version = requireProperty("project.version")
+    project.description = requireProperty("project.description")
 
     project.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -63,8 +39,8 @@ subprojects {
         repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
             name = "OSSRH"
             credentials {
-                username = getSecretProperty("OSSRH_USERNAME")
-                password = getSecretProperty("OSSRH_PASSWORD")
+                username = requireProperty("secret.ossrhUsername")
+                password = requireProperty("secret.osshPassword")
             }
         }
 
@@ -74,18 +50,18 @@ subprojects {
 
         publications.withType<MavenPublication> {
             pom {
-                name.set(klibs.versions.project.name.get())
-                description.set(klibs.versions.project.description.get())
-                url.set(klibs.versions.project.web.get())
+                name.set(requireProperty("project.name"))
+                description.set(requireProperty("project.description"))
+                url.set(requireProperty("project.web"))
 
-                groupId = klibs.versions.project.group.get()
+                groupId = requireProperty("project.group")
                 artifactId = moduleName
 
                 licenses {
                     license {
                         name.set("Apache-2.0")
                         distribution.set("repo")
-                        url.set("${klibs.versions.project.web.get()}/blob/master/LICENSE.md")
+                        url.set("${requireProperty("project.web")}/blob/master/LICENSE.md")
                     }
                 }
                 developers {
@@ -98,15 +74,15 @@ subprojects {
                 scm {
                     connection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
                     developerConnection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
-                    url.set(klibs.versions.project.web.get())
+                    url.set(requireProperty("project.web"))
                 }
             }
         }
 
         project.configure<SigningExtension> {
-            val signingKey = getSecretProperty("SIGNING_KEY")
-            val signingKeyId = getSecretProperty("SIGNING_KEY_ID")
-            val signingPassword = getSecretProperty("SIGNING_PASSWORD")
+            val signingKey = requireProperty("secret.signingKey")
+            val signingKeyId = requireProperty("secret.signingKeyId")
+            val signingPassword = requireProperty("secret.signingPassword")
             useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
             sign(publications)
         }

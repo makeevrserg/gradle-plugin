@@ -19,43 +19,50 @@ dependencies {
     implementation(projects.buildLogic.plugins.convention)
 }
 
+fun requireProperty(name: String): String {
+    return extra.get(name)
+        ?.toString()
+        ?: throw GradleException("Not found $name extension")
+}
+
 gradlePlugin {
-    website.set(libs.versions.project.web.get())
-    vcsUrl.set(libs.versions.project.web.get())
-    description = libs.versions.project.description.get()
+    website.set(requireProperty("project.web"))
+    vcsUrl.set(requireProperty("project.web"))
+    description = requireProperty("project.description")
+    val group = requireProperty("project.group")
     plugins {
         create("android.core") {
-            id = "${libs.versions.project.group.get()}.android.core"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidSdkPlugin"
+            id = "$group.android.core"
+            implementationClass = "$group.AndroidSdkPlugin"
             displayName = "KLibs core android plugin"
             description = "Plugin provides basic android configuration"
             tags.set(listOf("klibs"))
         }
         create("android.compose") {
-            id = "${libs.versions.project.group.get()}.android.compose"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidComposePlugin"
+            id = "$group.android.compose"
+            implementationClass = "$group.AndroidComposePlugin"
             displayName = "KLibs core android-compose plugin"
             description = "Plugin provides basic android compose setup"
             tags.set(listOf("klibs"))
         }
         create("android.apk.sign") {
-            id = "${libs.versions.project.group.get()}.android.apk.sign"
-            implementationClass = "${libs.versions.project.group.get()}.ApkSigningPlugin"
+            id = "$group.android.apk.sign"
+            implementationClass = "$group.ApkSigningPlugin"
             displayName = "KLibs android apk sign plugin"
             description = "Plugin provides basic android sign"
 
             tags.set(listOf("klibs"))
         }
         create("android.apk.name") {
-            id = "${libs.versions.project.group.get()}.android.apk.name"
-            implementationClass = "${libs.versions.project.group.get()}.ApkNamePlugin"
+            id = "$group.android.apk.name"
+            implementationClass = "$group.ApkNamePlugin"
             displayName = "KLibs android apk name plugin"
             description = "Plugin provides basic android naming setup"
             tags.set(listOf("klibs"))
         }
         create("android.publication") {
-            id = "${libs.versions.project.group.get()}.android.publication"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidPublicationPlugin"
+            id = "$group.android.publication"
+            implementationClass = "$group.AndroidPublicationPlugin"
             displayName = "KLibs android publication plugin"
             description = "Plugin provides android publication"
             tags.set(listOf("klibs"))

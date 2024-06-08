@@ -1,9 +1,7 @@
 package ru.astrainteractive.gradleplugin
 
-import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.findByType
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.hierarchyGroup
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
@@ -21,12 +19,6 @@ class InfoRootPlugin : Plugin<Project> {
         }
         if (target.description.isNullOrBlank()) {
             target.description = projectInfo.description
-        }
-        target.afterEvaluate {
-            val baseExtension = extensions.findByType<BaseExtension>()
-            if (baseExtension?.namespace.isNullOrBlank()) {
-                baseExtension?.namespace = target.hierarchyGroup
-            }
         }
     }
 }

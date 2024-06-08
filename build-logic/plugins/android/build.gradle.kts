@@ -31,6 +31,13 @@ gradlePlugin {
             description = "Plugin provides basic android configuration"
             tags.set(listOf("klibs"))
         }
+        create("android.namespaces") {
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.AndroidNamespacePlugin"
+            displayName = "Generate android namespace"
+            description = "Plugin will automatically create namespace for android extension based ot folder path"
+            tags.set(listOf("klibs"))
+        }
         create("android.compose") {
             id = "${libs.versions.project.group.get()}.android.compose"
             implementationClass = "${libs.versions.project.group.get()}.AndroidComposePlugin"

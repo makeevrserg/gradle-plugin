@@ -48,6 +48,25 @@ object ModelPropertyValueExt {
     // Developers
     val PropertyValue.developers: Result<List<Developer>>
         get() = value.mapCatching(DeveloperMapper::parseDevelopers)
+
     val PropertyValue.requireDevelopers: List<Developer>
         get() = developers.getOrThrow()
+
+    /**
+     * This value will automatically create group based on folders names
+     *
+     * e.x :components:core:resource -> (com.example).components.core.resource
+     */
+    val Project.hierarchyGroup: String
+        get() {
+            val currentParent = parent
+            val group = when {
+                project == rootProject -> requireProjectInfo.group
+                currentParent == null -> "${requireProjectInfo.group}.$name"
+                else -> "${currentParent.hierarchyGroup}.$name"
+            }
+            return group
+                .replace("-", ".")
+                .lowercase()
+        }
 }

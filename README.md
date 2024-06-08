@@ -33,6 +33,7 @@ klibs-gradle-android-compose = { id = "ru.astrainteractive.gradleplugin.android.
 klibs-gradle-android-apk-sign = { id = "ru.astrainteractive.gradleplugin.android.apk.sign", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-apk-name = { id = "ru.astrainteractive.gradleplugin.android.apk.name", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-publication = { id = "ru.astrainteractive.gradleplugin.android.publication", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-namespace = { id = "ru.astrainteractive.gradleplugin.android.namespace", version.ref = "klibs-gradleplugin" }
 # klibs - minecraft
 klibs-gradle-minecraft-empty = { id = "ru.astrainteractive.gradleplugin.minecraft.empty", version.ref = "klibs-gradleplugin" }
 klibs-gradle-minecraft-multiplatform = { id = "ru.astrainteractive.gradleplugin.minecraft.multiplatform", version.ref = "klibs-gradleplugin" }
@@ -58,6 +59,7 @@ plugins {
     alias(libs.plugins.klibs.gradle.android.apk.sign) apply false
     alias(libs.plugins.klibs.gradle.android.apk.name) apply false
     alias(libs.plugins.klibs.gradle.android.publication) apply false
+    alias(libs.plugins.klibs.gradle.android.namespace) apply false
     // klibs - minecraft
     alias(libs.plugins.klibs.gradle.minecraft.empty) apply false
     alias(libs.plugins.klibs.gradle.minecraft.multiplatform) apply false
@@ -280,6 +282,16 @@ STORE_PASSWORD=MY_STORE_PASSWORD
 plugins {
     // This plugin will take release sources for publish
     id("ru.astrainteractive.gradleplugin.android.publication")
+
+}
+```
+
+### Android namespace plugin
+
+```kotlin
+plugins {
+    // This plugin will auto-generate namespace
+    id("ru.astrainteractive.gradleplugin.android.namespace")
 
 }
 ```

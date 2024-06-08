@@ -8,6 +8,7 @@ kotlin {
 }
 
 dependencies {
+    compileOnly(libs.android.toolsBuild)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.lint.detekt.gradle)

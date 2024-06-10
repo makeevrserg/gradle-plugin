@@ -3,7 +3,7 @@ import java.util.Properties
 
 buildscript {
     dependencies {
-        classpath("ru.astrainteractive.gradleplugin:convention:1.1.2")
+        classpath("ru.astrainteractive.gradleplugin:convention:1.3.1")
     }
 }
 

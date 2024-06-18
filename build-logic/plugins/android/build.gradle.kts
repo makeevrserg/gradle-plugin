@@ -31,7 +31,7 @@ gradlePlugin {
             description = "Plugin provides basic android configuration"
             tags.set(listOf("klibs"))
         }
-        create("android.namespaces") {
+        create("android.namespace") {
             id = "${libs.versions.project.group.get()}.$name"
             implementationClass = "${libs.versions.project.group.get()}.AndroidNamespacePlugin"
             displayName = "Generate android namespace"

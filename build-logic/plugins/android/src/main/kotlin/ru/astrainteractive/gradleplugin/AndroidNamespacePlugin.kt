@@ -8,11 +8,9 @@ import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt
 
 class AndroidNamespacePlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        target.afterEvaluate {
-            val baseExtension = extensions.findByType<BaseExtension>()
-            if (baseExtension?.namespace.isNullOrBlank()) {
-                baseExtension?.namespace = target.hierarchyGroup
-            }
+        val baseExtension = target.extensions.findByType<BaseExtension>()
+        if (baseExtension?.namespace.isNullOrBlank()) {
+            baseExtension?.namespace = target.hierarchyGroup
         }
     }
 }

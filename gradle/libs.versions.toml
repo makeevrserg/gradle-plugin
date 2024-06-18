@@ -9,9 +9,9 @@ project-version-string = "1.3.4"
 # Kotlin
 kotlin-version = "2.0.0" # https://github.com/JetBrains/kotlin
 kotlin-dokka = "1.9.20" # https://github.com/Kotlin/dokka
-kotlin-android-application = "8.4.1" # https://developer.android.com/build/releases/gradle-plugin
+kotlin-android-application = "8.5.0" # https://developer.android.com/build/releases/gradle-plugin
 # Compose
-kotlin-compose = "1.6.10" # https://github.com/JetBrains/compose-multiplatform
+kotlin-compose = "1.6.11" # https://github.com/JetBrains/compose-multiplatform
 # Shadow
 shadow = "8.1.7" # https://github.com/johnrengelman/shadow
 # Linter

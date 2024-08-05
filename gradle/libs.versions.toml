@@ -4,16 +4,16 @@ project-name = "GradlePlugin"
 project-description = "GradlePlugin for my kotlin projects"
 project-group = "ru.astrainteractive.gradleplugin"
 project-web = "https://github.com/makeevrserg/gradle-plugin"
-project-version-code = "4"
-project-version-string = "1.3.4"
+project-version-code = "5"
+project-version-string = "1.3.5"
 # Kotlin
 kotlin-version = "2.0.0" # https://github.com/JetBrains/kotlin
 kotlin-dokka = "1.9.20" # https://github.com/Kotlin/dokka
-kotlin-android-application = "8.5.0" # https://developer.android.com/build/releases/gradle-plugin
+kotlin-android-application = "8.5.1" # https://developer.android.com/build/releases/gradle-plugin
 # Compose
 kotlin-compose = "1.6.11" # https://github.com/JetBrains/compose-multiplatform
 # Shadow
-shadow = "8.1.7" # https://github.com/johnrengelman/shadow
+shadow = "8.1.8" # https://github.com/johnrengelman/shadow
 # Linter
 lint-detekt = "1.23.6" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compiler = "0.0.4" # https://github.com/detekt/detekt

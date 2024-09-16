@@ -9,7 +9,7 @@ buildscript {
 
 plugins {
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.2.2" apply false
+    id("com.gradle.plugin-publish") version "1.3.0" apply false
     alias(libs.plugins.gradle.shadow) apply false
 }
 

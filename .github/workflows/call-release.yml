@@ -24,11 +24,11 @@ jobs:
     name: "Try publish local"
     runs-on: ubuntu-latest
     env:
-      IGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-      IGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-      SSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      SSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-      IGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 1.11

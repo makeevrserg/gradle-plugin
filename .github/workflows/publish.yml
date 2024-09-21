@@ -2,7 +2,7 @@ name: Build and deploy material mkdocs to gh-pages
 on:
   push:
     branches:
-      - dev
+      - master
   workflow_dispatch:
 jobs:
   check_gradle_files_change:

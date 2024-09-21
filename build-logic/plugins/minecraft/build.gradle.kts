@@ -25,18 +25,18 @@ gradlePlugin {
     vcsUrl.set(libs.versions.project.web.get())
     description = libs.versions.project.description.get()
     plugins {
-        create("minecraft.empty") {
-            id = "${libs.versions.project.group.get()}.minecraft.empty"
-            implementationClass = "${libs.versions.project.group.get()}.EmptyMinecraftPlugin"
-            displayName = "KLibs minecraft empty stub plugin"
-            description = "Empty minecraft plugin"
+        create("minecraft.resource-processor") {
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.processors.plugin.ResourceProcessorPlugin"
+            displayName = "KLibs minecraft resource processor plugin"
+            description = "Minecraft resource processor plugin"
             tags.set(listOf("klibs"))
         }
-        create("minecraft.multiplatform") {
-            id = "${libs.versions.project.group.get()}.minecraft.multiplatform"
-            implementationClass = "${libs.versions.project.group.get()}.multiplatform.MinecraftMultiplatformPlugin"
-            displayName = "KLibs minecraft multiplatform plugin"
-            description = "Minecraft multiplatform plugin"
+        create("minecraft.shadow") {
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.shadow.plugin.ShadowPlugin"
+            displayName = "KLibs minecraft shadow plugin"
+            description = "Minecraft shadow plugin"
             tags.set(listOf("klibs"))
         }
     }

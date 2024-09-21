@@ -1,0 +1,63 @@
+name: Build and deploy material mkdocs to gh-pages
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+jobs:
+  check_gradle_files_change:
+    name: "Check docs files changed"
+    runs-on: ubuntu-latest
+    outputs:
+      DOCS_FILES_CHANGED: ${{ steps.docs_changed.outputs.any_changed }}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          submodules: 'recursive'
+      - name: Check that docs changed
+        id: docs_changed
+        uses: tj-actions/changed-files@40853de9f8ce2d6cfdc73c1b96f14e22ba44aec4 # v45.0.0
+        with:
+          files: |
+            docs/**
+            mkdocs.yml
+  deploy:
+    needs: [ check_gradle_files_change ]
+    if: needs.check_gradle_files_change.outputs.GRADLE_FILES_CHANGED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install mkdocs-material
+      - run: pip install mkdocs-minify-plugin
+      - run: mkdocs gh-deploy --force
+  release:
+    needs: [ publish ]
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # steps.read_version.outputs.value
+      - uses: SebRollen/toml-action@v1.2.0
+        id: read_version
+        with:
+          file: './gradle/libs.versions.toml'
+          field: 'project-version-string'
+      # steps.read_name.outputs.value
+      - uses: SebRollen/toml-action@v1.2.0
+        id: read_name
+        with:
+          file: './gradle/libs.versions.toml'
+          field: 'project-name'
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: ${{ steps.read_version.outputs.value }}
+          name: ${{ steps.read_name.outputs.value }} - ${{ steps.read_version.outputs.value }}
+          draft: false
+          prerelease: false

@@ -28,7 +28,3 @@ jobs:
     name: Check by detekt
     needs: gradle_validation
     uses: ./.github/workflows/detekt-validation.yml
-  build:
-    name: Build project
-    needs: [ gradle_validation, detekt_validation ]
-    uses: ./.github/workflows/build-project.yml

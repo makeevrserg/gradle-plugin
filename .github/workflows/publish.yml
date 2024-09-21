@@ -33,7 +33,31 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install mkdocs-minify-plugin
       - run: mkdocs gh-deploy --force
-
-  gradle_validation:
-    name: Validate gradle wrapper
-    uses: ./.github/workflows/gradle-wrapper-validation.yml
+  release:
+    needs: [ publish ]
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # steps.read_version.outputs.value
+      - uses: SebRollen/toml-action@v1.2.0
+        id: read_version
+        with:
+          file: './gradle/libs.versions.toml'
+          field: 'project-version-string'
+      # steps.read_name.outputs.value
+      - uses: SebRollen/toml-action@v1.2.0
+        id: read_name
+        with:
+          file: './gradle/libs.versions.toml'
+          field: 'project-name'
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: ${{ steps.read_version.outputs.value }}
+          name: ${{ steps.read_name.outputs.value }} - ${{ steps.read_version.outputs.value }}
+          draft: false
+          prerelease: false

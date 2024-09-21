@@ -1,13 +1,13 @@
 package ru.astrainteractive.gradleplugin.shadow.plugin
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import java.io.File
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.named
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import java.io.File
 
 open class ShadowScope(private val project: Project) {
     val requireShadowJarTask: TaskProvider<ShadowJar>

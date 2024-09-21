@@ -1,12 +1,12 @@
 package ru.astrainteractive.gradleplugin.processor.platform
 
-import java.util.Locale
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.named
 import org.gradle.language.jvm.tasks.ProcessResources
 import ru.astrainteractive.gradleplugin.model.Developer
 import ru.astrainteractive.gradleplugin.processor.core.ResourceProcessor
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import java.util.Locale
 
 class VelocityResourceProcessor(
     private val project: Project

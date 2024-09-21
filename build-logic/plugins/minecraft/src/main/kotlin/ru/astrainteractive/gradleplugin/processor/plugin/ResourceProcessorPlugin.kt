@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.processors.plugin
+package ru.astrainteractive.gradleplugin.processor.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

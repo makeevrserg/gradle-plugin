@@ -7,11 +7,6 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.named
-import org.jetbrains.kotlin.gradle.utils.property
-import ru.astrainteractive.gradleplugin.processors.FabricResourceProcessor
-import ru.astrainteractive.gradleplugin.processors.ForgeResourceProcessor
-import ru.astrainteractive.gradleplugin.processors.SpigotResourceProcessor
-import ru.astrainteractive.gradleplugin.processors.VelocityResourceProcessor
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
 open class ShadowScope(private val project: Project) {

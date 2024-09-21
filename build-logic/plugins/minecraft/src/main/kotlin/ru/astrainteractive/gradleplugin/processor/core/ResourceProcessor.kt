@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.processors.core
+package ru.astrainteractive.gradleplugin.processor.core
 
 import org.gradle.language.jvm.tasks.ProcessResources
 

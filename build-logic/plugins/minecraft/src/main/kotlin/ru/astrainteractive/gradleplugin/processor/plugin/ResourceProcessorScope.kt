@@ -1,10 +1,10 @@
-package ru.astrainteractive.gradleplugin.processors.plugin
+package ru.astrainteractive.gradleplugin.processor.plugin
 
 import org.gradle.api.Project
-import ru.astrainteractive.gradleplugin.processors.FabricResourceProcessor
-import ru.astrainteractive.gradleplugin.processors.ForgeResourceProcessor
-import ru.astrainteractive.gradleplugin.processors.SpigotResourceProcessor
-import ru.astrainteractive.gradleplugin.processors.VelocityResourceProcessor
+import ru.astrainteractive.gradleplugin.processor.platform.FabricResourceProcessor
+import ru.astrainteractive.gradleplugin.processor.platform.ForgeResourceProcessor
+import ru.astrainteractive.gradleplugin.processor.platform.SpigotResourceProcessor
+import ru.astrainteractive.gradleplugin.processor.platform.VelocityResourceProcessor
 
 open class ResourceProcessorScope(project: Project) {
     val spigotResourceProcessor: SpigotResourceProcessor = SpigotResourceProcessor(project)

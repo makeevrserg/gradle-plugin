@@ -27,7 +27,7 @@ gradlePlugin {
     plugins {
         create("minecraft.resource-processor") {
             id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.processors.plugin.ResourceProcessorPlugin"
+            implementationClass = "${libs.versions.project.group.get()}.processor.plugin.ResourceProcessorPlugin"
             displayName = "KLibs minecraft resource processor plugin"
             description = "Minecraft resource processor plugin"
             tags.set(listOf("klibs"))

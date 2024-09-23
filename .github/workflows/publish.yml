@@ -11,12 +11,12 @@ jobs:
     outputs:
       DOCS_FILES_CHANGED: ${{ steps.docs_changed.outputs.any_changed }}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: actions/checkout@6d193bf28034eafb982f37bd894289fe649468fc # v4
         with:
           submodules: 'recursive'
       - name: Check that docs changed
         id: docs_changed
-        uses: tj-actions/changed-files@40853de9f8ce2d6cfdc73c1b96f14e22ba44aec4 # v45.0.0
+        uses: tj-actions/changed-files@48d8f15b2aaa3d255ca5af3eba4870f807ce6b3c # v45.0.2
         with:
           files: |
             docs/**
@@ -26,8 +26,8 @@ jobs:
     if: needs.check_gradle_files_change.outputs.GRADLE_FILES_CHANGED == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - run: pip install mkdocs-material

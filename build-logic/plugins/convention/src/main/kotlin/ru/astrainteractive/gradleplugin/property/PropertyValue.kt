@@ -1,6 +1,8 @@
 package ru.astrainteractive.gradleplugin.property
 
 import org.gradle.api.Project
+import ru.astrainteractive.gradleplugin.property.internal.ProjectPropertyValue
+import ru.astrainteractive.gradleplugin.property.internal.SecretPropertyValue
 
 /**
  * This interface will load [String] value from property file

@@ -25,44 +25,44 @@ gradlePlugin {
     description = libs.versions.project.description.get()
     plugins {
         create("android.core") {
-            id = "${libs.versions.project.group.get()}.android.core"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidSdkPlugin"
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidSdkPlugin"
             displayName = "KLibs core android plugin"
             description = "Plugin provides basic android configuration"
             tags.set(listOf("klibs"))
         }
         create("android.namespace") {
             id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidNamespacePlugin"
+            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidNamespacePlugin"
             displayName = "Generate android namespace"
             description = "Plugin will automatically create namespace for android extension based ot folder path"
             tags.set(listOf("klibs"))
         }
         create("android.compose") {
-            id = "${libs.versions.project.group.get()}.android.compose"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidComposePlugin"
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidComposePlugin"
             displayName = "KLibs core android-compose plugin"
             description = "Plugin provides basic android compose setup"
             tags.set(listOf("klibs"))
         }
         create("android.apk.sign") {
-            id = "${libs.versions.project.group.get()}.android.apk.sign"
-            implementationClass = "${libs.versions.project.group.get()}.ApkSigningPlugin"
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.plugin.ApkSigningPlugin"
             displayName = "KLibs android apk sign plugin"
             description = "Plugin provides basic android sign"
 
             tags.set(listOf("klibs"))
         }
         create("android.apk.name") {
-            id = "${libs.versions.project.group.get()}.android.apk.name"
-            implementationClass = "${libs.versions.project.group.get()}.ApkNamePlugin"
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.plugin.ApkNamePlugin"
             displayName = "KLibs android apk name plugin"
             description = "Plugin provides basic android naming setup"
             tags.set(listOf("klibs"))
         }
         create("android.publication") {
-            id = "${libs.versions.project.group.get()}.android.publication"
-            implementationClass = "${libs.versions.project.group.get()}.AndroidPublicationPlugin"
+            id = "${libs.versions.project.group.get()}.$name"
+            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidPublicationPlugin"
             displayName = "KLibs android publication plugin"
             description = "Plugin provides android publication"
             tags.set(listOf("klibs"))

@@ -1,6 +1,7 @@
 package ru.astrainteractive.gradleplugin.processor.platform
 
 import org.gradle.api.Project
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.kotlin.dsl.named
 import org.gradle.language.jvm.tasks.ProcessResources
 import ru.astrainteractive.gradleplugin.model.Developer
@@ -8,7 +9,7 @@ import ru.astrainteractive.gradleplugin.processor.core.ResourceProcessor
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 import java.util.Locale
 
-class VelocityResourceProcessor(
+internal class VelocityResourceProcessor(
     private val project: Project
 ) : ResourceProcessor<VelocityResourceProcessor.Info> {
 
@@ -45,14 +46,17 @@ class VelocityResourceProcessor(
         )
     }
 
-    override fun process(configuration: ProcessResources.() -> Unit) {
-        val processorInfo = getProcessorInfo()
+    override fun process(
+        customProperties: Map<String, String>,
+        configuration: ProcessResources.() -> Unit
+    ) {
         project.tasks.named<ProcessResources>("processResources") {
             filteringCharset = "UTF-8"
-            inputs.property("version", processorInfo.version)
+            duplicatesStrategy = DuplicatesStrategy.WARN
             filesMatching("velocity-plugin.json") {
-                expand(getDefaultProperties())
+                expand(getDefaultProperties().plus(customProperties))
             }
+            configuration.invoke(this)
         }
     }
 }

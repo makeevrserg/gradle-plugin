@@ -9,13 +9,14 @@ import ru.astrainteractive.gradleplugin.property.PropertyValue
 import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseGradleProperty
 import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseSecretProperty
 import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJavaVersion
+import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJvmTarget
 import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.requireString
 import ru.astrainteractive.gradleplugin.property.mapping.DeveloperMapper
 
 object ModelPropertyValueExt {
     val Project.requireJinfo: JInfo
         get() = JInfo(
-            ktarget = baseGradleProperty("java.ktarget").requireJavaVersion,
+            ktarget = baseGradleProperty("java.ktarget").requireJvmTarget,
             jtarget = baseGradleProperty("java.target").requireJavaVersion,
             jsource = baseGradleProperty("java.source").requireJavaVersion
         )

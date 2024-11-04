@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.detekt
+package ru.astrainteractive.gradleplugin.plugin.detekt
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

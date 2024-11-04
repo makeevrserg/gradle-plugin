@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin
+package ru.astrainteractive.gradleplugin.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -6,7 +6,9 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
@@ -27,6 +29,14 @@ class PublicationPlugin : Plugin<Project> {
         with(target.plugins) {
             apply("org.gradle.maven-publish")
             apply("signing")
+        }
+
+        target.plugins.withId("org.gradle.maven-publish") {
+            target.configure<PublishingExtension> {
+                publications.register("mavenJava", MavenPublication::class) {
+                    from(target.components["java"])
+                }
+            }
         }
 
         target.configure<PublishingExtension> {

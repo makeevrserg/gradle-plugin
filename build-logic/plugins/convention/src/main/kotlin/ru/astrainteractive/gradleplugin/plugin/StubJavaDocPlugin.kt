@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin
+package ru.astrainteractive.gradleplugin.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,7 +13,6 @@ import org.gradle.kotlin.dsl.withType
  * @author https://github.com/icerockdev/moko-gradle-plugin
  */
 class StubJavaDocPlugin : Plugin<Project> {
-
     override fun apply(target: Project) {
         with(target.plugins) {
             apply("org.gradle.maven-publish")

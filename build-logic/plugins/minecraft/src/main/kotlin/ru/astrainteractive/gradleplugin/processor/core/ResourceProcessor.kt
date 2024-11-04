@@ -2,7 +2,7 @@ package ru.astrainteractive.gradleplugin.processor.core
 
 import org.gradle.language.jvm.tasks.ProcessResources
 
-interface ResourceProcessor<out T : ResourceProcessor.ProcessorInfo> {
+internal interface ResourceProcessor<out T : ResourceProcessor.ProcessorInfo> {
     interface ProcessorInfo
 
     /**
@@ -20,5 +20,8 @@ interface ResourceProcessor<out T : ResourceProcessor.ProcessorInfo> {
      *
      * The [configuration] will be called after default configuration called
      */
-    fun process(configuration: ProcessResources.() -> Unit = {})
+    fun process(
+        customProperties: Map<String, String> = emptyMap(),
+        configuration: ProcessResources.() -> Unit = {}
+    )
 }

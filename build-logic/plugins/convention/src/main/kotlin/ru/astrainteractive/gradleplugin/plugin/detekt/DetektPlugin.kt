@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.detekt
+package ru.astrainteractive.gradleplugin.plugin.detekt
 
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Plugin
@@ -56,7 +56,7 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
             allRules = true
 
             // Target version of the generated JVM bytecode. It is used for type resolution.
-            jvmTarget = target.requireJinfo.ktarget.majorVersion
+            jvmTarget = target.requireJinfo.jtarget.majorVersion
         }
 
         target.dependencies {

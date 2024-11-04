@@ -10,7 +10,7 @@ plugins {
 
 
 ```kotlin
-setupShadow {
+astraShadowJar {
     // Setup default configuration
     configureDefaults()
     // Change file destination

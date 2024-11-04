@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.create
 class ShadowPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.extensions.create(
-            name = "setupShadow",
+            name = "astraShadowJar",
             type = ShadowScope::class,
             target
         )

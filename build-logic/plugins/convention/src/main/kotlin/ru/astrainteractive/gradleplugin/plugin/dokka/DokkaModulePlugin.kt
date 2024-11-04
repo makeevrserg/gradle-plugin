@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin
+package ru.astrainteractive.gradleplugin.plugin.dokka
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

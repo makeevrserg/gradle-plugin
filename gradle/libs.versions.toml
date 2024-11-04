@@ -4,7 +4,7 @@ project-name = "GradlePlugin"
 project-description = "GradlePlugin for my kotlin projects"
 project-group = "ru.astrainteractive.gradleplugin"
 project-web = "https://github.com/makeevrserg/gradle-plugin"
-project-version-string = "1.4.2"
+project-version-string = "1.5.0-alpha01"
 # Kotlin
 kotlin-version = "2.0.21" # https://github.com/JetBrains/kotlin
 kotlin-dokka = "1.9.20" # https://github.com/Kotlin/dokka

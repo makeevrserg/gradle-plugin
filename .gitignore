@@ -2,13 +2,14 @@
 .secret
 .secrets
 .gradle
-/local.properties
+/build-logic/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+local.properties
 .DS_Store
 /build-logic/build
 /build-logic/plugins/build
@@ -20,7 +21,7 @@
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+build-logic/local.properties
 androidApp/build
 androidApp/libs
 .idea

@@ -1,39 +1,10 @@
 import com.vanniktech.maven.publish.SonatypeHost
-import java.io.InputStream
-import java.util.Properties
-
-buildscript {
-    dependencies {
-        classpath("ru.astrainteractive.gradleplugin:convention:1.4.0")
-    }
-}
 
 plugins {
     `kotlin-dsl`
     id("com.vanniktech.maven.publish") version "0.30.0" apply false
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.4.0" apply true
     alias(libs.plugins.gradle.shadow) apply false
-}
-
-apply(plugin = "ru.astrainteractive.gradleplugin.detekt")
-
-fun findSecretProperty(property: String): Result<String> = runCatching {
-    // try to get system ci property
-    System.getenv(property)
-        ?.let { value ->
-            logger.error("Got $property property from enviroment")
-            return@runCatching value
-        } ?: run { logger.error("Enviroment $property property, getting from local.properties") }
-    // if not ci getting from local.properties
-    val properties = Properties().apply {
-        val localProperties = project.rootProject.file("local.properties")
-        if (!localProperties.exists()) throw GradleException("No local.properties file found")
-        val inputStream: InputStream = localProperties.inputStream()
-        load(inputStream)
-    }
-    logger.info("Got $property from local properties")
-    val namedProperty = "makeevrserg.$property"
-    properties.getProperty(namedProperty)
-        ?: throw GradleException("Required property $namedProperty not defined!")
 }
 
 val klibs = libs
@@ -60,8 +31,6 @@ subprojects {
     }
 
     project.configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
-        val localProperties = project.rootProject.file("local.properties")
-        if (!localProperties.exists()) return@configure
         publishToMavenCentral(
             host = SonatypeHost.CENTRAL_PORTAL,
             automaticRelease = false

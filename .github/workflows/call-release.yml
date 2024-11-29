@@ -1,34 +1,23 @@
 name: "Test publish"
 on:
   workflow_call:
-    secrets:
-      SIGNING_KEY_ID:
-        required: true
-      SIGNING_PASSWORD:
-        required: true
-      OSSRH_USERNAME:
-        required: true
-      OSSRH_PASSWORD:
-        required: true
-      SIGNING_KEY:
-        required: true
 
 jobs:
   publish:
     strategy:
       matrix:
         target:
-          - ":build-logic:plugins:android:publish"
-          - ":build-logic:plugins:convention:publish"
-          - ":build-logic:plugins:minecraft:publish"
+          - ":build-logic:plugins:android:publishAllPublicationsToMavenCentralRepository"
+          - ":build-logic:plugins:convention:publishAllPublicationsToMavenCentralRepository"
+          - ":build-logic:plugins:minecraft:publishAllPublicationsToMavenCentralRepository"
     name: "Try publish local"
     runs-on: ubuntu-latest
     env:
-      SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 1.11

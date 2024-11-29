@@ -1,4 +1,4 @@
-name: Build and deploy material mkdocs to gh-pages
+name: Release and deploy material mkdocs to gh-pages
 on:
   push:
     branches:
@@ -33,3 +33,16 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install mkdocs-minify-plugin
       - run: mkdocs gh-deploy --force
+  gradle_validation:
+    name: Validate gradle wrapper
+    uses: ./.github/workflows/call-gradle-wrapper-validation.yml
+  release:
+    name: Release
+    needs: gradle_validation
+    uses: ./.github/workflows/call-release.yml
+    secrets:
+      ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+      ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+      ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+      ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+      ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}

@@ -1,6 +1,7 @@
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {
@@ -15,6 +16,7 @@ dependencies {
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.dokka.core)
     implementation(libs.dokka.base)
+    implementation("com.vanniktech:gradle-maven-publish-plugin:0.30.0")
 }
 
 gradlePlugin {
@@ -57,13 +59,6 @@ gradlePlugin {
             description = "Default java configuration"
             tags.set(listOf("klibs"))
         }
-        create("stub.javadoc") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.StubJavaDocPlugin"
-            displayName = "KLibs stub javadoc plugin"
-            description = "Generates stub javadoc"
-            tags.set(listOf("klibs"))
-        }
         create("root.info") {
             id = "${libs.versions.project.group.get()}.$name"
             implementationClass = "${libs.versions.project.group.get()}.plugin.ModuleInfoPlugin"
@@ -76,13 +71,6 @@ gradlePlugin {
             implementationClass = "${libs.versions.project.group.get()}.plugin.PublicationPlugin"
             displayName = "KLibs publication plugin"
             description = "Default pulbication plugin"
-            tags.set(listOf("klibs"))
-        }
-        create("publication.kmp-signing") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.SigningPublicationPlugin"
-            displayName = "KLibs publication signing plugin"
-            description = "Default pulbication signing plugin"
             tags.set(listOf("klibs"))
         }
     }

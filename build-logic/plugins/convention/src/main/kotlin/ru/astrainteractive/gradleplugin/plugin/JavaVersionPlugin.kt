@@ -16,10 +16,10 @@ class JavaVersionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val jinfo = target.requireJinfo
         target.configure<JavaPluginExtension> {
-            kotlin.runCatching {
-                withSourcesJar()
-                withJavadocJar()
-            }
+//            kotlin.runCatching {
+//                withSourcesJar()
+//                withJavadocJar()
+//            }
             sourceCompatibility = jinfo.jsource
             targetCompatibility = jinfo.jtarget
         }

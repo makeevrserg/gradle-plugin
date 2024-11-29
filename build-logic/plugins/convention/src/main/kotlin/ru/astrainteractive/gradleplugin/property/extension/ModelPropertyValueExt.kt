@@ -7,7 +7,6 @@ import ru.astrainteractive.gradleplugin.model.ProjectInfo
 import ru.astrainteractive.gradleplugin.model.PublishInfo
 import ru.astrainteractive.gradleplugin.property.PropertyValue
 import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseGradleProperty
-import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseSecretProperty
 import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJavaVersion
 import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJvmTarget
 import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.requireString
@@ -39,11 +38,6 @@ object ModelPropertyValueExt {
             gitHubName = baseGradleProperty("publish.repo.name").requireString,
             license = baseGradleProperty("publish.license").requireString,
             publishGroupId = baseGradleProperty("publish.groupId").requireString,
-            ossrhUsername = baseSecretProperty("OSSRH_USERNAME").requireString,
-            ossrhPassword = baseSecretProperty("OSSRH_PASSWORD").requireString,
-            signingKeyId = baseSecretProperty("SIGNING_KEY_ID").requireString,
-            signingPassword = baseSecretProperty("SIGNING_PASSWORD").requireString,
-            signingKey = baseSecretProperty("SIGNING_KEY").requireString
         )
 
     // Developers

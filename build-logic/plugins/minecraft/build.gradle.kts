@@ -1,8 +1,7 @@
-
-
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {

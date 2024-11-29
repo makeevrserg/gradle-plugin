@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
 plugins {
     `kotlin-dsl`
@@ -8,6 +9,30 @@ plugins {
 }
 
 val klibs = libs
+
+private fun requireProperty(key: String): String {
+    return rootProject.property(key)
+        ?.toString()
+        ?: error("Could not find property $key")
+}
+
+data class ProjectConfiguration(
+    val projectName: String = requireProperty("project.name"),
+    val projectDescription: String = requireProperty("project.description"),
+    val projectGroup: String = requireProperty("project.group"),
+    val projectWeb: String = requireProperty("project.web"),
+    val projectVersionString: String = requireProperty("project.version.string")
+)
+
+val projectConfiguration = ProjectConfiguration()
+
+allprojects {
+    extensions.add("projectName", projectConfiguration.projectName)
+    extensions.add("projectDescription", projectConfiguration.projectDescription)
+    extensions.add("projectGroup", projectConfiguration.projectGroup)
+    extensions.add("projectWeb", projectConfiguration.projectWeb)
+    extensions.add("projectVersionString", projectConfiguration.projectVersionString)
+}
 
 subprojects {
     val project = this
@@ -21,9 +46,15 @@ subprojects {
     project.apply(plugin = "java-gradle-plugin")
     project.apply(plugin = "com.vanniktech.maven.publish")
 
-    project.group = klibs.versions.project.group.get()
-    project.version = klibs.versions.project.version.string.get()
-    project.description = klibs.versions.project.description.get()
+    afterEvaluate {
+        configure<KotlinTopLevelExtension> {
+            jvmToolchain(11)
+        }
+    }
+
+    project.group = projectConfiguration.projectGroup
+    project.version = projectConfiguration.projectVersionString
+    project.description = projectConfiguration.projectDescription
 
     project.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,20 +69,20 @@ subprojects {
 
         signAllPublications()
         coordinates(
-            groupId = klibs.versions.project.group.get(),
+            groupId = projectConfiguration.projectGroup,
             artifactId = moduleName,
-            version = klibs.versions.project.version.string.get()
+            version = projectConfiguration.projectVersionString
         )
         pom {
-            name.set(klibs.versions.project.name.get())
-            description.set(klibs.versions.project.description.get())
-            url.set(klibs.versions.project.web.get())
+            name.set(projectConfiguration.projectName)
+            description.set(projectConfiguration.projectDescription)
+            url.set(projectConfiguration.projectWeb)
 
             licenses {
                 license {
                     name.set("Apache-2.0")
                     distribution.set("repo")
-                    url.set("${klibs.versions.project.web.get()}/blob/master/LICENSE.md")
+                    url.set("${projectConfiguration.projectWeb}/blob/master/LICENSE.md")
                 }
             }
             developers {
@@ -64,7 +95,7 @@ subprojects {
             scm {
                 connection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
                 developerConnection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
-                url.set(klibs.versions.project.web.get())
+                url.set(projectConfiguration.projectWeb)
             }
         }
     }

@@ -42,25 +42,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # steps.read_version.outputs.value
-      - uses: SebRollen/toml-action@v1.2.0
-        id: read_version
+      # steps.properties.outputs.makeevrserg-project-version-string
+      # steps.properties.outputs.project-name
+      - uses: christian-draeger/read-properties@1.1.1
+        id: properties
         with:
-          file: 'gradle/libs.versions.toml'
-          field: 'project-version-string'
-      # steps.read_name.outputs.value
-      - uses: SebRollen/toml-action@v1.2.0
-        id: read_name
-        with:
-          file: 'gradle/libs.versions.toml'
-          field: 'project-name'
+          path: './gradle.properties'
+          properties: 'project.name project.version.string'
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
-          tag_name: ${{ steps.read_version.outputs.value }}
-          name: ${{ steps.read_name.outputs.value }} - ${{ steps.read_version.outputs.value }}
+          tag_name: ${{ steps.properties.outputs.makeevrserg-project-version-string }}
+          name: ${{ steps.properties.outputs.project-name }} - ${{ steps.properties.outputs.makeevrserg-project-version-string }}
           draft: false
           prerelease: false

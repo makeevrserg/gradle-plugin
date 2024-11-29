@@ -4,10 +4,6 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-kotlin {
-    jvmToolchain(11)
-}
-
 dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
@@ -20,20 +16,20 @@ dependencies {
 }
 
 gradlePlugin {
-    website.set(libs.versions.project.web.get())
-    vcsUrl.set(libs.versions.project.web.get())
-    description = libs.versions.project.description.get()
+    website.set(projectWeb)
+    vcsUrl.set(projectWeb)
+    description = projectDescription
     plugins {
         create("minecraft.resource-processor") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.processor.plugin.ResourceProcessorPlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.processor.plugin.ResourceProcessorPlugin"
             displayName = "KLibs minecraft resource processor plugin"
             description = "Minecraft resource processor plugin"
             tags.set(listOf("klibs"))
         }
         create("minecraft.shadow") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.shadow.plugin.ShadowPlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.shadow.plugin.ShadowPlugin"
             displayName = "KLibs minecraft shadow plugin"
             description = "Minecraft shadow plugin"
             tags.set(listOf("klibs"))

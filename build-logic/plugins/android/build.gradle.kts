@@ -4,10 +4,6 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-kotlin {
-    jvmToolchain(11)
-}
-
 dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.android.toolsBuild)
@@ -21,42 +17,43 @@ dependencies {
 }
 
 gradlePlugin {
-    website.set(libs.versions.project.web.get())
-    vcsUrl.set(libs.versions.project.web.get())
-    description = libs.versions.project.description.get()
+
+    website.set(projectWeb)
+    vcsUrl.set(projectWeb)
+    description = projectDescription
     plugins {
         create("android.core") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidSdkPlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.AndroidSdkPlugin"
             displayName = "KLibs core android plugin"
             description = "Plugin provides basic android configuration"
             tags.set(listOf("klibs"))
         }
         create("android.namespace") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidNamespacePlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.AndroidNamespacePlugin"
             displayName = "Generate android namespace"
             description = "Plugin will automatically create namespace for android extension based ot folder path"
             tags.set(listOf("klibs"))
         }
         create("android.compose") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidComposePlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.AndroidComposePlugin"
             displayName = "KLibs core android-compose plugin"
             description = "Plugin provides basic android compose setup"
             tags.set(listOf("klibs"))
         }
         create("android.apk.sign") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.ApkSigningPlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.ApkSigningPlugin"
             displayName = "KLibs android apk sign plugin"
             description = "Plugin provides basic android sign"
 
             tags.set(listOf("klibs"))
         }
         create("android.apk.name") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.ApkNamePlugin"
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.ApkNamePlugin"
             displayName = "KLibs android apk name plugin"
             description = "Plugin provides basic android naming setup"
             tags.set(listOf("klibs"))

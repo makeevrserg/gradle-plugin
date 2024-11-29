@@ -1,6 +1,7 @@
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {
@@ -58,13 +59,6 @@ gradlePlugin {
             implementationClass = "${libs.versions.project.group.get()}.plugin.ApkNamePlugin"
             displayName = "KLibs android apk name plugin"
             description = "Plugin provides basic android naming setup"
-            tags.set(listOf("klibs"))
-        }
-        create("android.publication") {
-            id = "${libs.versions.project.group.get()}.$name"
-            implementationClass = "${libs.versions.project.group.get()}.plugin.AndroidPublicationPlugin"
-            displayName = "KLibs android publication plugin"
-            description = "Plugin provides android publication"
             tags.set(listOf("klibs"))
         }
     }

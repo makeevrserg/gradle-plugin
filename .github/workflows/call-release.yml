@@ -15,12 +15,6 @@ on:
 
 jobs:
   publish:
-    strategy:
-      matrix:
-        target:
-          - ":build-logic:plugins:android:publishAllPublicationsToMavenCentralRepository"
-          - ":build-logic:plugins:convention:publishAllPublicationsToMavenCentralRepository"
-          - ":build-logic:plugins:minecraft:publishAllPublicationsToMavenCentralRepository"
     name: "Try publish local"
     runs-on: ubuntu-latest
     env:
@@ -41,7 +35,7 @@ jobs:
       - name: Run publish
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: ${{ matrix.target }} --stacktrace
+          arguments: :build-logic:plugins:android:publishAllPublicationsToMavenCentralRepository :build-logic:plugins:convention:publishAllPublicationsToMavenCentralRepository :build-logic:plugins:minecraft:publishAllPublicationsToMavenCentralRepository --stacktrace
   release:
     needs: [ publish ]
     name: Create release
@@ -52,13 +46,13 @@ jobs:
       - uses: SebRollen/toml-action@v1.2.0
         id: read_version
         with:
-          file: './gradle/libs.versions.toml'
+          file: 'gradle/libs.versions.toml'
           field: 'project-version-string'
       # steps.read_name.outputs.value
       - uses: SebRollen/toml-action@v1.2.0
         id: read_name
         with:
-          file: './gradle/libs.versions.toml'
+          file: 'gradle/libs.versions.toml'
           field: 'project-name'
       - name: Create Release
         id: create_release

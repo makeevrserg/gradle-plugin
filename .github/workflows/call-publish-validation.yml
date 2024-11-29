@@ -1,6 +1,17 @@
 name: "Test publish"
 on:
   workflow_call:
+    secrets:
+      ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME:
+        required: true
+      ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD:
+        required: true
+      ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY:
+        required: true
+      ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID:
+        required: true
+      ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD:
+        required: true
 
 jobs:
   tests:

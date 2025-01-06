@@ -16,7 +16,7 @@ jobs:
           submodules: 'recursive'
       - name: Check that docs changed
         id: docs_changed
-        uses: tj-actions/changed-files@c3a1bb2c992d77180ae65be6ae6c166cf40f857c # v45.0.3
+        uses: tj-actions/changed-files@d6e91a2266cdb9d62096cebf1e8546899c6aa18f # v45.0.6
         with:
           files: |
             docs/**

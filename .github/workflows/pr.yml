@@ -28,6 +28,9 @@ jobs:
     name: Check by detekt
     needs: gradle_validation
     uses: ./.github/workflows/call-detekt-validation.yml
+#  tests_validation:
+#    needs: gradle_validation
+#    uses: ./.github/workflows/call-tests-validation.yml
   publish_validation:
     name: Check publish
     needs: gradle_validation

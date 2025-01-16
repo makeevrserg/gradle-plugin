@@ -1,38 +1,10 @@
-name: Release and deploy material mkdocs to gh-pages
+name: Release
 on:
   push:
     branches:
       - master
   workflow_dispatch:
 jobs:
-  check_gradle_files_change:
-    name: "Check docs files changed"
-    runs-on: ubuntu-latest
-    outputs:
-      DOCS_FILES_CHANGED: ${{ steps.docs_changed.outputs.any_changed }}
-    steps:
-      - uses: actions/checkout@6d193bf28034eafb982f37bd894289fe649468fc # v4
-        with:
-          submodules: 'recursive'
-      - name: Check that docs changed
-        id: docs_changed
-        uses: tj-actions/changed-files@c3a1bb2c992d77180ae65be6ae6c166cf40f857c # v45.0.3
-        with:
-          files: |
-            docs/**
-            mkdocs.yml
-  deploy:
-    needs: [ check_gradle_files_change ]
-    if: needs.check_gradle_files_change.outputs.GRADLE_FILES_CHANGED == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - run: pip install mkdocs-material
-      - run: pip install mkdocs-minify-plugin
-      - run: mkdocs gh-deploy --force
   gradle_validation:
     name: Validate gradle wrapper
     uses: ./.github/workflows/call-gradle-wrapper-validation.yml

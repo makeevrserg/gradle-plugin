@@ -51,14 +51,14 @@ jobs:
         id: properties
         with:
           path: './build-logic/gradle.properties'
-          properties: 'makeevrserg.project.name makeevrserg.project.version.string'
+          properties: 'project.name project.version.string'
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
-          tag_name: ${{ steps.properties.outputs.makeevrserg-project-version-string }}
-          name: ${{ steps.properties.outputs.makeevrserg-project-name }} - ${{ steps.properties.outputs.makeevrserg-project-version-string }}
+          tag_name: ${{ steps.properties.outputs.project-version-string }}
+          name: ${{ steps.properties.outputs.project-name }} - ${{ steps.properties.outputs.makeevrserg-project-version-string }}
           draft: false
           prerelease: false

@@ -1,4 +1,4 @@
-name: "Test publish"
+name: "Release version"
 on:
   workflow_call:
     secrets:
@@ -15,7 +15,7 @@ on:
 
 jobs:
   publish:
-    name: "Try publish local"
+    name: "Publish on MavenCentral"
     runs-on: ubuntu-latest
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
@@ -25,21 +25,24 @@ jobs:
       ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 1.11
+      - name: Set up JDK 1.17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
       - name: Give gradle permission
         run: chmod +x gradlew
       - name: Run publish
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: :build-logic:plugins:android:publishAllPublicationsToMavenCentralRepository :build-logic:plugins:convention:publishAllPublicationsToMavenCentralRepository :build-logic:plugins:minecraft:publishAllPublicationsToMavenCentralRepository --stacktrace
+          arguments: :build-logic:plugins:convention:publishAndReleaseToMavenCentral :build-logic:plugins:android:publishAndReleaseToMavenCentral :build-logic:plugins:minecraft:publishAndReleaseToMavenCentral --stacktrace
   release:
     needs: [ publish ]
-    name: Create release
+    name: Create GitHub release
     runs-on: ubuntu-latest
+    # Only for personal repositories
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       # steps.properties.outputs.project-version-string
@@ -47,15 +50,15 @@ jobs:
       - uses: christian-draeger/read-properties@1.1.1
         id: properties
         with:
-          path: './build-logic/gradle.properties'
-          properties: 'project.name project.version.string'
+          path: './gradle.properties'
+          properties: 'makeevrserg.project.name makeevrserg.project.version.string'
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
-          tag_name: ${{ steps.properties.outputs.project-version-string }}
-          name: ${{ steps.properties.outputs.project-name }} - ${{ steps.properties.outputs.project-version-string }}
+          tag_name: ${{ steps.properties.outputs.makeevrserg-project-version-string }}
+          name: ${{ steps.properties.outputs.makeevrserg-project-name }} - ${{ steps.properties.outputs.makeevrserg-project-version-string }}
           draft: false
           prerelease: false

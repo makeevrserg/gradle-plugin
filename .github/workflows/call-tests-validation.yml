@@ -1,9 +1,14 @@
-name: "detekt-validation"
+name: "Tests"
 on:
   workflow_call:
+
 jobs:
-  detekt:
-    name: "Check project by detekt"
+  tests:
+    strategy:
+      matrix:
+        target:
+          - "test"
+    name: "Run tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,7 +19,7 @@ jobs:
           java-version: '17'
       - name: Give gradle permission
         run: chmod +x gradlew
-      - name: detekt
+      - name: Run tests
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: detekt
+          arguments: ${{ matrix.target }} --stacktrace

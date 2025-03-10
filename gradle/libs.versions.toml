@@ -2,13 +2,13 @@
 # Kotlin
 kotlin-version = "2.1.10" # https://github.com/JetBrains/kotlin
 kotlin-dokka = "2.0.0" # https://github.com/Kotlin/dokka
-kotlin-android-application = "8.8.1" # https://developer.android.com/build/releases/gradle-plugin
+kotlin-android-application = "8.9.0" # https://developer.android.com/build/releases/gradle-plugin
 # Compose
 kotlin-compose = "1.8.0+dev1966" # https://github.com/JetBrains/compose-multiplatform
 # Shadow
 shadow = "8.1.8" # https://github.com/johnrengelman/shadow
 # Linter
-lint-detekt = "1.23.7" # https://github.com/detekt/detekt
+lint-detekt = "1.23.8" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compiler = "0.0.4" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compose = "0.3.20" # https://twitter.github.io/compose-rules/detekt/
 [libraries]

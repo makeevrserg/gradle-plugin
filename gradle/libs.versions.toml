@@ -11,7 +11,7 @@ shadow = "9.0.0-beta12" # https://github.com/GradleUp/shadow
 lint-detekt = "1.23.7" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compiler = "0.0.4" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compose = "0.3.20" # https://twitter.github.io/compose-rules/detekt/
-vaniktech = "0.30.0" #https://github.com/vanniktech/gradle-maven-publish-plugin
+vaniktech = "0.31.0" #https://github.com/vanniktech/gradle-maven-publish-plugin
 [libraries]
 # Dokka
 dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "kotlin-dokka" }

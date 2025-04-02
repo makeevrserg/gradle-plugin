@@ -72,7 +72,7 @@ open class ShadowScope(private val project: Project) {
     }
 
     init {
-        project.apply(plugin = "io.github.goooler.shadow")
+        project.apply(plugin = "com.gradleup.shadow")
         project.tasks.named<org.gradle.api.DefaultTask>("assemble") {
             dependsOn(requireShadowJarTask)
         }

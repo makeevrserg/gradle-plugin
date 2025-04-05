@@ -35,7 +35,7 @@ jobs:
       - name: Run publish
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: :build-logic:plugins:convention:publishAndReleaseToMavenCentral :build-logic:plugins:android:publishAndReleaseToMavenCentral :build-logic:plugins:minecraft:publishAndReleaseToMavenCentral --stacktrace
+          arguments: :build-logic:plugins:convention:publishAllPublicationsToMavenCentralRepository :build-logic:plugins:android:publishAllPublicationsToMavenCentralRepository :build-logic:plugins:minecraft:publishAllPublicationsToMavenCentralRepository --stacktrace
   release:
     needs: [ publish ]
     name: Create GitHub release

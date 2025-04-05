@@ -66,8 +66,6 @@ subprojects {
             host = SonatypeHost.CENTRAL_PORTAL,
             automaticRelease = false
         )
-
-        signAllPublications()
         coordinates(
             groupId = projectConfiguration.projectGroup,
             artifactId = moduleName,
@@ -98,5 +96,6 @@ subprojects {
                 url.set(projectConfiguration.projectWeb)
             }
         }
+        signAllPublications()
     }
 }

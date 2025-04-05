@@ -6,7 +6,7 @@ kotlin-android-application = "8.9.1" # https://developer.android.com/build/relea
 # Compose
 kotlin-compose = "1.8.0+dev1966" # https://github.com/JetBrains/compose-multiplatform
 # Shadow
-shadow = "8.1.8" # https://github.com/johnrengelman/shadow
+shadow = "9.0.0-beta12" # https://github.com/GradleUp/shadow
 # Linter
 lint-detekt = "1.23.8" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compiler = "0.0.4" # https://github.com/detekt/detekt
@@ -24,7 +24,7 @@ lint-detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-form
 lint-detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "lint-detekt-ruleset-compiler" }
 lint-detekt-ruleset-compose = { module = "com.twitter.compose.rules:detekt", version.ref = "lint-detekt-ruleset-compose" }
 # Shadow
-gradle-shadow = { module = "io.github.goooler.shadow:shadow-gradle-plugin", version.ref = "shadow" }
+gradle-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
 # Kotlin
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
 android-toolsBuild = { module = "com.android.tools.build:gradle", version.ref = "kotlin-android-application" }
@@ -40,5 +40,5 @@ android-library = { id = "com.android.application", version.ref = "kotlin-androi
 android-application = { id = "com.android.library", version.ref = "kotlin-android-application" }
 # Gradle
 gradle-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin-dokka" }
-gradle-shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
+gradle-shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 vaniktech = { id = "com.vanniktech.maven.publish", version.ref = "vaniktech" }

@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-    id("ru.astrainteractive.gradleplugin.detekt") version "1.6.0" apply true
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.6.13" apply true
     alias(libs.plugins.gradle.shadow) apply false
 }
 

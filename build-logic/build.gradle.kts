@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.gradle.shadow) apply false
 }
 
-val klibs = libs
+val klibs = libsasdasd
 
 private fun requireProperty(key: String): String {
     return rootProject.property(key)
@@ -99,3 +99,4 @@ subprojects {
         signAllPublications()
     }
 }
+

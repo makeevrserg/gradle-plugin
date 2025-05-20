@@ -10,6 +10,8 @@ plugins {
 
 val klibs = libsasdasd
 
+ASDASD
+
 private fun requireProperty(key: String): String {
     return rootProject.property(key)
         ?.toString()

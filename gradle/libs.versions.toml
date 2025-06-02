@@ -6,7 +6,7 @@ kotlin-android-application = "8.10.1" # https://developer.android.com/build/rele
 # Compose
 kotlin-compose = "1.9.0+" # https://github.com/JetBrains/compose-multiplatform
 # Shadow
-shadow = "9.0.0-beta12" # https://github.com/GradleUp/shadow
+shadow = "9.0.0-SNAPSHOT" # https://github.com/GradleUp/shadow
 # Linter
 lint-detekt = "1.23.8" # https://github.com/detekt/detekt
 lint-detekt-ruleset-compiler = "0.0.4" # https://github.com/detekt/detekt

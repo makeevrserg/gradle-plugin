@@ -1,16 +1,17 @@
 package ru.astrainteractive.gradleplugin.processor.platform
 
-import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.tasks.SourceSet
-import org.gradle.kotlin.dsl.named
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.jvm.tasks.ProcessResources
 import ru.astrainteractive.gradleplugin.model.Developer
+import ru.astrainteractive.gradleplugin.model.ProjectInfo
 import ru.astrainteractive.gradleplugin.processor.core.ResourceProcessor
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
-internal class ForgeResourceProcessor(private val project: Project) : ResourceProcessor<ForgeResourceProcessor.Info> {
+internal class ForgeResourceProcessor(
+    private val projectInfo: ProjectInfo
+) : ResourceProcessor<ForgeResourceProcessor.Info> {
 
     data class Info(
         val modId: String,
@@ -21,7 +22,6 @@ internal class ForgeResourceProcessor(private val project: Project) : ResourcePr
     ) : ResourceProcessor.ProcessorInfo
 
     override fun getProcessorInfo(): Info {
-        val projectInfo = project.requireProjectInfo
         return Info(
             modId = projectInfo.name.lowercase(),
             displayName = projectInfo.name,
@@ -43,10 +43,10 @@ internal class ForgeResourceProcessor(private val project: Project) : ResourcePr
     }
 
     override fun process(
+        task: TaskProvider<ProcessResources>,
         customProperties: Map<String, String>,
-        configuration: ProcessResources.() -> Unit
     ) {
-        project.tasks.named<ProcessResources>("processResources") {
+        task.configure {
             filteringCharset = "UTF-8"
             duplicatesStrategy = DuplicatesStrategy.WARN
             val sourceSets = project.extensions.getByName("sourceSets") as org.gradle.api.tasks.SourceSetContainer
@@ -57,7 +57,6 @@ internal class ForgeResourceProcessor(private val project: Project) : ResourcePr
                 include("META-INF/mods.toml")
                 expand(getDefaultProperties().plus(customProperties))
             }
-            configuration.invoke(this)
         }
     }
 }

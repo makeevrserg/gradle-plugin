@@ -1,20 +1,20 @@
 package ru.astrainteractive.gradleplugin.processor.platform
 
-import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.kotlin.dsl.named
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.jvm.tasks.ProcessResources
+import ru.astrainteractive.gradleplugin.model.ProjectInfo
 import ru.astrainteractive.gradleplugin.processor.core.ResourceProcessor
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
-internal class FabricResourceProcessor(private val project: Project) : ResourceProcessor<FabricResourceProcessor.Info> {
+internal class FabricResourceProcessor(
+    private val projectInfo: ProjectInfo
+) : ResourceProcessor<FabricResourceProcessor.Info> {
 
     data class Info(
         val version: String,
     ) : ResourceProcessor.ProcessorInfo
 
     override fun getProcessorInfo(): Info {
-        val projectInfo = project.requireProjectInfo
         return Info(
             version = projectInfo.versionString,
         )
@@ -28,16 +28,15 @@ internal class FabricResourceProcessor(private val project: Project) : ResourceP
     }
 
     override fun process(
+        task: TaskProvider<ProcessResources>,
         customProperties: Map<String, String>,
-        configuration: ProcessResources.() -> Unit
     ) {
-        project.tasks.named<ProcessResources>("processResources") {
+        task.configure {
             filteringCharset = "UTF-8"
             duplicatesStrategy = DuplicatesStrategy.WARN
             filesMatching("fabric.mod.json") {
                 expand(getDefaultProperties().plus(customProperties))
             }
-            configuration.invoke(this)
         }
     }
 }

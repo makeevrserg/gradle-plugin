@@ -1,5 +1,6 @@
 package ru.astrainteractive.gradleplugin.processor.core
 
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.jvm.tasks.ProcessResources
 
 internal interface ResourceProcessor<out T : ResourceProcessor.ProcessorInfo> {
@@ -17,11 +18,9 @@ internal interface ResourceProcessor<out T : ResourceProcessor.ProcessorInfo> {
 
     /**
      * This will configure task project.tasks.named<ProcessResources>("processResources")
-     *
-     * The [configuration] will be called after default configuration called
      */
     fun process(
+        task: TaskProvider<ProcessResources>,
         customProperties: Map<String, String> = emptyMap(),
-        configuration: ProcessResources.() -> Unit = {}
     )
 }

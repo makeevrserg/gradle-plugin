@@ -4,7 +4,7 @@ import com.android.build.gradle.AbstractAppExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseSecretProperty
+import ru.astrainteractive.gradleplugin.property.baseSecretProperty
 import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.stringOrEmpty
 
 class ApkSigningPlugin : Plugin<Project> {

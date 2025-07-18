@@ -6,7 +6,7 @@ import ru.astrainteractive.gradleplugin.model.JInfo
 import ru.astrainteractive.gradleplugin.model.ProjectInfo
 import ru.astrainteractive.gradleplugin.model.PublishInfo
 import ru.astrainteractive.gradleplugin.property.PropertyValue
-import ru.astrainteractive.gradleplugin.property.PropertyValue.Companion.baseGradleProperty
+import ru.astrainteractive.gradleplugin.property.baseGradleProperty
 import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJavaVersion
 import ru.astrainteractive.gradleplugin.property.extension.ExtendedPropertyValueExt.requireJvmTarget
 import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.requireString
@@ -42,7 +42,7 @@ object ModelPropertyValueExt {
 
     // Developers
     val PropertyValue.developers: Result<List<Developer>>
-        get() = value.mapCatching(DeveloperMapper::parseDevelopers)
+        get() = getValue().mapCatching(DeveloperMapper::parseDevelopers)
 
     val PropertyValue.requireDevelopers: List<Developer>
         get() = developers.getOrThrow()

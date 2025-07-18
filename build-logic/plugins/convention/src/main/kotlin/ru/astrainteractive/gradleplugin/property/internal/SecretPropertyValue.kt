@@ -30,20 +30,19 @@ class SecretPropertyValue(
      */
     private val envKey: String = key.replace(".", "_")
 
-    override val value: Result<String>
-        get() = kotlin.runCatching {
-            // try to get system ci property
-            val systemEnvProperty = System.getenv(envKey)
-            if (systemEnvProperty != null) return@runCatching systemEnvProperty.toString()
-            project.logger.warn("System.enviroment $envKey is missing. Getting it from local.properties")
-            // if not ci getting from local.properties
-            val properties = Properties().apply {
-                val secretPropsFile = localPropertiesFile
-                load(secretPropsFile.reader())
-            }
-            return@runCatching properties.getProperty(key)?.toString()
-                ?: throw GradleException("Required property $key not defined!")
+    override fun getValue() = runCatching {
+        // try to get system ci property
+        val systemEnvProperty = System.getenv(envKey)
+        if (systemEnvProperty != null) return@runCatching systemEnvProperty
+        project.logger.warn("System.enviroment $envKey is missing. Getting it from local.properties")
+        // if not ci getting from local.properties
+        val properties = Properties().apply {
+            val secretPropsFile = localPropertiesFile
+            load(secretPropsFile.reader())
         }
-    override val isExists: Boolean
-        get() = value.isSuccess
+        return@runCatching properties.getProperty(key)
+            ?: throw GradleException("Required property $key not defined!")
+    }
+
+    override fun isExist() = getValue().isSuccess
 }

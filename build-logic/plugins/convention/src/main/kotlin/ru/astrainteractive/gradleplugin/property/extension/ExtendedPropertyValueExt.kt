@@ -9,10 +9,10 @@ import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValu
 object ExtendedPropertyValueExt {
     // JavaVersion
     val PropertyValue.javaVersion: Result<JavaVersion>
-        get() = value.mapCatching { JavaVersion.toVersion(requireInt) }
+        get() = getValue().mapCatching { JavaVersion.toVersion(requireInt) }
 
     val PropertyValue.jvmTarget: Result<JvmTarget>
-        get() = value.mapCatching { JvmTarget.fromTarget(requireString) }
+        get() = getValue().mapCatching { JvmTarget.fromTarget(requireString) }
 
     val PropertyValue.requireJavaVersion: JavaVersion
         get() = javaVersion.getOrThrow()

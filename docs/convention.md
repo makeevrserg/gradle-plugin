@@ -116,3 +116,12 @@ SIGNING_KEY=SIGNING_KEY
 SIGNING_KEY_ID=SIGNING_KEY_ID
 SIGNING_PASSWORD=SIGNING_PASSWORD
 ```
+
+### Base64 Secret plugin
+
+```kotlin
+tasks.register<SecretFileTask>("YOUR_TASK_NAME") {
+    targetFile = file("YOUR_TARGET_FILE.txt")
+    base64 = "SOME_BASE64_TEXT"
+}
+```

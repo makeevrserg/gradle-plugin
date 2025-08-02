@@ -1,11 +1,8 @@
 package ru.astrainteractive.gradleplugin.plugin
 
-import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.get
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requirePublishInfo
 
@@ -23,10 +20,7 @@ class PublicationPlugin : Plugin<Project> {
             apply("com.vanniktech.maven.publish")
         }
         target.configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
-            publishToMavenCentral(
-                host = SonatypeHost.CENTRAL_PORTAL,
-                automaticRelease = false
-            )
+            publishToMavenCentral(automaticRelease = false)
             coordinates(
                 groupId = publishInfo.publishGroupId,
                 artifactId = target.name,

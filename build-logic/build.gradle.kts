@@ -4,7 +4,6 @@ plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
     id("ru.astrainteractive.gradleplugin.detekt") version "1.11.0" apply true
-    alias(libs.plugins.gradle.shadow) apply false
 }
 
 val klibs = libs

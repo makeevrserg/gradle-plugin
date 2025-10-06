@@ -11,7 +11,6 @@ dependencies {
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.dokka.core)
     implementation(libs.dokka.base)
-    implementation(libs.gradle.shadow)
     implementation(projects.buildLogic.plugins.convention)
 }
 

@@ -11,7 +11,6 @@ dependencies {
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.dokka.core)
     implementation(libs.dokka.base)
-    implementation(libs.gradle.shadow)
     implementation(projects.buildLogic.plugins.convention)
 }
 
@@ -25,13 +24,6 @@ gradlePlugin {
             implementationClass = "$projectGroup.processor.plugin.ResourceProcessorPlugin"
             displayName = "KLibs minecraft resource processor plugin"
             description = "Minecraft resource processor plugin"
-            tags.set(listOf("klibs"))
-        }
-        create("minecraft.shadow") {
-            id = "$projectGroup.$name"
-            implementationClass = "$projectGroup.shadow.plugin.ShadowPlugin"
-            displayName = "KLibs minecraft shadow plugin"
-            description = "Minecraft shadow plugin"
             tags.set(listOf("klibs"))
         }
     }

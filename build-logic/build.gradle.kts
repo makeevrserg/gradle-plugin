@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-    id("ru.astrainteractive.gradleplugin.detekt") version "1.11.0" apply true
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.11.1" apply true
 }
 
 val klibs = libs

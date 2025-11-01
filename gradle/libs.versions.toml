@@ -1,7 +1,7 @@
 [versions]
 # Kotlin
-kotlin-version = "2.2.20" # https://github.com/JetBrains/kotlin
-kotlin-dokka = "2.0.0" # https://github.com/Kotlin/dokka
+kotlin-version = "2.2.21" # https://github.com/JetBrains/kotlin
+kotlin-dokka = "2.1.0" # https://github.com/Kotlin/dokka
 kotlin-android-application = "8.13.0" # https://developer.android.com/build/releases/gradle-plugin
 # Compose
 kotlin-compose = "1.10.0+" # https://github.com/JetBrains/compose-multiplatform

@@ -56,5 +56,6 @@ object ModelPropertyValueExt {
         get() = "${requireProjectInfo.group}.$path"
             .replace("-", ".")
             .replace(":", ".")
+            .replace("..", ".")
             .lowercase()
 }

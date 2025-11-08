@@ -1,17 +1,43 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
+import java.nio.file.Files
+import java.util.Properties
+import kotlin.io.path.reader
 
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-    id("ru.astrainteractive.gradleplugin.detekt") version "1.11.0" apply true
+//    id("ru.astrainteractive.gradleplugin.detekt") version "1.11.4" apply true
 }
 
 val klibs = libs
 
+private fun requireFileProperty(key: String): Result<String> {
+    return runCatching {
+        val reader = project.file("gradle.properties").let { file ->
+            val path = file.toPath()
+            if (Files.isSymbolicLink(path)) {
+                Files.readSymbolicLink(path).reader()
+            } else {
+                file.reader()
+            }
+        }
+        val properties = Properties().apply { load(reader) }
+        properties[key]?.toString() ?: error("Could not find property $key")
+    }
+}
+
+private fun requireGradleProperty(key: String): Result<String> {
+    return runCatching {
+        rootProject.property(key)
+            ?.toString()
+            ?: error("Could not find property $key")
+    }
+}
+
 private fun requireProperty(key: String): String {
-    return rootProject.property(key)
-        ?.toString()
-        ?: error("Could not find property $key")
+    return requireGradleProperty(key)
+        .getOrNull()
+        ?: requireFileProperty(key).getOrThrow()
 }
 
 data class ProjectConfiguration(

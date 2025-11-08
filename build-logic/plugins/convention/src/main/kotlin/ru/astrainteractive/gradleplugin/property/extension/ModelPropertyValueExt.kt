@@ -53,15 +53,8 @@ object ModelPropertyValueExt {
      * e.x :components:core:resource -> (com.example).components.core.resource
      */
     val Project.hierarchyGroup: String
-        get() {
-            val currentParent = parent
-            val group = when {
-                project == rootProject -> requireProjectInfo.group
-                currentParent == null -> "${requireProjectInfo.group}.$name"
-                else -> "${currentParent.hierarchyGroup}.$name"
-            }
-            return group
-                .replace("-", ".")
-                .lowercase()
-        }
+        get() = "${requireProjectInfo.group}.$path"
+            .replace("-", ".")
+            .replace(":", ".")
+            .lowercase()
 }

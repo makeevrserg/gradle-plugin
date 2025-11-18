@@ -48,11 +48,18 @@ gradlePlugin {
             description = "Dokka generator for root project"
             tags.set(listOf("klibs"))
         }
-        create("java.core") {
+        create("java.version") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.JavaVersionPlugin"
             displayName = "KLibs java configuration"
             description = "Default java configuration"
+            tags.set(listOf("klibs"))
+        }
+        create("java.utf8") {
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.JavaUtf8Plugin"
+            displayName = "KLibs java utf8 configuration"
+            description = "Default java utf8 configuration"
             tags.set(listOf("klibs"))
         }
         create("root.info") {

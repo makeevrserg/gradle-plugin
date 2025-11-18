@@ -18,22 +18,26 @@ class ProjectPropertyValue(
             project.providers.gradleProperty(key)
                 .orNull
                 ?: throw GradleException("Required property $key not defined!")
-        }.onFailure { project.logger.warn("Couldn't find $key with gradle's project.providers.gradleProperty") }
+        }
     }
 
     private fun getGradleFileProperty(): Result<String> {
         return runCatching { project.gradleProperties.getProperty(key) }
-            .onFailure { project.logger.warn("Couldn't find $key in gradle.properties") }
+
     }
 
     private fun getLocalProperty(): Result<String> {
         return runCatching { project.localProperties.getProperty(key) }
-            .onFailure { project.logger.warn("Couldn't find $key in local.properties") }
     }
 
     override fun getValue() = runCatching {
         getLocalProperty().getOrNull()
             ?: getGradleProperty().getOrNull()
             ?: getGradleFileProperty().getOrThrow()
+    }.onFailure { throwable ->
+        project.logger.error(
+            "Couldn't find $key in local.properties, gradle.properties, and project.providers.gradleProperty",
+            throwable
+        )
     }
 }

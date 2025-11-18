@@ -10,6 +10,9 @@ import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt
 class ModuleInfoPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val projectInfo = target.requireProjectInfo
+        if (target.project != target.rootProject) {
+            target.logger.warn("You've applied ModuleInfoPlugin to non-root project!")
+        }
 
         target.group = projectInfo.group
         target.version = projectInfo.versionString

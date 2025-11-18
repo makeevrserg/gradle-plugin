@@ -3,6 +3,7 @@ package ru.astrainteractive.gradleplugin.property
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import java.io.File
+import java.io.InputStreamReader
 import java.nio.file.Files
 import java.util.Properties
 import kotlin.io.path.reader
@@ -24,18 +25,29 @@ internal fun Project.fileOrParentFile(name: String): File? {
 
 internal fun Project.requireFileOrParentFile(name: String): File {
     return fileOrParentFile(name)
-        ?: throw GradleException("No local.properties file found")
+        ?: throw GradleException("No $name file found")
 }
 
-internal fun Properties.fromFile(file: File): Properties {
-    val reader = file.let { file ->
-        val path = file.toPath()
-        if (Files.isSymbolicLink(path)) {
-            Files.readSymbolicLink(path).reader()
-        } else {
-            file.reader()
-        }
+private fun File.defaultOrSymbolicReader(): InputStreamReader {
+    val file = this
+    val path = file.toPath()
+    return if (Files.isSymbolicLink(path)) {
+        Files.readSymbolicLink(path).reader()
+    } else {
+        file.reader()
     }
-    load(reader)
-    return this
 }
+
+internal val Project.localProperties: Properties
+    get() = Properties().apply {
+        requireFileOrParentFile("local.properties")
+            .defaultOrSymbolicReader()
+            .run(::load)
+    }
+
+internal val Project.gradleProperties: Properties
+    get() = Properties().apply {
+        requireFileOrParentFile("gradle.properties")
+            .defaultOrSymbolicReader()
+            .run(::load)
+    }

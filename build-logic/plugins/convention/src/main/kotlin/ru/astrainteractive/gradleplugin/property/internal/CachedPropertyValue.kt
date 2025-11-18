@@ -9,19 +9,17 @@ class CachedPropertyValue(
 ) : PropertyValue {
     override val key: String = propertyValue.key
 
-    override fun isExist(): Boolean = getValue().isSuccess
-
     private object EmptyValue
     private class PropertyValueNotPresentException : RuntimeException("Value not found")
 
     override fun getValue(): Result<String> {
         val extensionValue = extensionContainer.findByName(key)
-        if (extensionValue == EmptyValue) {
-            return Result.failure(PropertyValueNotPresentException())
+        return when {
+            extensionValue == EmptyValue -> Result.failure(PropertyValueNotPresentException())
+            extensionValue != null -> Result.success(extensionValue.toString())
+            else -> propertyValue.getValue()
+                .onSuccess { value -> extensionContainer.add(key, value) }
+                .onFailure { extensionContainer.add(key, EmptyValue) }
         }
-        if (extensionValue != null) return Result.success(extensionValue.toString())
-        return propertyValue.getValue()
-            .onSuccess { value -> extensionContainer.add(key, value) }
-            .onFailure { extensionContainer.add(key, EmptyValue) }
     }
 }

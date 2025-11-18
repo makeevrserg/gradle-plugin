@@ -1,43 +1,15 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
-import java.nio.file.Files
-import java.util.Properties
-import kotlin.io.path.reader
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-//    id("ru.astrainteractive.gradleplugin.detekt") version "1.11.4" apply true
-}
-
-val klibs = libs
-
-private fun requireFileProperty(key: String): Result<String> {
-    return runCatching {
-        val reader = project.file("gradle.properties").let { file ->
-            val path = file.toPath()
-            if (Files.isSymbolicLink(path)) {
-                Files.readSymbolicLink(path).reader()
-            } else {
-                file.reader()
-            }
-        }
-        val properties = Properties().apply { load(reader) }
-        properties[key]?.toString() ?: error("Could not find property $key")
-    }
-}
-
-private fun requireGradleProperty(key: String): Result<String> {
-    return runCatching {
-        rootProject.property(key)
-            ?.toString()
-            ?: error("Could not find property $key")
-    }
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.11.4" apply true
 }
 
 private fun requireProperty(key: String): String {
-    return requireGradleProperty(key)
-        .getOrNull()
-        ?: requireFileProperty(key).getOrThrow()
+    return rootProject.property(key)
+        ?.toString()
+        ?: throw GradleException("Could not find property $key")
 }
 
 data class ProjectConfiguration(
@@ -60,25 +32,24 @@ allprojects {
 
 subprojects {
     val project = this
-    val moduleName = project.name
     val whitelist = listOf(
         "android",
         "convention",
         "minecraft",
     )
-    if (!whitelist.contains(moduleName)) return@subprojects
+    if (!whitelist.contains(project.name)) return@subprojects
     project.apply(plugin = "java-gradle-plugin")
     project.apply(plugin = "com.vanniktech.maven.publish")
-
-    afterEvaluate {
-        configure<KotlinTopLevelExtension> {
-            jvmToolchain(11)
-        }
-    }
 
     project.group = projectConfiguration.projectGroup
     project.version = projectConfiguration.projectVersionString
     project.description = projectConfiguration.projectDescription
+
+    afterEvaluate {
+        configure<KotlinBaseExtension> {
+            jvmToolchain(11)
+        }
+    }
 
     project.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -89,7 +60,7 @@ subprojects {
         publishToMavenCentral(automaticRelease = false)
         coordinates(
             groupId = projectConfiguration.projectGroup,
-            artifactId = moduleName,
+            artifactId = project.name,
             version = projectConfiguration.projectVersionString
         )
         pom {

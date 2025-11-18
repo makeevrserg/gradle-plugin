@@ -11,7 +11,6 @@ import ru.astrainteractive.gradleplugin.property.internal.SecretPropertyValue
  */
 interface PropertyValue {
     val key: String
-    fun isExist(): Boolean
     fun getValue(): Result<String>
 }
 

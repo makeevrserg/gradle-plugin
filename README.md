@@ -1,30 +1,32 @@
 ![version](https://img.shields.io/maven-central/v/ru.astrainteractive.gradleplugin/convention?style=flat-square)
 
-## For wiki, please, navigation into github-pages
+## 🌟 Gradle Plugin Suite
 
-# Gradle Plugin Suite
-
-This repository contains a collection of useful Gradle plugins
+A collection of useful, modular Gradle plugins — designed to keep your builds clean, focused, and flexible.
 
 ---
 
-## What Is This Project
+📘 For wiki: please navigate to GitHub Pages
+
+---
+
+## 🔍 What Is This Project?
 
 This **Gradle Plugin suite** is a modular build-logic plugins library for Kotlin projects. Instead of having one
 monolithic plugin, it's split into sub-plugins to provide focused functionality:
 
-- `convention` - basic utilities for any gradle-related project
-- `android` - plugins and tasks for Android projects
-- `minecraft` - plugins and tasks related for Minecraft development
+- ⚙️ `convention` - basic utilities for any gradle-related project
+- 📱 `android` - plugins and tasks for Android projects
+- ⛏️ `minecraft` - plugins and tasks related for Minecraft development
 
 This modular structure allows you to pick and use only the parts of the plugin you need, keeping your builds clean and
 focused.
 
 ---
 
-## How to Use
+## 🚀 How to Use
 
-### Define required plugins
+### 1️⃣ Define the required plugins
 
 In your `libs.version.toml`
 
@@ -53,7 +55,7 @@ klibs-gradle-android-apk-name = { id = "ru.astrainteractive.gradleplugin.android
 klibs-gradle-minecraft-resource-processor = { id = "ru.astrainteractive.gradleplugin.minecraft.resource-processor", version.ref = "klibs-gradleplugin" }
 ```
 
-### Setup your gradle plugins
+### 2️⃣ Set up your Gradle plugins
 
 Your root `build.gradle.kts`
 

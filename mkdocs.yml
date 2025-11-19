@@ -141,6 +141,6 @@ markdown_extensions:
 nav:
   - "GradlePlugin Docs":
       - "Setup": 'index.md'
-      - "Core": 'convention.md'
+      - "Convention": 'convention.md'
       - "Android": 'android.md'
       - "Minecraft": 'minecraft.md'

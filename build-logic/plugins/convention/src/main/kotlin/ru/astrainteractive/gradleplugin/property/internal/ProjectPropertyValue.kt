@@ -23,7 +23,6 @@ class ProjectPropertyValue(
 
     private fun getGradleFileProperty(): Result<String> {
         return runCatching { project.gradleProperties.getProperty(key) }
-
     }
 
     private fun getLocalProperty(): Result<String> {

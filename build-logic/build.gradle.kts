@@ -70,7 +70,7 @@ subprojects {
 
             licenses {
                 license {
-                    name.set("Apache-2.0")
+                    name.set("MIT License")
                     distribution.set("repo")
                     url.set("${projectConfiguration.projectWeb}/blob/master/LICENSE.md")
                 }

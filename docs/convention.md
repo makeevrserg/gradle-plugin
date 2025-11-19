@@ -1,32 +1,95 @@
-### Property usage
+## Gradle Suite properties
 
-With convention plugin added to classpath you can access to gradle.properties and secret properties, located it your
-local.properties or System.env in case of CI
+### Gradle Suite pre-defined properties
 
-```kotlin
-// This will take makeevrserg.somevar from gradle.properties
-val gradleProperty = target.gradleProperty("somevar").javaVersion
-// This will take makeevrserg.secretvar from local.properties or System.getenv if run by CI
-val gradleProperty = target.secretProperty("secretvar").javaVersion
+```properties
+# JavaInfo
+java.source=8
+java.ktarget=11
+java.target=11
+
+# ProjectInfo
+makeevrserg.project.name=MyProject
+makeevrserg.project.description=This is my template project!
+makeevrserg.project.group=com.example.project
+makeevrserg.project.version.string=0.0.1-SNAPSHOT
+makeevrserg.project.url=www.yourwebsiute.com
+# Split by [,] symbol
+makeevrserg.project.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com,... 
+
+# PublishInfo
+publish.name=MyProject
+publish.description=My publish project description
+publish.repo.org=Your-Organization
+publish.repo.name=YourRepoName
+publish.license=Apache-2.0
+publish.groupId=io.github.yourname
 ```
 
-But there's one problem. Environment variables doesn't allow to use '.' symbols.
-So when declare your properties in CI just replace '.' with '_'.
+#### Getting pre-defined properties
 
-Then in your gradle.properties you'll have `var.properties.first` and in CI env you'll have `var_properties_first`.
+To get this properties in your project, use:
+
+```kotlin
+// ProjectInfo
+println(requireProjectInfo)
+// PublishInfo
+println(requirePublishInfo)
+// JavaInfo
+println(requireJinfo)
+```
+
+### Gradle Suite custom properties
+
+You can get custom-related properties
+
+#### Getting `gradle-properties`
+
+This will get properties from `local.properties` first. If not found, from `gradle.properties`
+
+```kotlin
+val gradleProperty: PropertyValue = target.gradleProperty("somevar")
+
+// The [PropertyValue] looks like this
+interface PropertyValue {
+    val key: String
+    fun getValue(): Result<String>
+}
+// And it contains a lot of extensions
+gradleProperty.stringOrEmpty
+gradleProperty.stringOrNull
+gradleProperty.intOrNull
+gradleProperty.requireInt
+// and etc
+```
+
+#### Getting `secret-properties`
+
+Secret properties will be taken from your `Environment` or `local.properties`
+
+```kotlin
+val secretProperty: PropertyValue = target.secretProperty("somevar")
+```
+
+> [!WARNING]  
+> Environment variables doesn't allow to use `.` symbols. So for `System.Environment` the `.` replaced by `_`
+>
+> **Example:** In your `secret.properties` you'll have `property.first` and in `CI env` you'll have `properties_first`.
+
+---
+
+## Gradle Suite plugins
 
 ### Detekt
 
 ```kotlin
 plugins {
     // This plugin will apply detekt plugin and it's custom detekt.yml 
-    id("ru.astrainteractive.gradleplugin.detekt")
+    alias(libs.plugins.klibs.gradle.detekt)
     // Or if compose exists in this module use detekt-compose
-    id("ru.astrainteractive.gradleplugin.detekt.compose")
+    alias(libs.plugins.klibs.gradle.detekt.compose)
 }
 ```
-
-See required properties in [Java core](#java-core)
 
 ### Dokka
 
@@ -34,57 +97,24 @@ See required properties in [Java core](#java-core)
 plugins {
     // Dokka for root build.gradle.kts
     // If there's readme - it will be main page of documentation
-    id("ru.astrainteractive.gradleplugin.dokka.root")
+    alias(libs.plugins.klibs.gradle.dokka.root) apply false
     // Dokka for single module
     // You can also include README.md inside module
     // and dokka will create this README as main page
-    id("ru.astrainteractive.gradleplugin.dokka.module")
+    alias(libs.plugins.klibs.gradle.dokka.module) apply false
 }
 ```
 
-See required properties in [Java core](#java-core)
-
-### Root info
+### Java info
 
 ```kotlin
 plugins {
-    id("ru.astrainteractive.gradleplugin.root.info")
+    // This will setup project java version
+    // And kotlin compile java
+    alias(libs.plugins.klibs.gradle.java.version) apply false
+    // This will enable options.encoding = "UTF-8"
+    alias(libs.plugins.klibs.gradle.java.utf8) apply false
 }
-// This will be applied
-group = "Group from gradle.properties -> makeevrserg.project.group"
-version = "Group from gradle.properties -> makeevrserg.project.version"
-description = "Group from gradle.properties -> makeevrserg.project.description"
-```
-
-In your root gradle.properties
-
-```properties
-makeevrserg.project.name=GradlePlugin
-makeevrserg.project.group=ru.astrainteractive.gradleplugin
-makeevrserg.project.version.string=0.0.2
-makeevrserg.project.description=GradlePlugin for my kotlin projects
-makeevrserg.project.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com
-```
-
-### Java core
-
-```kotlin
-plugins {
-    // This plugin will not apply kotlin.jvm plugin by itself!!
-    // This plugin will apply sourcesJar, javadocJar()
-    // source/target compatibility
-    // kotlin.options.jvmTarget
-    // And also register java components for maven publication
-    id("ru.astrainteractive.gradleplugin.java.core")
-}
-```
-
-In your gradle.properties
-
-```properties
-makeevrserg.java.source=8
-makeevrserg.java.target=11
-makeevrserg.java.ktarget=11
 ```
 
 ### Publication plugin
@@ -94,17 +124,6 @@ plugins {
     // This plugin will create publication to sonatype repository
     id("ru.astrainteractive.gradleplugin.publication")
 }
-```
-
-In your gradle.properties
-
-```properties
-makeevrserg.publish.name=AstraLibs
-makeevrserg.publish.groupId=ru.astrainteractive.astralibs
-makeevrserg.publish.description=Core utilities for spigot development
-makeevrserg.publish.repo.org=Astra-Interactive
-makeevrserg.publish.repo.name=AstraLibs
-makeevrserg.publish.license=Custom
 ```
 
 In your local.properties
@@ -119,9 +138,11 @@ SIGNING_PASSWORD=SIGNING_PASSWORD
 
 ### Base64 Secret plugin
 
+This task will generate secret file from secret base64. Useful for `android.keystore` or `google-services.json`
+
 ```kotlin
 tasks.register<SecretFileTask>("YOUR_TASK_NAME") {
     targetFile = file("YOUR_TARGET_FILE.txt")
-    base64 = "SOME_BASE64_TEXT"
+    base64 = secretProperty("YOUR_KEY").requireString
 }
 ```

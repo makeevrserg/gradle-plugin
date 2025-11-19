@@ -6,7 +6,7 @@ A collection of useful, modular Gradle plugins — designed to keep your builds 
 
 ---
 
-📘 For wiki: please navigate to GitHub Pages
+📘 For wiki: please navigate to [GitHub Pages](https://makeevrserg.github.io/gradle-plugin/)
 
 ---
 

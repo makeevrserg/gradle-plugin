@@ -40,7 +40,7 @@ klibs-gradle-java-utf8 = { id = "ru.astrainteractive.gradleplugin.java.utf8", ve
 klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.root.info", version.ref = "klibs-gradleplugin" }
 klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
 # Android
-klibs-gradle-android-core = { id = "ru.astrainteractive.gradleplugin.android.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-sdk = { id = "ru.astrainteractive.gradleplugin.android.sdk", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-namespace = { id = "ru.astrainteractive.gradleplugin.android.namespace", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-compose = { id = "ru.astrainteractive.gradleplugin.android.compose", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-apk-sign = { id = "ru.astrainteractive.gradleplugin.android.apk.sign", version.ref = "klibs-gradleplugin" }
@@ -65,7 +65,7 @@ plugins {
     alias(libs.plugins.klibs.gradle.rootinfo) apply false
     alias(libs.plugins.klibs.gradle.publication) apply false
     // klibs - android
-    alias(libs.plugins.klibs.gradle.android.core) apply false
+    alias(libs.plugins.klibs.gradle.android.sdk) apply false
     alias(libs.plugins.klibs.gradle.android.namespace) apply false
     alias(libs.plugins.klibs.gradle.android.compose) apply false
     alias(libs.plugins.klibs.gradle.android.apk.sign) apply false

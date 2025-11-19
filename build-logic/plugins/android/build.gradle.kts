@@ -22,7 +22,7 @@ gradlePlugin {
     vcsUrl.set(projectWeb)
     description = projectDescription
     plugins {
-        create("android.core") {
+        create("android.sdk") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidSdkPlugin"
             displayName = "KLibs core android plugin"

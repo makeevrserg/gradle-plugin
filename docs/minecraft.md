@@ -1,5 +1,7 @@
 ### Minecraft plugins
 
+*Some functionality may be dependent on [convention.md](convention.md)*
+
 ### Setup resource processor
 
 In your `build.gradle.kts`

@@ -31,8 +31,8 @@ class ProjectPropertyValue(
 
     override fun getValue() = runCatching {
         getLocalProperty().getOrNull()
-            ?: getGradleProperty().getOrNull()
-            ?: getGradleFileProperty().getOrThrow()
+            ?: getGradleFileProperty().getOrNull()
+            ?: getGradleProperty().getOrThrow()
     }.onFailure { throwable ->
         project.logger.error(
             "Couldn't find $key in local.properties, gradle.properties, and project.providers.gradleProperty",

@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-    id("ru.astrainteractive.gradleplugin.detekt") version "1.13.1" apply true
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.13.2" apply true
 }
 
 private fun requireProperty(key: String): String {

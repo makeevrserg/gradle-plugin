@@ -1,7 +1,7 @@
 [versions]
-kotlin-android-application = "8.13.1"
+kotlin-android-application = "8.13.2"
 kotlin-dokka = "2.1.0"
-kotlin-version = "2.2.21"
+kotlin-version = "2.3.0"
 lint-detekt = "1.23.8"
 vaniktech = "0.35.0"
 

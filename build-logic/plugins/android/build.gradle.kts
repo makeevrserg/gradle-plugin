@@ -16,6 +16,13 @@ gradlePlugin {
     vcsUrl.set(projectWeb)
     description = projectDescription
     plugins {
+        create("android.java") {
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.AndroidJavaPlugin"
+            displayName = "KLibs java android plugin"
+            description = "Plugin provides basic android configuration"
+            tags.set(listOf("klibs"))
+        }
         create("android.sdk") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidSdkPlugin"

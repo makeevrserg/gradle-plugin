@@ -12,6 +12,7 @@ import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import ru.astrainteractive.gradleplugin.property.extension.AndroidModelPropertyValueExt.requireAndroidSdkInfo
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
+import ru.astrainteractive.gradleplugin.util.hasAndroidAppPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidKmpPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidLibPlugin
 
@@ -30,6 +31,7 @@ class AndroidSdkPlugin : Plugin<Project> {
     }
 
     private fun configureAndroidLibraryExtension(target: Project) {
+        if (!target.hasAndroidLibPlugin) return
         val androidSdkInfo = target.requireAndroidSdkInfo
         target.extensions.configure<LibraryExtension> {
             compileSdk = androidSdkInfo.compile
@@ -41,6 +43,7 @@ class AndroidSdkPlugin : Plugin<Project> {
     }
 
     private fun configureAndroidApplicationExtension(target: Project) {
+        if (!target.hasAndroidAppPlugin) return
         val androidSdkInfo = target.requireAndroidSdkInfo
         target.extensions.configure<ApplicationExtension> {
             compileSdk = androidSdkInfo.compile

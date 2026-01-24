@@ -5,12 +5,9 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.kotlin.gradle)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
-    implementation(libs.lint.detekt.gradle)
-    implementation(libs.dokka.gradle.plugin)
-    implementation(libs.dokka.core)
-    implementation(libs.dokka.base)
+    implementation(libs.dokka.gradle)
     implementation(projects.buildLogic.plugins.convention)
 }
 

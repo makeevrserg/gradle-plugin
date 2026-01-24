@@ -7,7 +7,6 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
-import java.io.File
 
 class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
     override fun apply(target: Project) {
@@ -31,15 +30,21 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
                 xml.required.set(false)
                 txt.required.set(false)
             }
-            val resource = Thread.currentThread().getContextClassLoader().getResource(detektYmlFileName)
-            val bytes = resource.openConnection().getInputStream().readAllBytes()
-            val detektFile = File(File(target.rootDir, "build"), detektYmlFileName).also {
-                if (!it.exists()) {
-                    it.parentFile.mkdirs()
-                    it.createNewFile()
-                }
-                it.writeBytes(bytes)
+            val detektFileResource = Thread.currentThread()
+                .getContextClassLoader()
+                .getResource(detektYmlFileName)
+            val bytes = detektFileResource
+                ?.openConnection()
+                ?.getInputStream()
+                ?.readBytes()
+                ?: byteArrayOf()
+
+            val detektFile = target.rootProject.layout.buildDirectory.file(detektYmlFileName).get().asFile
+            if (!detektFile.exists()) {
+                detektFile.parentFile.mkdirs()
+                detektFile.createNewFile()
             }
+            detektFile.writeBytes(bytes)
             config.setFrom(detektFile)
             setSource(target.files(target.projectDir))
 
@@ -61,9 +66,9 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
 
         target.dependencies {
             "detektPlugins"("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.4")
-            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
             if (useCompose) {
-                "detektPlugins"("io.nlopez.compose.rules:detekt:0.3.20")
+                "detektPlugins"("io.nlopez.compose.rules:detekt:0.5.3")
             }
         }
     }

@@ -7,4 +7,9 @@ internal val Project.hasAndroidKmpPlugin: Boolean
         .hasPlugin("com.android.kotlin.multiplatform.library")
 internal val Project.hasAndroidLibPlugin: Boolean
     get() = plugins.hasPlugin("com.android.library")
-        .or(plugins.hasPlugin("com.android.application"))
+
+internal val Project.hasAndroidAppPlugin: Boolean
+    get() = plugins.hasPlugin("com.android.application")
+
+internal val Project.hasAndroidPlugin: Boolean
+    get() = hasAndroidAppPlugin || hasAndroidLibPlugin

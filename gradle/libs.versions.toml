@@ -1,18 +1,17 @@
 [versions]
-kotlin-android-application = "8.13.1"
-kotlin-dokka = "2.1.0"
-kotlin-version = "2.2.21"
-lint-detekt = "1.23.8"
+agp = "9.0.0"
+detekt = "1.23.8"
+dokka = "2.1.0"
+kotlin = "2.3.0"
 vaniktech = "0.35.0"
 
 [libraries]
-android-toolsBuild = { module = "com.android.tools.build:gradle", version.ref = "kotlin-android-application" }
-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "kotlin-dokka" }
-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "kotlin-dokka" }
-dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "kotlin-dokka" }
-dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin-dokka" }
-kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
-lint-detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "lint-detekt" }
+android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "dokka" }
+dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 vaniktech = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vaniktech" }
 
 [plugins]

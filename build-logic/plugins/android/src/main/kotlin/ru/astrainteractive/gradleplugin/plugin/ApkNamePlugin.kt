@@ -1,29 +1,22 @@
 package ru.astrainteractive.gradleplugin.plugin
 
-import com.android.build.gradle.AbstractAppExtension
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.impl.VariantOutputImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
-/**
- * This plugin will name output android apk file with custom name like below:
- *
- * ProjectName_0.0.1_debug.apk
- */
 class ApkNamePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val projectInfo = target.requireProjectInfo
-        target.configure<AbstractAppExtension> {
-            buildTypes {
-                applicationVariants.onEach { variant ->
-                    variant.outputs.onEach { output ->
-                        if (output is BaseVariantOutputImpl) {
-                            val name = projectInfo.name
-                            val version = projectInfo.versionString
-                            output.outputFileName = "${name}_${version}_${variant.name}.apk"
-                        }
+        target.configure<ApplicationAndroidComponentsExtension> {
+            onVariants { variant ->
+                variant.outputs.onEach { output ->
+                    if (output is VariantOutputImpl) {
+                        val name = projectInfo.name
+                        val version = projectInfo.versionString
+                        output.outputFileName.set("${name}_${version}_${variant.name}.apk")
                     }
                 }
             }

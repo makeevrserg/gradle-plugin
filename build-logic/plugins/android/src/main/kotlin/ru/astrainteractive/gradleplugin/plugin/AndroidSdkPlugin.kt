@@ -1,17 +1,14 @@
 package ru.astrainteractive.gradleplugin.plugin
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import com.android.build.api.dsl.LibraryExtension
-import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import ru.astrainteractive.gradleplugin.property.extension.AndroidModelPropertyValueExt.requireAndroidSdkInfo
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
 import ru.astrainteractive.gradleplugin.util.hasAndroidAppPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidKmpPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidLibPlugin
@@ -21,12 +18,16 @@ class AndroidSdkPlugin : Plugin<Project> {
     private fun configureAndroidKmpPlugin(target: Project) {
         if (!target.hasAndroidKmpPlugin) return
         val androidSdkInfo = target.requireAndroidSdkInfo
-        target.configure<KotlinMultiplatformAndroidLibraryExtension> {
-            compileSdk = androidSdkInfo.compile
-            minSdk = androidSdkInfo.min
-            // todo current version of Jetbrains Compose Resources
-            // todo doesn't handle new android resourceless plugin
-            androidResources.enable = true
+        target.pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+            target.configure<KotlinMultiplatformExtension> {
+                targets.withType<KotlinMultiplatformAndroidLibraryTarget> {
+                    compileSdk = androidSdkInfo.compile
+                    minSdk = androidSdkInfo.min
+                    // todo current version of Jetbrains Compose Resources
+                    // todo doesn't handle new android resourceless plugin
+                    androidResources.enable = true
+                }
+            }
         }
     }
 

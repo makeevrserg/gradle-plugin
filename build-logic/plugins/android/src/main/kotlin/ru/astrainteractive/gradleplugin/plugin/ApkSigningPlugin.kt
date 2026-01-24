@@ -1,12 +1,8 @@
 package ru.astrainteractive.gradleplugin.plugin
 
-import com.android.build.api.dsl.ApkSigningConfig
-import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.ApplicationVariantDimension
 import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.LibraryVariantDimension
-import com.android.build.api.dsl.SigningConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

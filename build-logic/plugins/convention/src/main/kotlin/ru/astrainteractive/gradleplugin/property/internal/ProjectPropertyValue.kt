@@ -33,10 +33,9 @@ class ProjectPropertyValue(
         getLocalProperty().getOrNull()
             ?: getGradleFileProperty().getOrNull()
             ?: getGradleProperty().getOrThrow()
-    }.onFailure { throwable ->
-        project.logger.error(
-            "Couldn't find $key in local.properties, gradle.properties, and project.providers.gradleProperty",
-            throwable
+    }.onFailure { _ ->
+        project.logger.warn(
+            "Couldn't find $key in local.properties, gradle.properties, and project.providers.gradleProperty"
         )
     }
 }

@@ -1,21 +1,23 @@
 package ru.astrainteractive.gradleplugin.plugin
 
 import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.hierarchyGroup
-import ru.astrainteractive.gradleplugin.util.hasAndroidAppPlugin
-import ru.astrainteractive.gradleplugin.util.hasAndroidKmpPlugin
-import ru.astrainteractive.gradleplugin.util.hasAndroidLibPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidPlugin
 
 class AndroidNamespacePlugin : Plugin<Project> {
     private fun configureAndroidKmpPlugin(target: Project) {
-        if (!target.hasAndroidKmpPlugin) return
-        target.configure<KotlinMultiplatformAndroidLibraryExtension> {
-            namespace = target.hierarchyGroup
+        target.pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+            target.configure<KotlinMultiplatformExtension> {
+                targets.withType<KotlinMultiplatformAndroidLibraryTarget> {
+                    namespace = target.hierarchyGroup
+                }
+            }
         }
     }
 

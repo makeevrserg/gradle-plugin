@@ -11,7 +11,6 @@ class ApkNamePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val projectInfo = target.requireProjectInfo
         target.configure<ApplicationAndroidComponentsExtension> {
-
             onVariants { variant ->
                 variant.outputs.onEach { output ->
                     if (output is VariantOutputImpl) {

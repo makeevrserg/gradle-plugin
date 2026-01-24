@@ -5,19 +5,13 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.android.toolsBuild)
+    compileOnly(libs.kotlin.gradle)
+    compileOnly(libs.android.gradle)
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
-    implementation(libs.lint.detekt.gradle)
-    implementation(libs.dokka.android)
-    implementation(libs.dokka.gradle.plugin)
-    implementation(libs.dokka.core)
-    implementation(libs.dokka.base)
     implementation(projects.buildLogic.plugins.convention)
 }
 
 gradlePlugin {
-
     website.set(projectWeb)
     vcsUrl.set(projectWeb)
     description = projectDescription

@@ -1,6 +1,7 @@
 package ru.astrainteractive.gradleplugin.plugin
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,12 +17,7 @@ class AndroidComposePlugin : Plugin<Project> {
             .baseGradleProperty(path = "android.kotlinCompilerExtensionVersion")
             .requireString
 
-        target.extensions.findByType<LibraryExtension>()?.apply {
-            buildFeatures.compose = true
-            composeOptions.kotlinCompilerExtensionVersion = compilerVersion
-        }
-
-        target.extensions.findByType<ApplicationExtension>()?.apply {
+        target.extensions.configure<CommonExtension> {
             buildFeatures.compose = true
             composeOptions.kotlinCompilerExtensionVersion = compilerVersion
         }

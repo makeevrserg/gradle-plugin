@@ -1,6 +1,12 @@
 package ru.astrainteractive.gradleplugin.plugin
 
-import com.android.build.gradle.AbstractAppExtension
+import com.android.build.api.dsl.ApkSigningConfig
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.ApplicationVariantDimension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
+import com.android.build.api.dsl.LibraryVariantDimension
+import com.android.build.api.dsl.SigningConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -16,51 +22,58 @@ class ApkSigningPlugin : Plugin<Project> {
         get() = baseSecretProperty(STORE_PASSWORD_PATH).stringOrEmpty
 
     override fun apply(target: Project) {
-        target.configure<AbstractAppExtension> {
-            signingConfigs {
-                val secretKeyAlias = target.keyAlias
-                val secretKeyPassword = target.keyPassword
-                val secretStorePassword = target.storePassword
+        target.extensions.configure<CommonExtension> {
+            val secretKeyAlias = target.keyAlias
+            val secretKeyPassword = target.keyPassword
+            val secretStorePassword = target.storePassword
 
-                val signingFile = target.file(SIGNING_FILE_NAME)
+            val signingFile = target.file(SIGNING_FILE_NAME)
 
-                if (!signingFile.exists()) {
-                    target.logger.error("Signing file named $SIGNING_FILE_NAME not found in ${target.path}")
-                    return@signingConfigs
-                }
-                if (secretKeyAlias.isEmpty()) {
-                    target.logger.error("Secret key named $KEY_ALIAS_PATH in local.properties is empty")
-                    return@signingConfigs
-                }
-
-                if (secretKeyPassword.isEmpty()) {
-                    target.logger.error("Secret key named $KEY_PASSWORD_PATH in local.properties is empty")
-                    return@signingConfigs
-                }
-
-                if (secretStorePassword.isEmpty()) {
-                    target.logger.error("Secret key named $STORE_PASSWORD_PATH in local.properties is empty")
-                    return@signingConfigs
-                }
-
-                getByName("debug") {
-                    keyAlias = secretKeyAlias
-                    keyPassword = secretKeyPassword
-                    storePassword = secretStorePassword
-                    storeFile = signingFile
-                }
-                create("release") {
-                    keyAlias = secretKeyAlias
-                    keyPassword = secretKeyPassword
-                    storePassword = secretStorePassword
-                    storeFile = signingFile
-                }
+            if (!signingFile.exists()) {
+                target.logger.error("Signing file named $SIGNING_FILE_NAME not found in ${target.path}")
+                return@configure
             }
-            buildTypes {
-                named("release") {
+            if (secretKeyAlias.isEmpty()) {
+                target.logger.error("Secret key named $KEY_ALIAS_PATH in local.properties is empty")
+                return@configure
+            }
+
+            if (secretKeyPassword.isEmpty()) {
+                target.logger.error("Secret key named $KEY_PASSWORD_PATH in local.properties is empty")
+                return@configure
+            }
+
+            if (secretStorePassword.isEmpty()) {
+                target.logger.error("Secret key named $STORE_PASSWORD_PATH in local.properties is empty")
+                return@configure
+            }
+
+            signingConfigs.getByName("debug") {
+                keyAlias = secretKeyAlias
+                keyPassword = secretKeyPassword
+                storePassword = secretStorePassword
+                storeFile = signingFile
+            }
+            signingConfigs.create("release") {
+                keyAlias = secretKeyAlias
+                keyPassword = secretKeyPassword
+                storePassword = secretStorePassword
+                storeFile = signingFile
+            }
+
+            buildTypes.named("release") {
+                if (this is LibraryVariantDimension) {
                     signingConfig = signingConfigs.getByName("release")
                 }
-                named("debug") {
+                if (this is ApplicationVariantDimension) {
+                    signingConfig = signingConfigs.getByName("release")
+                }
+            }
+            buildTypes.named("debug") {
+                if (this is LibraryVariantDimension) {
+                    signingConfig = signingConfigs.getByName("debug")
+                }
+                if (this is ApplicationVariantDimension) {
                     signingConfig = signingConfigs.getByName("debug")
                 }
             }

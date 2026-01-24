@@ -2,6 +2,7 @@ package ru.astrainteractive.gradleplugin.plugin
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.BaseExtension
@@ -17,14 +18,14 @@ import ru.astrainteractive.gradleplugin.util.hasAndroidLibPlugin
 class AndroidNamespacePlugin : Plugin<Project> {
     private fun configureAndroidKmpPlugin(target: Project) {
         if (!target.hasAndroidKmpPlugin) return
-        target.configure<KotlinMultiplatformAndroidLibraryTarget> {
+        target.configure<KotlinMultiplatformAndroidLibraryExtension> {
             namespace = target.hierarchyGroup
         }
     }
 
     private fun configureAndroidLibPlugin(target: Project) {
         if (!target.hasAndroidLibPlugin) return
-        target.extensions.findByType<CommonExtension>()?.apply {
+        target.extensions.configure<CommonExtension> {
             this.namespace = target.hierarchyGroup
         }
     }

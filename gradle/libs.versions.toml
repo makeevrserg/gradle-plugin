@@ -3,7 +3,7 @@ agp = "9.0.0"
 detekt = "1.23.8"
 dokka = "2.1.0"
 kotlin = "2.3.0"
-vaniktech = "0.35.0"
+vaniktech = "0.36.0"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }

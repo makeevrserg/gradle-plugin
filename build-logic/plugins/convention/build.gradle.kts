@@ -21,16 +21,9 @@ gradlePlugin {
     plugins {
         create("detekt") {
             id = "$projectGroup.$name"
-            implementationClass = "$projectGroup.plugin.detekt.DefaultDetektPlugin"
+            implementationClass = "$projectGroup.plugin.detekt.DetektPlugin"
             displayName = "KLibs detekt plugin"
             description = "Default setup for detekt plugin"
-            tags.set(listOf("klibs"))
-        }
-        create("detekt.compose") {
-            id = "$projectGroup.$name"
-            implementationClass = "$projectGroup.plugin.detekt.ComposeDetektPlugin"
-            displayName = "KLibs compose-detekt plugin"
-            description = "Setup for detekt compose integration"
             tags.set(listOf("klibs"))
         }
         create("dokka.module") {

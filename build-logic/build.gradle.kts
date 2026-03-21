@@ -57,7 +57,7 @@ subprojects {
     }
 
     project.configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
-        publishToMavenCentral(automaticRelease = false)
+        publishToMavenCentral(automaticRelease = true)
         coordinates(
             groupId = projectConfiguration.projectGroup,
             artifactId = project.name,

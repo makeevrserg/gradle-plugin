@@ -1,6 +1,6 @@
 package ru.astrainteractive.gradleplugin.plugin.detekt
 
-import io.gitlab.arturbosch.detekt.Detekt
+import dev.detekt.gradle.Detekt
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -8,18 +8,15 @@ import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
 
-class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
+class DetektPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target.plugins) {
-            apply("io.gitlab.arturbosch.detekt")
+            apply("dev.detekt")
         }
         target.tasks.register<Detekt>("detektFormat") {
-            autoCorrect = true
+            autoCorrect.set(true)
         }
-        val detektYmlFileName = when {
-            useCompose -> "detekt-compose.yml"
-            else -> "detekt.yml"
-        }
+        val detektYmlFileName = "detekt.yml"
 
         target.tasks.withType<Detekt> {
             // Disable caching
@@ -27,8 +24,7 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
 
             reports {
                 html.required.set(true)
-                xml.required.set(false)
-                txt.required.set(false)
+                checkstyle.required.set(false)
             }
             val detektFileResource = Thread.currentThread()
                 .getContextClassLoader()
@@ -54,22 +50,19 @@ class DetektPlugin(private val useCompose: Boolean) : Plugin<Project> {
                 "**/build/**",
             )
 
-            parallel = true
+            parallel.set(true)
 
-            buildUponDefaultConfig = true
+            buildUponDefaultConfig.set(true)
 
-            allRules = true
+            allRules.set(true)
 
             // Target version of the generated JVM bytecode. It is used for type resolution.
-            jvmTarget = target.requireJinfo.jtarget.majorVersion
+            jvmTarget.set(target.requireJinfo.jtarget.majorVersion)
         }
 
         target.dependencies {
-            "detektPlugins"("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.4")
-            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
-            if (useCompose) {
-                "detektPlugins"("io.nlopez.compose.rules:detekt:0.5.3")
-            }
+            "detektPlugins"("dev.detekt:detekt-rules-ktlint-wrapper:2.0.0-alpha.2")
+            "detektPlugins"("io.nlopez.compose.rules:detekt:0.5.6")
         }
     }
 }

@@ -1,7 +1,8 @@
 [versions]
-agp = "9.0.0"
+agp = "9.1.0"
 detekt = "2.0.0-alpha.2" # https://detekt.dev/docs/gettingstarted/gradle/
-dokka = "2.1.0"
+dokka = "2.2.0"
+kobweb = "0.24.0" # https://github.com/varabyte/kobweb
 kotlin = "2.3.20"
 vaniktech = "0.35.0"
 
@@ -11,6 +12,7 @@ detekt-gradle = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "det
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "dokka" }
 dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+kobweb-gradle = { module = "com.varabyte.kobweb.gradle:application", version.ref = "kobweb" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 vaniktech = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vaniktech" }
 

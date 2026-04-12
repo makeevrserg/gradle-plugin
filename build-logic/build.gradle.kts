@@ -3,13 +3,19 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-    id("ru.astrainteractive.gradleplugin.detekt") version "1.13.2" apply true
+    id("ru.astrainteractive.gradleplugin.detekt") version "1.15.0" apply true
 }
 
 private fun requireProperty(key: String): String {
     return rootProject.property(key)
         ?.toString()
         ?: throw GradleException("Could not find property $key")
+}
+
+private fun canSignPublication(): Boolean {
+    val hasEnvMavenUsername = System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null
+    val hasGradlePropertyUsername = providers.gradleProperty("mavenCentralUsername").isPresent
+    return hasEnvMavenUsername || hasGradlePropertyUsername
 }
 
 data class ProjectConfiguration(
@@ -32,12 +38,6 @@ allprojects {
 
 subprojects {
     val project = this
-    val whitelist = listOf(
-        "android",
-        "convention",
-        "minecraft",
-    )
-    if (!whitelist.contains(project.name)) return@subprojects
     project.apply(plugin = "java-gradle-plugin")
     project.apply(plugin = "com.vanniktech.maven.publish")
 
@@ -88,6 +88,8 @@ subprojects {
                 url.set(projectConfiguration.projectWeb)
             }
         }
-        signAllPublications()
+        if (canSignPublication()) {
+            signAllPublications()
+        }
     }
 }

@@ -1,11 +1,9 @@
-name: Build and deploy material mkdocs to gh-pages
+name: "Build and deploy material mkdocs to gh-pages"
 on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+  workflow_call:
+
 jobs:
-  check_gradle_files_change:
+  check_docs_files_change:
     name: "Check docs files changed"
     runs-on: ubuntu-latest
     outputs:
@@ -22,8 +20,8 @@ jobs:
             docs/**
             mkdocs.yml
   deploy:
-    needs: [ check_gradle_files_change ]
-    if: needs.check_gradle_files_change.outputs.GRADLE_FILES_CHANGED == 'true'
+    needs: [ check_docs_files_change ]
+    if: needs.check_docs_files_change.outputs.DOCS_FILES_CHANGED == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

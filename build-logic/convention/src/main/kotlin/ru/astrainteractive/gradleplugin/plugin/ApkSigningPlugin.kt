@@ -7,7 +7,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import ru.astrainteractive.gradle.property.api.klibsSecretProperty
-import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.stringOrEmpty
+import ru.astrainteractive.gradleplugin.property.util.stringOrEmpty
 
 class ApkSigningPlugin : Plugin<Project> {
     private val Project.keyPassword: String

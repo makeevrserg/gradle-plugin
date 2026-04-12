@@ -6,7 +6,7 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
+import ru.astrainteractive.gradleplugin.property.util.requireJinfo
 
 /**
  * Set javaSource, javaTarget and kotlinJvmTarget versions

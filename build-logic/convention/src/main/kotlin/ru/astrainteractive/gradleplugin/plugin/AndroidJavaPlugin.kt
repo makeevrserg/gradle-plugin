@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireJinfo
+import ru.astrainteractive.gradleplugin.property.util.requireJinfo
 import ru.astrainteractive.gradleplugin.util.hasAndroidPlugin
 
 class AndroidJavaPlugin : Plugin<Project> {

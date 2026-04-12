@@ -5,7 +5,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import ru.astrainteractive.gradle.property.api.klibsGradleProperty
-import ru.astrainteractive.gradleplugin.property.extension.PrimitivePropertyValueExt.stringOrNull
+import ru.astrainteractive.gradleplugin.property.util.stringOrNull
 
 class AndroidComposePlugin : Plugin<Project> {
 

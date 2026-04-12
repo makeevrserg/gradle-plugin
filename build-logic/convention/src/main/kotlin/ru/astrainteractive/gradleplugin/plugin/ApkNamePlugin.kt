@@ -5,7 +5,7 @@ import com.android.build.api.variant.impl.VariantOutputImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import ru.astrainteractive.gradleplugin.property.util.requireProjectInfo
 
 class ApkNamePlugin : Plugin<Project> {
     override fun apply(target: Project) {

@@ -8,7 +8,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import ru.astrainteractive.gradleplugin.property.extension.AndroidModelPropertyValueExt.requireAndroidSdkInfo
+import ru.astrainteractive.gradleplugin.property.util.requireAndroidSdkInfo
 import ru.astrainteractive.gradleplugin.util.hasAndroidAppPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidKmpPlugin
 import ru.astrainteractive.gradleplugin.util.hasAndroidLibPlugin

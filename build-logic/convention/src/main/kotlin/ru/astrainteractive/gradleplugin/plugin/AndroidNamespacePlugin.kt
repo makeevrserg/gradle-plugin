@@ -7,8 +7,8 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.hierarchyGroup
 import ru.astrainteractive.gradleplugin.util.hasAndroidPlugin
+import ru.astrainteractive.gradleplugin.util.hierarchyGroup
 
 class AndroidNamespacePlugin : Plugin<Project> {
     private fun configureAndroidKmpPlugin(target: Project) {

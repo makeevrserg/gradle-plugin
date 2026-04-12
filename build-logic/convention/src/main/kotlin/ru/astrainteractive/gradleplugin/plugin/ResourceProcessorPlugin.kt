@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.ResourceProcessorScope
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import ru.astrainteractive.gradleplugin.property.util.requireProjectInfo
 
 class ResourceProcessorPlugin : Plugin<Project> {
     override fun apply(target: Project) {

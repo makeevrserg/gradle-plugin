@@ -2,7 +2,7 @@ package ru.astrainteractive.gradleplugin.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import ru.astrainteractive.gradleplugin.property.util.requireProjectInfo
 
 /**
  * Sets group, version and description of module from gradle.properties

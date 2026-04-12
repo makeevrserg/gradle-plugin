@@ -26,6 +26,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "build-logic"
 
-include(":plugins:convention")
-include(":plugins:android")
-include(":plugins:minecraft")
+include(":convention")
+include(":property")

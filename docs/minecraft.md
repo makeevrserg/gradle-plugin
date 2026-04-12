@@ -1,17 +1,40 @@
-### Minecraft plugins
+## Minecraft Plugins
 
-*Some functionality may be dependent on [convention.md](convention.md)*
+*Depends on properties defined in [convention.md](convention.md)*
 
-### Setup resource processor
+---
 
-In your `build.gradle.kts`
+### Minecraft Resource Processor
+
+**ID:** `ru.astrainteractive.gradleplugin.minecraft.resource.processor`
+
+Provides a `minecraftProcessResource` DSL extension for processing Minecraft mod resource files. Automatically expands template variables (name, version, description, etc.) from `ProjectInfo` into resource files during build.
 
 ```kotlin
 plugins {
     alias(libs.plugins.klibs.gradle.minecraft.resource.processor)
 }
 
-// Let's imagine, you need to provide custom libraries in your properties
+minecraftProcessResource {
+    // Bukkit/Spigot/Paper - processes plugin.yml
+    bukkit()
+
+    // Fabric - processes fabric.mod.json
+    fabric()
+
+    // Forge - processes META-INF/mods.toml
+    forge()
+
+    // Velocity - processes velocity-plugin.json
+    velocity()
+}
+```
+
+### Custom properties
+
+Each platform function accepts a `customProperties` map that merges with the defaults:
+
+```kotlin
 minecraftProcessResource {
     bukkit(
         customProperties = mapOf(
@@ -22,11 +45,17 @@ minecraftProcessResource {
             ).joinToString("\",\"", "[\"", "\"]")
         )
     )
-    // The same can be done for Fabric
-    fabric()
-    // Forge
-    forge()
-    // And Velocity
-    velocity()
-} 
+}
 ```
+
+### Default template variables
+
+**Bukkit** (`plugin.yml`): `main`, `name`, `prefix`, `version`, `description`, `url`, `author`, `authors`, `libraries`
+
+**Velocity** (`velocity-plugin.json`): `id`, `name`, `version`, `url`, `authors`, `main`
+
+**Fabric** (`fabric.mod.json`): `version`
+
+**Forge** (`META-INF/mods.toml`): `modId`, `version`, `description`, `displayName`, `authors`
+
+All values are derived from `ProjectInfo` properties (`klibs.project.*`).

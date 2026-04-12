@@ -1,148 +1,290 @@
-## Gradle Suite properties
+## Convention Module
 
-### Gradle Suite pre-defined properties
+The `convention` module provides a suite of Gradle plugins for standard build configurations across Kotlin, Java, Android, JavaScript, and Minecraft projects.
 
-```properties
-# JavaInfo
-java.source=8
-java.ktarget=11
-java.target=11
-
-# ProjectInfo
-makeevrserg.project.name=MyProject
-makeevrserg.project.description=This is my template project!
-makeevrserg.project.group=com.example.project
-makeevrserg.project.version.string=0.0.1-SNAPSHOT
-makeevrserg.project.url=www.yourwebsiute.com
-# Split by [,] symbol
-makeevrserg.project.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com,... 
-
-# PublishInfo
-publish.name=MyProject
-publish.description=My publish project description
-publish.repo.org=Your-Organization
-publish.repo.name=YourRepoName
-publish.license=Apache-2.0
-publish.groupId=io.github.yourname
-```
-
-#### Getting pre-defined properties
-
-To get this properties in your project, use:
-
-```kotlin
-// ProjectInfo
-println(requireProjectInfo)
-// PublishInfo
-println(requirePublishInfo)
-// JavaInfo
-println(requireJinfo)
-```
-
-### Gradle Suite custom properties
-
-You can get custom-related properties
-
-#### Getting `gradle-properties`
-
-This will get properties from `local.properties` first. If not found, from `gradle.properties`
-
-```kotlin
-val gradleProperty: PropertyValue = target.gradleProperty("somevar")
-
-// The [PropertyValue] looks like this
-interface PropertyValue {
-    val key: String
-    fun getValue(): Result<String>
-}
-// And it contains a lot of extensions
-gradleProperty.stringOrEmpty
-gradleProperty.stringOrNull
-gradleProperty.intOrNull
-gradleProperty.requireInt
-// and etc
-```
-
-#### Getting `secret-properties`
-
-Secret properties will be taken from your `Environment` or `local.properties`
-
-```kotlin
-val secretProperty: PropertyValue = target.secretProperty("somevar")
-```
-
-> [!WARNING]  
-> Environment variables doesn't allow to use `.` symbols. So for `System.Environment` the `.` replaced by `_`
->
-> **Example:** In your `secret.properties` you'll have `property.first` and in `CI env` you'll have `properties_first`.
+> See also: [Property Module](property.md) for details on the property system used by these plugins.
 
 ---
 
-## Gradle Suite plugins
+## Properties
+
+Most plugins read configuration from `gradle.properties` using the `klibs.` prefix. Below is a complete list of properties used by the convention plugins.
+
+### Java properties
+
+```properties
+klibs.java.source=8
+klibs.java.target=11
+klibs.java.ktarget=11
+```
+
+### Project properties
+
+```properties
+klibs.project.name=MyProject
+klibs.project.group=com.example.project
+klibs.project.version.string=0.0.1-SNAPSHOT
+klibs.project.version.code=1
+klibs.project.description=This is my template project!
+klibs.project.url=https://www.yourwebsite.com
+# Split by [,] symbol. Format: id|name|email
+klibs.project.developers=makeevrserg|Makeev Roman|makeevrserg@gmail.com
+```
+
+### Publish properties
+
+```properties
+klibs.publish.name=MyProject
+klibs.publish.description=My publish project description
+klibs.publish.repo.org=Your-Organization
+klibs.publish.repo.name=YourRepoName
+klibs.publish.license=Apache-2.0
+klibs.publish.groupId=io.github.yourname
+```
+
+### Android properties
+
+```properties
+klibs.android.sdk.compile=36
+klibs.android.sdk.min=24
+klibs.android.sdk.target=36
+klibs.android.kotlinCompilerExtensionVersion=1.5.1
+```
+
+### Secret properties (local.properties or environment)
+
+```properties
+klibs.KEY_PASSWORD=MY_PASSWORD
+klibs.KEY_ALIAS=MY_ALIAS
+klibs.STORE_PASSWORD=MY_STORE_PASSWORD
+```
+
+> For CI/CD environment variables, replace `.` with `_` (e.g. `klibs_KEY_PASSWORD`).
+
+### Getting pre-defined property models
+
+```kotlin
+// JInfo - Java version configuration
+val jinfo = project.requireJinfo
+// jinfo.jsource: JavaVersion, jinfo.jtarget: JavaVersion, jinfo.ktarget: JvmTarget
+
+// ProjectInfo - Project metadata
+val projectInfo = project.requireProjectInfo
+// projectInfo.name, .group, .versionString, .description, .url, .developersList
+
+// PublishInfo - Publication metadata
+val publishInfo = project.requirePublishInfo
+// publishInfo.libraryName, .description, .gitHubOrganization, .gitHubName, .license, .publishGroupId
+// publishInfo.gitHubUrl, .sshUrl (derived)
+
+// AndroidSdkInfo - Android SDK versions
+val androidSdkInfo = project.requireAndroidSdkInfo
+// androidSdkInfo.compile, .min, .target
+
+// Version code
+val versionCode: Int = project.requireVersionCode
+
+// Hierarchy group - auto-generated namespace from module path
+val namespace: String = project.hierarchyGroup
+// e.g. :components:core:resource -> "com.example.components.core.resource"
+```
+
+---
+
+## Plugins
 
 ### Detekt
 
+**ID:** `ru.astrainteractive.gradleplugin.detekt`
+
+Applies and configures [Detekt](https://detekt.dev/) static code analysis with a bundled `detekt.yml` configuration.
+
 ```kotlin
 plugins {
-    // This plugin will apply detekt plugin and it's custom detekt.yml 
     alias(libs.plugins.klibs.gradle.detekt)
-    // Or if compose exists in this module use detekt-compose
-    alias(libs.plugins.klibs.gradle.detekt.compose)
 }
 ```
 
-### Dokka
+- Applies `dev.detekt` plugin
+- Registers `detektFormat` task with auto-correction enabled
+- Writes bundled `detekt.yml` to root project build directory
+- Configures HTML reports, parallel execution, source includes/excludes
+- Adds `detekt-rules-ktlint-wrapper` and `compose-rules:detekt` plugins
+- Sets JVM target from `klibs.java.target`
+
+---
+
+### Dokka Module
+
+**ID:** `ru.astrainteractive.gradleplugin.dokka.module`
+
+Configures [Dokka](https://github.com/Kotlin/dokka) documentation generation for individual modules.
 
 ```kotlin
 plugins {
-    // Dokka for root build.gradle.kts
-    // If there's readme - it will be main page of documentation
-    alias(libs.plugins.klibs.gradle.dokka.root) apply false
-    // Dokka for single module
-    // You can also include README.md inside module
-    // and dokka will create this README as main page
-    alias(libs.plugins.klibs.gradle.dokka.module) apply false
+    alias(libs.plugins.klibs.gradle.dokka.module)
 }
 ```
 
-### Java info
+- Applies `org.jetbrains.dokka` plugin
+- Sets module name from `project.name`
+- JDK version from `klibs.java.target`
+- Supports `README.md` as module documentation entry point via `DokkaTaskPartial`
+
+---
+
+### Dokka Root
+
+**ID:** `ru.astrainteractive.gradleplugin.dokka.root`
+
+Configures multi-module Dokka documentation generation for root projects.
 
 ```kotlin
 plugins {
-    // This will setup project java version
-    // And kotlin compile java
-    alias(libs.plugins.klibs.gradle.java.version) apply false
-    // This will enable options.encoding = "UTF-8"
-    alias(libs.plugins.klibs.gradle.java.utf8) apply false
+    alias(libs.plugins.klibs.gradle.dokka.root)
 }
 ```
 
-### Publication plugin
+- Applies `org.jetbrains.dokka` plugin
+- Configures `DokkaMultiModuleTask` with `README.md` or `dokka.md` as entry points
+- Sets module name from `project.name`
+
+---
+
+### Java Version
+
+**ID:** `ru.astrainteractive.gradleplugin.java.version`
+
+Configures Java source/target compatibility and Kotlin JVM target.
 
 ```kotlin
 plugins {
-    // This plugin will create publication to sonatype repository
-    id("ru.astrainteractive.gradleplugin.publication")
+    alias(libs.plugins.klibs.gradle.java.version)
 }
 ```
 
-In your local.properties
+- Sets `JavaPluginExtension.sourceCompatibility` from `klibs.java.source`
+- Sets `JavaPluginExtension.targetCompatibility` from `klibs.java.target`
+- Configures all `KotlinCompile` tasks JVM target from `klibs.java.ktarget`
+
+---
+
+### Java UTF-8
+
+**ID:** `ru.astrainteractive.gradleplugin.java.utf8`
+
+Sets UTF-8 encoding for all Java compilation tasks.
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.java.utf8)
+}
+```
+
+- Sets `options.encoding = "UTF-8"` for all `JavaCompile` tasks
+
+---
+
+### Module Info
+
+**ID:** `ru.astrainteractive.gradleplugin.rootinfo`
+
+Applies project group, version, and description from properties.
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.rootinfo)
+}
+```
+
+- Sets `project.group` from `klibs.project.group`
+- Sets `project.version` from `klibs.project.version.string`
+- Sets `project.description` from `klibs.project.description`
+- Warns if applied to a non-root project
+
+---
+
+### Publication
+
+**ID:** `ru.astrainteractive.gradleplugin.publication`
+
+Configures Maven Central publication via [Vanniktech Maven Publish](https://github.com/vanniktech/gradle-maven-publish-plugin).
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.publication)
+}
+```
+
+- Applies `com.vanniktech.maven.publish` plugin
+- Configures `publishToMavenCentral(automaticRelease = false)`
+- Sets coordinates from `klibs.publish.groupId`, `project.name`, `klibs.project.version.string`
+- Signs all publications
+- Generates full POM (name, description, URL, license, developers, SCM) from project and publish properties
+
+Required secret properties in `local.properties`:
 
 ```properties
-OSSRH_USERNAME=OSSRH_USERNAME
-OSSRH_PASSWORD=OSSRH_PASSWORD
-SIGNING_KEY=SIGNING_KEY
-SIGNING_KEY_ID=SIGNING_KEY_ID
-SIGNING_PASSWORD=SIGNING_PASSWORD
+OSSRH_USERNAME=your_username
+OSSRH_PASSWORD=your_password
+SIGNING_KEY=your_signing_key
+SIGNING_KEY_ID=your_key_id
+SIGNING_PASSWORD=your_signing_password
 ```
 
-### Base64 Secret plugin
+---
 
-This task will generate secret file from secret base64. Useful for `android.keystore` or `google-services.json`
+### Kobweb Resources
+
+**ID:** `ru.astrainteractive.gradleplugin.js.kobweb.resources`
+
+Manages JavaScript resources copying for [Kobweb](https://kobweb.varabyte.com/) applications.
 
 ```kotlin
-tasks.register<SecretFileTask>("YOUR_TASK_NAME") {
-    targetFile = file("YOUR_TARGET_FILE.txt")
-    base64 = secretProperty("YOUR_KEY").requireString
+plugins {
+    alias(libs.plugins.klibs.gradle.js.kobweb.resources)
+}
+
+jsResources {
+    projectsPaths = listOf(":shared", ":frontend")
 }
 ```
+
+- Creates `jsResources` extension with `projectsPaths` configuration
+- Registers `copyJsResources` task copying from `src/jsMain/resources/public` of referenced projects
+- Wires Kobweb tasks (`KobwebStartTask`, `KobwebGenerateSiteIndexTask`, etc.) to depend on `copyJsResources`
+
+---
+
+### Webpack No Source Maps
+
+**ID:** `ru.astrainteractive.gradleplugin.js.webpack.nosourcemaps`
+
+Disables source maps in Kotlin/JS Webpack builds.
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.js.webpack.nosourcemaps)
+}
+```
+
+- Sets `sourceMaps = false` for all `KotlinWebpack` tasks
+
+---
+
+## Tasks
+
+### SecretFileTask
+
+A custom task that decodes a Base64 string into a file. Useful for secrets like `keystore.jks` or `google-services.json` in CI/CD.
+
+```kotlin
+tasks.register<SecretFileTask>("generateKeystore") {
+    targetFile.set(file("keystore.jks"))
+    base64.set(secretProperty("KEYSTORE_BASE64").requireString)
+}
+```
+
+
+
+For custom property access, `PropertyValue` extensions, and caching details, see [Property Module](property.md).

@@ -27,108 +27,114 @@ gradlePlugin {
         create("detekt") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.detekt.DetektPlugin"
-            displayName = "KLibs detekt plugin"
-            description = "Default setup for detekt plugin"
-            tags.set(listOf("klibs"))
+            displayName = "Detekt Code Analysis Plugin"
+            description = "Automatically applies detekt with KLibs configuration for static code analysis with Kotlin linting rules"
+            tags.set(listOf("kotlin", "static-analysis", "klibs"))
         }
         create("dokka.module") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.dokka.DokkaModulePlugin"
-            displayName = "KLibs dokka for module configuration"
-            description = "Dokka generation for project module"
-            tags.set(listOf("klibs"))
+            displayName = "Dokka Module Documentation Plugin"
+            description = "Configures Dokka for individual modules with JDK version detection and documentation settings"
+            tags.set(listOf("documentation", "kotlin", "klibs"))
         }
         create("dokka.root") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.dokka.DokkaRootPlugin"
-            displayName = "KLibs Dokka for root project"
-            description = "Dokka generator for root project"
-            tags.set(listOf("klibs"))
+            displayName = "Dokka Root Documentation Plugin"
+            description = "Configures Dokka multi-module documentation generation for root projects"
+            tags.set(listOf("documentation", "kotlin", "klibs"))
         }
         create("java.version") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.JavaVersionPlugin"
-            displayName = "KLibs java configuration"
-            description = "Default java configuration"
-            tags.set(listOf("klibs"))
+            displayName = "Java Version Configuration Plugin"
+            description = "Sets Java source/target compatibility and Kotlin JVM target versions from project properties"
+            tags.set(listOf("java", "kotlin", "klibs"))
         }
         create("java.utf8") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.JavaUtf8Plugin"
-            displayName = "KLibs java utf8 configuration"
-            description = "Default java utf8 configuration"
-            tags.set(listOf("klibs"))
+            displayName = "Java UTF-8 Encoding Plugin"
+            description = "Configures UTF-8 encoding for Java compilation tasks"
+            tags.set(listOf("java", "encoding", "klibs"))
         }
-        create("root.info") {
+        create("rootinfo") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.ModuleInfoPlugin"
-            displayName = "KLibs root info plugin"
-            description = "Generates version, description for module"
-            tags.set(listOf("klibs"))
+            displayName = "Module Info Plugin"
+            description = "Applies project group, version, and description from gradle.properties to root project"
+            tags.set(listOf("configuration", "klibs"))
         }
         create("publication") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.PublicationPlugin"
-            displayName = "KLibs publication plugin"
-            description = "Default pulbication plugin"
-            tags.set(listOf("klibs"))
+            displayName = "Maven Publication Plugin"
+            description = "Configures Maven Central publication with POM metadata from project properties"
+            tags.set(listOf("publication", "maven", "klibs"))
         }
         create("js.kobweb.resources") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.KobwebResourcesPlugin"
-            displayName = "KLibs publication plugin"
-            description = "Default pulbication plugin"
-            tags.set(listOf("klibs"))
+            displayName = "Kobweb JavaScript Resources Plugin"
+            description = "Manages JavaScript resources copying for Kobweb applications"
+            tags.set(listOf("javascript", "kobweb", "klibs"))
         }
         create("js.webpack.nosourcemaps") {
             id = "$projectGroup.$name"
-            implementationClass = "$projectGroup.plugin.KobwebResourcesPlugin"
-            displayName = "KLibs publication plugin"
-            description = "Default pulbication plugin"
-            tags.set(listOf("klibs"))
+            implementationClass = "$projectGroup.plugin.WebpackNoSourceMapsPlugin"
+            displayName = "Webpack No Source Maps Plugin"
+            description = "Disables source maps in Kotlin/JS Webpack builds for production optimization"
+            tags.set(listOf("javascript", "webpack", "klibs"))
+        }
+        create("minecraft.resource.processor") {
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.ResourceProcessorPlugin"
+            displayName = "Minecraft Resource Processor Plugin"
+            description = "Provides resource processor scope for Minecraft mod development"
+            tags.set(listOf("minecraft", "resources", "klibs"))
         }
         create("android.java") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidJavaPlugin"
-            displayName = "KLibs java android plugin"
-            description = "Plugin provides basic android configuration"
-            tags.set(listOf("klibs"))
+            displayName = "Android Java Configuration Plugin"
+            description = "Configures Java/Kotlin JVM target versions for Android and Kotlin Multiplatform Android targets"
+            tags.set(listOf("android", "java", "kotlin", "klibs"))
         }
         create("android.sdk") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidSdkPlugin"
-            displayName = "KLibs core android plugin"
-            description = "Plugin provides basic android configuration"
-            tags.set(listOf("klibs"))
+            displayName = "Android SDK Configuration Plugin"
+            description = "Sets compileSdk, minSdk, and targetSdk versions for Android projects from gradle.properties"
+            tags.set(listOf("android", "sdk", "klibs"))
         }
         create("android.namespace") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidNamespacePlugin"
-            displayName = "Generate android namespace"
-            description = "Plugin will automatically create namespace for android extension based ot folder path"
-            tags.set(listOf("klibs"))
+            displayName = "Android Namespace Plugin"
+            description = "Automatically generates Android namespace based on module path hierarchy"
+            tags.set(listOf("android", "configuration", "klibs"))
         }
         create("android.compose") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidComposePlugin"
-            displayName = "KLibs core android-compose plugin"
-            description = "Plugin provides basic android compose setup"
-            tags.set(listOf("klibs"))
+            displayName = "Android Compose Plugin"
+            description = "Enables and configures Jetpack Compose for Android projects"
+            tags.set(listOf("android", "compose", "klibs"))
         }
         create("android.apk.sign") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.ApkSigningPlugin"
-            displayName = "KLibs android apk sign plugin"
-            description = "Plugin provides basic android sign"
-
-            tags.set(listOf("klibs"))
+            displayName = "Android APK Signing Plugin"
+            description = "Configures APK signing for debug and release builds using keystore from gradle properties"
+            tags.set(listOf("android", "signing", "klibs"))
         }
         create("android.apk.name") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.ApkNamePlugin"
-            displayName = "KLibs android apk name plugin"
-            description = "Plugin provides basic android naming setup"
-            tags.set(listOf("klibs"))
+            displayName = "Android APK Naming Plugin"
+            description = "Automatically names APK files with project name, version, and build variant"
+            tags.set(listOf("android", "apk", "klibs"))
         }
     }
 }

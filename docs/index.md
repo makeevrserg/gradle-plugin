@@ -103,3 +103,4 @@ plugins {
 - [Android Plugins](android.md) - Android SDK, Compose, signing, namespace, and APK naming plugins
 - [Minecraft Plugins](minecraft.md) - Resource processor for Bukkit, Fabric, Forge, and Velocity
 - [Property Module](property.md) - Property management system (`PropertyValue`, lookup order, caching)
+

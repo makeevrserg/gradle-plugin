@@ -28,14 +28,16 @@ gradlePlugin {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.detekt.DetektPlugin"
             displayName = "Detekt Code Analysis Plugin"
-            description = "Automatically applies detekt with KLibs configuration for static code analysis with Kotlin linting rules"
+            description =
+                "Automatically applies detekt with KLibs configuration for static code analysis with Kotlin linting rules"
             tags.set(listOf("kotlin", "static-analysis", "klibs"))
         }
         create("dokka.module") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.dokka.DokkaModulePlugin"
             displayName = "Dokka Module Documentation Plugin"
-            description = "Configures Dokka for individual modules with JDK version detection and documentation settings"
+            description =
+                "Configures Dokka for individual modules with JDK version detection and documentation settings"
             tags.set(listOf("documentation", "kotlin", "klibs"))
         }
         create("dokka.root") {
@@ -98,7 +100,8 @@ gradlePlugin {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.AndroidJavaPlugin"
             displayName = "Android Java Configuration Plugin"
-            description = "Configures Java/Kotlin JVM target versions for Android and Kotlin Multiplatform Android targets"
+            description =
+                "Configures Java/Kotlin JVM target versions for Android and Kotlin Multiplatform Android targets"
             tags.set(listOf("android", "java", "kotlin", "klibs"))
         }
         create("android.sdk") {

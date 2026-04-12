@@ -18,9 +18,8 @@ jobs:
     strategy:
       matrix:
         target:
-          - ":build-logic:plugins:convention:publishToMavenLocal"
-          - ":build-logic:plugins:android:publishToMavenLocal"
-          - ":build-logic:plugins:minecraft:publishToMavenLocal"
+          - ":build-logic:convention:publishToMavenLocal"
+          - ":build-logic:property:publishToMavenLocal"
     name: "Validate local publish"
     runs-on: ubuntu-latest
     env:

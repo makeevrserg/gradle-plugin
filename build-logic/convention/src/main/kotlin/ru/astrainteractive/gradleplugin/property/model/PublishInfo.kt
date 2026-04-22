@@ -7,6 +7,7 @@ data class PublishInfo(
     val gitHubName: String,
     val license: String,
     val publishGroupId: String,
+    val automaticRelease: Boolean
 ) {
     val gitHubUrl = "https://github.com/$gitHubOrganization/$gitHubName"
     val sshUrl = "scm:git:ssh://github.com/$gitHubOrganization/$gitHubName.git"

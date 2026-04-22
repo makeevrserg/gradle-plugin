@@ -1,9 +1,11 @@
+import com.vanniktech.maven.publish.DeploymentValidation
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.vaniktech) apply false
-    id("ru.astrainteractive.gradleplugin.detekt") version "1.15.0" apply true
+    id("ru.astrainteractive.gradleplugin.detekt") version "2.0.0" apply true
 }
 
 private fun requireProperty(key: String): String {
@@ -47,17 +49,20 @@ subprojects {
 
     afterEvaluate {
         configure<KotlinBaseExtension> {
-            jvmToolchain(11)
+            jvmToolchain(17)
         }
     }
 
     project.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    project.configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
-        publishToMavenCentral(automaticRelease = true)
+    project.configure<MavenPublishBaseExtension> {
+        publishToMavenCentral(
+            automaticRelease = true,
+            validateDeployment = DeploymentValidation.VALIDATED
+        )
         coordinates(
             groupId = projectConfiguration.projectGroup,
             artifactId = project.name,

@@ -40,6 +40,7 @@ klibs.publish.repo.org=Your-Organization
 klibs.publish.repo.name=YourRepoName
 klibs.publish.license=Apache-2.0
 klibs.publish.groupId=io.github.yourname
+klibs.publish.automaticRelease=true
 ```
 
 ### Android properties
@@ -74,7 +75,7 @@ val projectInfo = project.requireProjectInfo
 
 // PublishInfo - Publication metadata
 val publishInfo = project.requirePublishInfo
-// publishInfo.libraryName, .description, .gitHubOrganization, .gitHubName, .license, .publishGroupId
+// publishInfo.libraryName, .description, .gitHubOrganization, .gitHubName, .license, .publishGroupId, .automaticRelease
 // publishInfo.gitHubUrl, .sshUrl (derived)
 
 // AndroidSdkInfo - Android SDK versions

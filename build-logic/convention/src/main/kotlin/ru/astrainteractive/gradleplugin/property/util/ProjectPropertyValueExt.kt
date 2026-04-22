@@ -75,6 +75,10 @@ val Project.requirePublishInfo: PublishInfo
         gitHubName = klibsGradleProperty("publish.repo.name").requireString,
         license = klibsGradleProperty("publish.license").requireString,
         publishGroupId = klibsGradleProperty("publish.groupId").requireString,
+        automaticRelease = klibsGradleProperty("publish.automaticRelease")
+            .stringOrNull
+            ?.toBooleanStrictOrNull()
+            ?: false,
     )
 
 val PropertyValue.developers: Result<List<Developer>>

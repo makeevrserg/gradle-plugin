@@ -1,10 +1,10 @@
 [versions]
-agp = "9.1.0"
+agp = "9.1.0" # https://developer.android.com/build/releases/about-agp
 detekt = "2.0.0-alpha.2" # https://detekt.dev/docs/gettingstarted/gradle/
-dokka = "2.2.0"
+dokka = "2.2.0" # https://github.com/kotlin/dokka
 kobweb = "0.24.0" # https://github.com/varabyte/kobweb
-kotlin = "2.3.20"
-vaniktech = "0.35.0"
+kotlin = "2.3.20" # https://github.com/jetbrains/kotlin
+vaniktech = "0.36.0" # https://github.com/vanniktech/gradle-maven-publish-plugin
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }

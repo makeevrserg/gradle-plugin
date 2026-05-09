@@ -12,33 +12,25 @@ import ru.astrainteractive.gradleplugin.property.model.JInfo
 import ru.astrainteractive.gradleplugin.property.model.ProjectInfo
 import ru.astrainteractive.gradleplugin.property.model.PublishInfo
 
-val PropertyValue.stringOrNull: String?
-    get() = getValue().getOrNull()
-val PropertyValue.stringOrEmpty: String
-    get() = stringOrNull.orEmpty()
-val PropertyValue.requireString: String
-    get() = getValue().getOrThrow()
+val PropertyValue.stringOrNull: String? get() = getValue().getOrNull()
+val PropertyValue.stringOrEmpty: String get() = stringOrNull.orEmpty()
+val PropertyValue.requireString: String get() = getValue().getOrThrow()
 
-val PropertyValue.int: Result<Int>
-    get() = getValue().mapCatching { it.toInt() }
+val PropertyValue.int: Result<Int> get() = getValue().mapCatching(String::toInt)
+val PropertyValue.intOrNull: Int? get() = int.getOrNull()
+val PropertyValue.requireInt: Int get() = int.getOrThrow()
 
-val PropertyValue.intOrNull: Int?
-    get() = int.getOrNull()
+val PropertyValue.boolean: Result<Boolean> get() = getValue().mapCatching(String::toBooleanStrict)
+val PropertyValue.booleanOrNull: Boolean? get() = boolean.getOrNull()
+val PropertyValue.requireBoolean: Boolean get() = boolean.getOrThrow()
 
-val PropertyValue.requireInt: Int
-    get() = int.getOrThrow()
+val PropertyValue.jvmTarget: Result<JvmTarget> get() = getValue().mapCatching(JvmTarget::fromTarget)
+val PropertyValue.jvmTargetOrNull: JvmTarget get() = jvmTarget.getOrThrow()
+val PropertyValue.requireJvmTarget: JvmTarget get() = jvmTarget.getOrThrow()
 
-val PropertyValue.jvmTarget: Result<JvmTarget>
-    get() = getValue().mapCatching { JvmTarget.fromTarget(requireString) }
-
-val PropertyValue.requireJvmTarget: JvmTarget
-    get() = jvmTarget.getOrThrow()
-
-val PropertyValue.javaVersion: Result<JavaVersion>
-    get() = getValue().mapCatching { JavaVersion.toVersion(requireInt) }
-
-val PropertyValue.requireJavaVersion: JavaVersion
-    get() = javaVersion.getOrThrow()
+val PropertyValue.javaVersion: Result<JavaVersion> get() = int.mapCatching(JavaVersion::toVersion)
+val PropertyValue.javaVersionOrNull: JavaVersion? get() = javaVersion.getOrNull()
+val PropertyValue.requireJavaVersion: JavaVersion get() = javaVersion.getOrThrow()
 
 val Project.requireAndroidSdkInfo: AndroidSdkInfo
     get() = AndroidSdkInfo(

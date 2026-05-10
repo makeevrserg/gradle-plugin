@@ -32,19 +32,11 @@ gradlePlugin {
                 "Automatically applies detekt with KLibs configuration for static code analysis with Kotlin linting rules"
             tags.set(listOf("kotlin", "static-analysis", "klibs"))
         }
-        create("dokka.module") {
-            id = "$projectGroup.$name"
-            implementationClass = "$projectGroup.plugin.dokka.DokkaModulePlugin"
-            displayName = "Dokka Module Documentation Plugin"
-            description =
-                "Configures Dokka for individual modules with JDK version detection and documentation settings"
-            tags.set(listOf("documentation", "kotlin", "klibs"))
-        }
         create("dokka.root") {
             id = "$projectGroup.$name"
             implementationClass = "$projectGroup.plugin.dokka.DokkaRootPlugin"
             displayName = "Dokka Root Documentation Plugin"
-            description = "Configures Dokka multi-module documentation generation for root projects"
+            description = "Configures Dokka for project with JDK version detection and documentation settings"
             tags.set(listOf("documentation", "kotlin", "klibs"))
         }
         create("java.version") {
@@ -60,6 +52,14 @@ gradlePlugin {
             displayName = "Java UTF-8 Encoding Plugin"
             description = "Configures UTF-8 encoding for Java compilation tasks"
             tags.set(listOf("java", "encoding", "klibs"))
+        }
+        create("klibs") {
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.KlibsExtensionPlugin"
+            displayName = "KLibs Properties Extension Plugin"
+            description =
+                "Registers a `klibs` project extension exposing gradle.properties values without imports in build.gradle.kts"
+            tags.set(listOf("configuration", "klibs"))
         }
         create("rootinfo") {
             id = "$projectGroup.$name"

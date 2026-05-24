@@ -3,6 +3,7 @@ package ru.astrainteractive.gradleplugin.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -17,6 +18,7 @@ class JavaVersionPlugin : Plugin<Project> {
         target.configure<JavaPluginExtension> {
             sourceCompatibility = jinfo.jsource
             targetCompatibility = jinfo.jtarget
+            toolchain.languageVersion.set(JavaLanguageVersion.of(jinfo.jtarget.majorVersion))
         }
         target.tasks
             .withType<KotlinCompile>()

@@ -4,10 +4,24 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
+abstract class FabricLoomJavaVersionRule : ComponentMetadataRule {
+    override fun execute(ctx: ComponentMetadataContext) {
+        ctx.details.allVariants {
+            attributes {
+                attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+            }
+        }
+    }
+}
+
 dependencies {
+    components { withModule<FabricLoomJavaVersionRule>("net.fabricmc:fabric-loom") }
+
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     compileOnly(libs.android.gradle)
     compileOnly(libs.kotlin.gradle)
+    compileOnly(libs.forge.gradle)
+    compileOnly(libs.fabric.loom) { isTransitive = false }
 
     implementation(libs.detekt.gradle)
     implementation(libs.dokka.base)
@@ -88,6 +102,14 @@ gradlePlugin {
             displayName = "Webpack No Source Maps Plugin"
             description = "Disables source maps in Kotlin/JS Webpack builds for production optimization"
             tags.set(listOf("javascript", "webpack", "klibs"))
+        }
+        create("minecraft.platform") {
+            id = "$projectGroup.$name"
+            implementationClass = "$projectGroup.plugin.minecraft.MinecraftPlatformPlugin"
+            displayName = "Minecraft Platform Plugin"
+            description =
+                "Configures the Minecraft platform toolchain (native/Forge/NeoForge) via a single `minecraftPlatform { }` DSL block"
+            tags.set(listOf("minecraft", "forge", "neoforge", "fabric", "klibs"))
         }
         create("minecraft.resource.processor") {
             id = "$projectGroup.$name"

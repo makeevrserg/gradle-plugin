@@ -10,9 +10,9 @@ import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.api.ResourceProces
 import ru.astrainteractive.gradleplugin.property.model.Developer
 import ru.astrainteractive.gradleplugin.property.model.ProjectInfo
 
-internal class ForgeResourceProcessor(
+internal class NeoForgeResourceProcessor(
     private val projectInfo: ProjectInfo
-) : ResourceProcessor<ForgeResourceProcessor.Info> {
+) : ResourceProcessor<NeoForgeResourceProcessor.Info> {
 
     data class Info(
         val modId: String,
@@ -35,8 +35,10 @@ internal class ForgeResourceProcessor(
     override fun getDefaultProperties(): Map<String, String> {
         val processorInfo = getProcessorInfo()
         return mapOf(
+            "neo_version" to "neo_version",
             "mod_id" to processorInfo.modId,
             "mod_name" to processorInfo.displayName,
+            "mod_license" to "mod_license",
             "mod_version" to processorInfo.version,
             "mod_authors" to processorInfo.developers
                 .map(Developer::id)

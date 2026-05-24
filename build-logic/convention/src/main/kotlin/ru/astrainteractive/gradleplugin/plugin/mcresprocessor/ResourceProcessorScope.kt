@@ -7,6 +7,7 @@ import org.gradle.language.jvm.tasks.ProcessResources
 import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.platform.BukkitResourceProcessor
 import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.platform.FabricResourceProcessor
 import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.platform.ForgeResourceProcessor
+import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.platform.NeoForgeResourceProcessor
 import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.platform.VelocityResourceProcessor
 import ru.astrainteractive.gradleplugin.property.model.ProjectInfo
 
@@ -29,4 +30,8 @@ open class ResourceProcessorScope(private val projectInfo: ProjectInfo) {
     fun Project.forge(
         customProperties: Map<String, String> = emptyMap(),
     ) = ForgeResourceProcessor(projectInfo).process(task, customProperties)
+
+    fun Project.neoForge(
+        customProperties: Map<String, String> = emptyMap(),
+    ) = NeoForgeResourceProcessor(projectInfo).process(task, customProperties)
 }

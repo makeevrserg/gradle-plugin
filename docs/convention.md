@@ -273,6 +273,10 @@ plugins {
 
 ---
 
+> For Minecraft-specific plugins (`minecraft.platform`, `minecraft.resource.processor`), see [Minecraft Plugins](minecraft.md).
+
+---
+
 ## Tasks
 
 ### SecretFileTask
@@ -285,7 +289,5 @@ tasks.register<SecretFileTask>("generateKeystore") {
     base64.set(secretProperty("KEYSTORE_BASE64").requireString)
 }
 ```
-
-
 
 For custom property access, `PropertyValue` extensions, and caching details, see [Property Module](property.md).

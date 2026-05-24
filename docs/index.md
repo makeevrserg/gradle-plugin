@@ -12,7 +12,7 @@ monolithic plugin, it's split into sub-plugins to provide focused functionality:
 - `property` - property management system for `gradle.properties`, `local.properties`, and environment variables
 - `convention` - core plugins for Java, Kotlin, Detekt, Dokka, publication, and more
 - `android` - plugins for Android SDK, Compose, APK signing, namespacing
-- `minecraft` - resource processor for Bukkit, Fabric, Forge, and Velocity
+- `minecraft` - platform toolchain setup (native/Forge/NeoForge) and resource processor for Bukkit, Fabric, Forge, NeoForge, and Velocity
 
 ---
 
@@ -29,7 +29,6 @@ klibs-gradleplugin = "<latest-version>"
 [plugins]
 # Core
 klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
-klibs-gradle-dokka-module = { id = "ru.astrainteractive.gradleplugin.dokka.module", version.ref = "klibs-gradleplugin" }
 klibs-gradle-dokka-root = { id = "ru.astrainteractive.gradleplugin.dokka.root", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-version = { id = "ru.astrainteractive.gradleplugin.java.version", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-utf8 = { id = "ru.astrainteractive.gradleplugin.java.utf8", version.ref = "klibs-gradleplugin" }
@@ -39,6 +38,7 @@ klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication"
 klibs-gradle-js-kobweb-resources = { id = "ru.astrainteractive.gradleplugin.js.kobweb.resources", version.ref = "klibs-gradleplugin" }
 klibs-gradle-js-webpack-nosourcemaps = { id = "ru.astrainteractive.gradleplugin.js.webpack.nosourcemaps", version.ref = "klibs-gradleplugin" }
 # Minecraft
+klibs-gradle-minecraft-platform = { id = "ru.astrainteractive.gradleplugin.minecraft.platform", version.ref = "klibs-gradleplugin" }
 klibs-gradle-minecraft-resource-processor = { id = "ru.astrainteractive.gradleplugin.minecraft.resource.processor", version.ref = "klibs-gradleplugin" }
 # Android
 klibs-gradle-android-java = { id = "ru.astrainteractive.gradleplugin.android.java", version.ref = "klibs-gradleplugin" }
@@ -74,7 +74,6 @@ Your root `build.gradle.kts`
 plugins {
     // klibs - core
     alias(libs.plugins.klibs.gradle.detekt) apply false
-    alias(libs.plugins.klibs.gradle.dokka.module) apply false
     alias(libs.plugins.klibs.gradle.dokka.root) apply false
     alias(libs.plugins.klibs.gradle.java.version) apply false
     alias(libs.plugins.klibs.gradle.java.utf8) apply false
@@ -84,6 +83,7 @@ plugins {
     alias(libs.plugins.klibs.gradle.js.kobweb.resources) apply false
     alias(libs.plugins.klibs.gradle.js.webpack.nosourcemaps) apply false
     // klibs - minecraft
+    alias(libs.plugins.klibs.gradle.minecraft.platform) apply false
     alias(libs.plugins.klibs.gradle.minecraft.resource.processor) apply false
     // klibs - android
     alias(libs.plugins.klibs.gradle.android.java) apply false
@@ -101,6 +101,6 @@ plugins {
 
 - [Convention Module](convention.md) - Core plugins, properties reference, tasks, and custom property access
 - [Android Plugins](android.md) - Android SDK, Compose, signing, namespace, and APK naming plugins
-- [Minecraft Plugins](minecraft.md) - Resource processor for Bukkit, Fabric, Forge, and Velocity
+- [Minecraft Plugins](minecraft.md) - Platform toolchain (native/Forge/NeoForge) and resource processor for Bukkit, Fabric, Forge, NeoForge, and Velocity
 - [Property Module](property.md) - Property management system (`PropertyValue`, lookup order, caching)
 

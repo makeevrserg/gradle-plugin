@@ -2,8 +2,11 @@
 agp = "9.1.0" # https://developer.android.com/build/releases/about-agp
 detekt = "2.0.0-alpha.2" # https://detekt.dev/docs/gettingstarted/gradle/
 dokka = "2.2.0" # https://github.com/kotlin/dokka
+fabric-loom = "1.16.1" # https://github.com/FabricMC/fabric-loom
+forge-gradle = "7.0.25" # https://github.com/MinecraftForge/ForgeGradle
 kobweb = "0.24.0" # https://github.com/varabyte/kobweb
 kotlin = "2.3.20" # https://github.com/jetbrains/kotlin
+neoforge-gradle = "7.1.20" # https://github.com/neoforged/NeoGradle
 vaniktech = "0.36.0" # https://github.com/vanniktech/gradle-maven-publish-plugin
 
 [libraries]
@@ -12,8 +15,11 @@ detekt-gradle = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "det
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "dokka" }
 dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+fabric-loom = { module = "net.fabricmc:fabric-loom", version.ref = "fabric-loom" }
+forge-gradle = { module = "net.minecraftforge:forgegradle", version.ref = "forge-gradle" }
 kobweb-gradle = { module = "com.varabyte.kobweb.gradle:application", version.ref = "kobweb" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+neoforge-gradle = { module = "net.neoforged.gradle:userdev", version.ref = "neoforge-gradle" }
 vaniktech = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vaniktech" }
 
 [plugins]

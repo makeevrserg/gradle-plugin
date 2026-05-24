@@ -4,6 +4,49 @@
 
 ---
 
+### Minecraft Platform Plugin
+
+**ID:** `ru.astrainteractive.gradleplugin.minecraft.platform`
+
+Configures the Minecraft platform toolchain via a single `minecraftPlatform { }` DSL block. Exactly one platform must be selected per module. Supported platforms: **native** (vanilla/Fabric via fabric-loom), **Forge** (ForgeGradle), **NeoForge** (NeoGradle).
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.minecraft.platform)
+}
+
+minecraftPlatform {
+    // Native / vanilla – applies fabric-loom and adds Mojang mappings
+    platform = native {
+        version = "1.21.4"
+    }
+
+    // Forge – applies net.minecraftforge.gradle and adds forge as compileOnly
+    platform = forge {
+        version = "1.20.1-47.3.0"
+        useLocal = false   // true: resolve from local .gradle/mavenizer/repo instead
+    }
+
+    // NeoForge – applies net.neoforged.gradle.userdev and adds neoforge as compileOnly
+    platform = neoForge {
+        version = "21.4.167"
+        useLocal = false   // true: resolve from local .gradle/repositories/ng_dummy_ng instead
+    }
+}
+```
+
+#### Platform details
+
+| Platform   | Gradle plugin applied          | Dependency added                                   |
+|------------|--------------------------------|----------------------------------------------------|
+| `native`   | `fabric-loom`                  | `com.mojang:minecraft:<version>` + Mojang mappings |
+| `forge`    | `net.minecraftforge.gradle`    | `net.minecraftforge:forge:<version>` (compileOnly) |
+| `neoForge` | `net.neoforged.gradle.userdev` | `net.neoforged:neoforge:<version>` (compileOnly)   |
+
+> **Note:** `platform` must be assigned inside the block; omitting it causes a build error.
+
+---
+
 ### Minecraft Resource Processor
 
 **ID:** `ru.astrainteractive.gradleplugin.minecraft.resource.processor`
@@ -25,6 +68,9 @@ minecraftProcessResource {
     // Forge - processes META-INF/mods.toml
     forge()
 
+    // NeoForge - processes META-INF/mods.toml
+    neoForge()
+
     // Velocity - processes velocity-plugin.json
     velocity()
 }
@@ -32,7 +78,7 @@ minecraftProcessResource {
 
 ### Custom properties
 
-Each platform function accepts a `customProperties` map that merges with the defaults:
+Each platform function accepts a `customProperties: Map<String, String>` that merges with the defaults:
 
 ```kotlin
 minecraftProcessResource {
@@ -56,6 +102,10 @@ minecraftProcessResource {
 
 **Fabric** (`fabric.mod.json`): `version`
 
-**Forge** (`META-INF/mods.toml`): `modId`, `version`, `description`, `displayName`, `authors`
+**Forge** (`META-INF/mods.toml`): `mod_id`, `mod_name`, `mod_version`, `mod_authors`, `mod_description`
 
-All values are derived from `ProjectInfo` properties (`klibs.project.*`).
+**NeoForge** (`META-INF/mods.toml`): `neo_version`, `mod_id`, `mod_name`, `mod_license`, `mod_version`, `mod_authors`, `mod_description`
+
+> `neo_version` and `mod_license` are passed through as literal placeholder strings by default and must be overridden via `customProperties` if your template references them directly.
+
+All other values are derived from `ProjectInfo` properties (`klibs.project.*`).

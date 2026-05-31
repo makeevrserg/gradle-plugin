@@ -16,7 +16,7 @@ class ApkNamePlugin : Plugin<Project> {
                     if (output is VariantOutputImpl) {
                         val name = projectInfo.name
                         val version = projectInfo.versionString
-                        output.outputFileName.set("${name}_${version}_${variant.name}.apk")
+                        output.outputFileName.set("${name}-${target.name}-${version}-${variant.name}.apk")
                     }
                 }
             }

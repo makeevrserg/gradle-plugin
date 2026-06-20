@@ -610,8 +610,8 @@ style:
     active: true
   SerialVersionUIDInSerializableClass:
     active: true
-  SpacingAfterPackageDeclaration:
-    active: false
+  SpacingAfterPackageAndImports:
+    active: true
   ThrowsCount:
     active: true
     max: 2

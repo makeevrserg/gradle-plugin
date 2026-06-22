@@ -7,7 +7,7 @@ forge-gradle = "7.0.25" # https://github.com/MinecraftForge/ForgeGradle
 kobweb = "0.24.0" # https://github.com/varabyte/kobweb
 kotlin = "2.4.0" # https://github.com/jetbrains/kotlin
 neoforge-gradle = "7.1.20" # https://github.com/neoforged/NeoGradle
-vaniktech = "0.36.0" # https://github.com/vanniktech/gradle-maven-publish-plugin
+vaniktech = "0.37.0" # https://github.com/vanniktech/gradle-maven-publish-plugin
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }

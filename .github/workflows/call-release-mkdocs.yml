@@ -9,7 +9,7 @@ jobs:
     outputs:
       DOCS_FILES_CHANGED: ${{ steps.docs_changed.outputs.any_changed }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
         with:
           submodules: 'recursive'
       - name: Check that docs changed
@@ -24,8 +24,8 @@ jobs:
     if: needs.check_docs_files_change.outputs.DOCS_FILES_CHANGED == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7
         with:
           python-version: 3.x
       - run: pip install mkdocs-material

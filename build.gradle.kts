@@ -39,7 +39,7 @@ registerDelegatingTask(
     taskDescription = "Publishes every build-logic module to the local Maven repository"
 )
 registerDelegatingTask(
-    taskName = "publishToMavenCentral",
+    taskName = "publishAndReleaseToMavenCentral",
     taskGroup = PublishingPlugin.PUBLISH_TASK_GROUP,
     taskDescription = "Publishes every build-logic module to Maven Central"
 )

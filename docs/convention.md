@@ -115,25 +115,6 @@ plugins {
 
 ---
 
-### Dokka Module
-
-**ID:** `ru.astrainteractive.gradleplugin.dokka.module`
-
-Configures [Dokka](https://github.com/Kotlin/dokka) documentation generation for individual modules.
-
-```kotlin
-plugins {
-    alias(libs.plugins.klibs.gradle.dokka.module)
-}
-```
-
-- Applies `org.jetbrains.dokka` plugin
-- Sets module name from `project.name`
-- JDK version from `klibs.java.target`
-- Supports `README.md` as module documentation entry point via `DokkaTaskPartial`
-
----
-
 ### Dokka Root
 
 **ID:** `ru.astrainteractive.gradleplugin.dokka.root`

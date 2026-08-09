@@ -9,9 +9,9 @@ plugins {
 }
 
 private fun requireProperty(key: String): String {
-    return rootProject.property(key)
+    return rootProject.findProperty(key)
         ?.toString()
-        ?: throw GradleException("Could not find property $key")
+        ?: throw GradleException("Could not find property $key in gradle.properties")
 }
 
 private fun canSignPublication(): Boolean {
@@ -21,20 +21,49 @@ private fun canSignPublication(): Boolean {
 }
 
 data class ProjectConfiguration(
-    val projectName: String = requireProperty("project.name"),
-    val projectDescription: String = requireProperty("project.description"),
-    val projectGroup: String = requireProperty("project.group"),
-    val projectWeb: String = requireProperty("project.web"),
-    val projectVersionString: String = requireProperty("project.version.string")
+    val projectName: String = requireProperty("klibs.project.name"),
+    val projectDescription: String = requireProperty("klibs.project.description"),
+    val projectGroup: String = requireProperty("klibs.project.group"),
+    val projectUrl: String = requireProperty("klibs.project.url"),
+    val projectVersionString: String = requireProperty("klibs.project.version.string")
 )
 
 val projectConfiguration = ProjectConfiguration()
+
+/**
+ * Lifecycle task on the `build-logic` root project which runs [taskName] in every subproject.
+ *
+ * Subprojects are resolved by path so that adding a new module does not require touching this file
+ * or the CI workflows.
+ */
+private fun registerAggregateTask(taskName: String, taskGroup: String, taskDescription: String) {
+    tasks.register(taskName) {
+        group = taskGroup
+        description = taskDescription
+        dependsOn(subprojects.map { subproject -> "${subproject.path}:$taskName" })
+    }
+}
+
+registerAggregateTask(
+    taskName = "publishToMavenLocal",
+    taskGroup = PublishingPlugin.PUBLISH_TASK_GROUP,
+    taskDescription = "Publishes every build-logic module to the local Maven repository"
+)
+registerAggregateTask(
+    taskName = "publishToMavenCentral",
+    taskGroup = PublishingPlugin.PUBLISH_TASK_GROUP,
+    taskDescription = "Publishes every build-logic module to Maven Central"
+)
+
+tasks.named("test") {
+    dependsOn(subprojects.map { subproject -> "${subproject.path}:test" })
+}
 
 allprojects {
     extensions.add("projectName", projectConfiguration.projectName)
     extensions.add("projectDescription", projectConfiguration.projectDescription)
     extensions.add("projectGroup", projectConfiguration.projectGroup)
-    extensions.add("projectWeb", projectConfiguration.projectWeb)
+    extensions.add("projectUrl", projectConfiguration.projectUrl)
     extensions.add("projectVersionString", projectConfiguration.projectVersionString)
 }
 
@@ -71,13 +100,13 @@ subprojects {
         pom {
             name.set(projectConfiguration.projectName)
             description.set(projectConfiguration.projectDescription)
-            url.set(projectConfiguration.projectWeb)
+            url.set(projectConfiguration.projectUrl)
 
             licenses {
                 license {
                     name.set("MIT License")
                     distribution.set("repo")
-                    url.set("${projectConfiguration.projectWeb}/blob/master/LICENSE.md")
+                    url.set("${projectConfiguration.projectUrl}/blob/master/LICENSE.md")
                 }
             }
             developers {
@@ -90,7 +119,7 @@ subprojects {
             scm {
                 connection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
                 developerConnection.set("scm:git:ssh://github.com/makeevrserg/gradle-plugin.git")
-                url.set(projectConfiguration.projectWeb)
+                url.set(projectConfiguration.projectUrl)
             }
         }
         if (canSignPublication()) {

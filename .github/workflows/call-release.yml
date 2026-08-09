@@ -12,9 +12,6 @@ on:
         required: true
       ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD:
         required: true
-      # Optional PAT used to create the GitHub release. Falls back to GITHUB_TOKEN when unset.
-      ACTIONS_TOKEN:
-        required: false
 
 jobs:
   publish:
@@ -39,7 +36,7 @@ jobs:
       - name: Publish and release to Maven Central
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3
         with:
-          arguments: publishToMavenCentral --stacktrace
+          arguments: publishAndReleaseToMavenCentral --stacktrace
   release:
     needs: [ publish ]
     name: "Create GitHub release"
@@ -62,7 +59,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN || github.token }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           tag_name: ${{ steps.properties.outputs.klibs-project-version-string }}
           name: ${{ steps.properties.outputs.klibs-project-name }} - ${{ steps.properties.outputs.klibs-project-version-string }}

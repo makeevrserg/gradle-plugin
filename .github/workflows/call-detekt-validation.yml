@@ -1,7 +1,6 @@
 name: "Detekt static analysis"
 on:
   workflow_call:
-
 jobs:
   detekt:
     name: "Run detekt"
@@ -19,4 +18,4 @@ jobs:
       - name: Run detekt
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3
         with:
-          arguments: detekt --stacktrace
+          arguments: detekt

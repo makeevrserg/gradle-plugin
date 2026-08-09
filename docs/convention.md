@@ -115,21 +115,56 @@ plugins {
 
 ---
 
-### Dokka Root
+### Dokka
 
-**ID:** `ru.astrainteractive.gradleplugin.dokka.root`
+**ID:** `ru.astrainteractive.gradleplugin.dokka`
 
-Configures multi-module Dokka documentation generation for root projects.
+Applied by every project that should be documented - the aggregating one included. Dokka has no
+separate root mode, so there is a single plugin.
 
 ```kotlin
 plugins {
-    alias(libs.plugins.klibs.gradle.dokka.root)
+    alias(libs.plugins.klibs.gradle.dokka)
 }
 ```
 
-- Applies `org.jetbrains.dokka` plugin
-- Configures `DokkaMultiModuleTask` with `README.md` or `dokka.md` as entry points
-- Sets module name from `project.name`
+- Applies the `org.jetbrains.dokka` plugin
+- Sets module name from `project.name` and module version from `klibs.project.version.string`
+- Sets `jdkVersion` from `klibs.java.target`
+- Includes the project's `README.md` when present
+- Documents public declarations only, skipping empty packages
+
+#### Multi-module documentation
+
+Each module applies the plugin itself, and the aggregating project lists the modules in its `dokka`
+dependency scope. Nothing is applied to another project, which is what `org.gradle.isolated-projects`
+requires.
+
+Root `build.gradle.kts`:
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.dokka)
+}
+
+dependencies {
+    dokka(projects.core)
+    dokka(projects.coreBukkit)
+}
+```
+
+Every aggregated module's `build.gradle.kts`:
+
+```kotlin
+plugins {
+    id("ru.astrainteractive.gradleplugin.dokka")
+}
+```
+
+> In the modules request the plugin with `id(...)` and no version: the root project already put it
+> on the build script classpath, and asking for a version there fails plugin resolution.
+
+Run `./gradlew dokkaGenerate` in the aggregating project to build the combined documentation.
 
 ---
 

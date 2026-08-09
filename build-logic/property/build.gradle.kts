@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("com.vanniktech.maven.publish")
+    id("klibs.module")
 }
 
 dependencies {

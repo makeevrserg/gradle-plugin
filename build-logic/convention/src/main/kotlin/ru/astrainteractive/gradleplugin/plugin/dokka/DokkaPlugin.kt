@@ -3,31 +3,15 @@ package ru.astrainteractive.gradleplugin.plugin.dokka
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.dokka.gradle.DokkaExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.dokka.gradle.engine.plugins.DokkaHtmlPluginParameters
 import ru.astrainteractive.gradleplugin.property.util.requireJinfo
 import ru.astrainteractive.gradleplugin.property.util.requireProjectInfo
 
-class DokkaRootPlugin : Plugin<Project> {
-
-    private fun applyDokkaForSubProjects(target: Project) {
-        target.subprojects.forEach { project ->
-            project.pluginManager.apply(DokkaRootPlugin::class.java)
-        }
-        target.dependencies {
-            target.subprojects.forEach { project ->
-                add("dokka", project)
-            }
-        }
-    }
-
+class DokkaPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with(target.plugins) {
-            apply("org.jetbrains.dokka")
-        }
-        applyDokkaForSubProjects(target)
+        target.pluginManager.apply("org.jetbrains.dokka")
 
         target.extensions.configure<DokkaExtension> {
             dokkaGeneratorIsolation.set(ClassLoaderIsolation())

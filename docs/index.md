@@ -29,7 +29,7 @@ klibs-gradleplugin = "<latest-version>"
 [plugins]
 # Core
 klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
-klibs-gradle-dokka-root = { id = "ru.astrainteractive.gradleplugin.dokka.root", version.ref = "klibs-gradleplugin" }
+klibs-gradle-dokka = { id = "ru.astrainteractive.gradleplugin.dokka", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-version = { id = "ru.astrainteractive.gradleplugin.java.version", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-utf8 = { id = "ru.astrainteractive.gradleplugin.java.utf8", version.ref = "klibs-gradleplugin" }
 klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.rootinfo", version.ref = "klibs-gradleplugin" }
@@ -74,7 +74,9 @@ Your root `build.gradle.kts`
 plugins {
     // klibs - core
     alias(libs.plugins.klibs.gradle.detekt) apply false
-    alias(libs.plugins.klibs.gradle.dokka.root) apply false
+    // Applied, not `apply false`: every documented project applies it itself.
+    // See docs/convention.md for the multi-module setup.
+    alias(libs.plugins.klibs.gradle.dokka)
     alias(libs.plugins.klibs.gradle.java.version) apply false
     alias(libs.plugins.klibs.gradle.java.utf8) apply false
     alias(libs.plugins.klibs.gradle.rootinfo) apply false

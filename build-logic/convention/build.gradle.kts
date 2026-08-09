@@ -29,13 +29,12 @@ dependencies {
     implementation(libs.dokka.gradle)
     implementation(libs.kobweb.gradle)
     implementation(libs.vaniktech)
-    implementation(projects.buildLogic.property)
     implementation(projects.property)
 }
 
 gradlePlugin {
-    website.set(projectWeb)
-    vcsUrl.set(projectWeb)
+    website.set(projectUrl)
+    vcsUrl.set(projectUrl)
     description = projectDescription
     plugins {
         create("detekt") {
@@ -66,14 +65,6 @@ gradlePlugin {
             displayName = "Java UTF-8 Encoding Plugin"
             description = "Configures UTF-8 encoding for Java compilation tasks"
             tags.set(listOf("java", "encoding", "klibs"))
-        }
-        create("klibs") {
-            id = "$projectGroup.$name"
-            implementationClass = "$projectGroup.plugin.KlibsExtensionPlugin"
-            displayName = "KLibs Properties Extension Plugin"
-            description =
-                "Registers a `klibs` project extension exposing gradle.properties values without imports in build.gradle.kts"
-            tags.set(listOf("configuration", "klibs"))
         }
         create("rootinfo") {
             id = "$projectGroup.$name"

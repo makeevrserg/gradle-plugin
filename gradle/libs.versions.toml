@@ -4,8 +4,8 @@ detekt = "2.0.0-alpha.5" # https://detekt.dev/docs/gettingstarted/gradle/
 dokka = "2.2.0" # https://github.com/kotlin/dokka
 fabric-loom = "1.16.1" # https://github.com/FabricMC/fabric-loom
 forge-gradle = "7.0.25" # https://github.com/MinecraftForge/ForgeGradle
-kobweb = "0.24.0" # https://github.com/varabyte/kobweb
-kotlin = "2.4.0" # https://github.com/jetbrains/kotlin
+kobweb = "0.25.0" # https://github.com/varabyte/kobweb
+kotlin = "2.4.10" # https://github.com/jetbrains/kotlin
 neoforge-gradle = "7.1.20" # https://github.com/neoforged/NeoGradle
 vaniktech = "0.37.0" # https://github.com/vanniktech/gradle-maven-publish-plugin
 

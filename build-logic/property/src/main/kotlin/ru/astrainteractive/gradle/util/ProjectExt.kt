@@ -14,13 +14,15 @@ private fun File.takeIfExists(): File? {
 }
 
 private fun Project.findFileOrParentFile(name: String): File? {
-    val parentOrNull = parent
-    val projectFileOrNull = file(name).takeIfExists()
-    return when {
-        projectFileOrNull != null -> projectFileOrNull
-        parentOrNull != null -> parentOrNull.findFileOrParentFile(name)
-        else -> rootProject.file(name).takeIfExists()
+    val rootDir = rootDir
+    var currentDir: File? = projectDir
+    while (currentDir != null) {
+        val fileOrNull = File(currentDir, name).takeIfExists()
+        if (fileOrNull != null) return fileOrNull
+        if (currentDir == rootDir) break
+        currentDir = currentDir.parentFile
     }
+    return File(rootDir, name).takeIfExists()
 }
 
 private fun Project.requireFileOrParentFile(name: String): File {

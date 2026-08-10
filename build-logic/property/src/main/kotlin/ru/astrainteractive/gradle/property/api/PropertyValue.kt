@@ -1,7 +1,7 @@
 package ru.astrainteractive.gradle.property.api
 
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionContainer
+import ru.astrainteractive.gradle.property.internal.BuildPropertyCacheService
 import ru.astrainteractive.gradle.property.internal.CachedPropertyValue
 import ru.astrainteractive.gradle.property.internal.ProjectPropertyValue
 import ru.astrainteractive.gradle.property.internal.SecretPropertyValue
@@ -15,6 +15,7 @@ interface PropertyValue {
 }
 
 private const val BASE_PREFIX = "klibs"
+private const val CACHE_SERVICE_NAME = "klibsBuildPropertyCache"
 
 fun Project.gradleProperty(path: String): PropertyValue {
     return ProjectPropertyValue(this, path)
@@ -33,13 +34,16 @@ fun Project.klibsSecretProperty(path: String): PropertyValue {
 }
 
 /**
- * Don't replace extensionContainer with project
+ * Memoizes this property for the whole build.
  *
- * Different projects have different extensionContainer
+ * Only for keys that must resolve to one value everywhere, per-module keys must stay uncached.
  */
-fun PropertyValue.asCached(extensionContainer: ExtensionContainer): PropertyValue {
+fun PropertyValue.asCached(project: Project): PropertyValue {
+    val cache = project.gradle.sharedServices
+        .registerIfAbsent(CACHE_SERVICE_NAME, BuildPropertyCacheService::class.java) {}
+        .get()
     return CachedPropertyValue(
-        extensionContainer = extensionContainer,
+        cache = cache,
         propertyValue = this
     )
 }

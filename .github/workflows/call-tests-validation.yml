@@ -8,7 +8,7 @@ jobs:
       matrix:
         include:
           - platform: "macos-latest"
-            task: "allTests"
+            task: "test"
     name: "Run multiplatform tests"
     runs-on: ubuntu-latest
     steps:
@@ -24,4 +24,4 @@ jobs:
       - name: Run tests
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3
         with:
-          arguments: ${{ matrix.target }} --stacktrace
+          arguments: ${{ matrix.task }} --stacktrace

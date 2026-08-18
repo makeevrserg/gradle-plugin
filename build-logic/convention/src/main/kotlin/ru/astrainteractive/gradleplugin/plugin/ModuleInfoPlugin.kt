@@ -10,7 +10,7 @@ import ru.astrainteractive.gradleplugin.property.util.requireProjectInfo
 class ModuleInfoPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val projectInfo = target.requireProjectInfo
-        if (target.project != target.rootProject) {
+        if (target.path != ":") {
             target.logger.warn("You've applied ModuleInfoPlugin to non-root project!")
         }
 

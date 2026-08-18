@@ -1,5 +1,9 @@
+**/.kotlin
+**/build
+.claude
+.gradle
 .idea
 .kotlin
-.gradle
-**/build
-**/.kotlin
+AGENTS.md
+CLAUDE.md
+local.properties

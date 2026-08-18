@@ -13,6 +13,11 @@ abstract class FabricLoomJavaVersionRule : ComponentMetadataRule {
     }
 }
 
+val testPluginDependencies = configurations.dependencyScope("testPluginDependencies")
+val testPluginClasspath = configurations.resolvable("testPluginClasspath") {
+    extendsFrom(testPluginDependencies.get())
+}
+
 dependencies {
     components { withModule<FabricLoomJavaVersionRule>("net.fabricmc:fabric-loom") }
 
@@ -29,6 +34,21 @@ dependencies {
     implementation(libs.kobweb.gradle)
     implementation(libs.vaniktech)
     implementation(projects.property)
+
+    testImplementation(gradleTestKit())
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
+
+    // The plugins read Kotlin Gradle plugin types, which stay compileOnly in production
+    add(testPluginDependencies.name, libs.kotlin.gradle)
+}
+
+tasks.pluginUnderTestMetadata {
+    pluginClasspath.from(testPluginClasspath)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 gradlePlugin {

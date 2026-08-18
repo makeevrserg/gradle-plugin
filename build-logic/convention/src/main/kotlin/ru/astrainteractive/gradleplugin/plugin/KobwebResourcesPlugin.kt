@@ -27,7 +27,8 @@ abstract class KobwebResourcesPlugin : Plugin<Project> {
                 scope.projectsPaths
                     .map { projectPath ->
                         project.project(projectPath)
-                            .file("src/jsMain/resources/public")
+                            .projectDir
+                            .resolve("src/jsMain/resources/public")
                     }
             )
             into(project.layout.buildDirectory.dir("processedResources/js/main/public"))

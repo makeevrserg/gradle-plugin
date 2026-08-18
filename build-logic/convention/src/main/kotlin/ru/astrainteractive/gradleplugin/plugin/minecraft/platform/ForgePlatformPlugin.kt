@@ -12,7 +12,10 @@ import ru.astrainteractive.gradleplugin.plugin.minecraft.model.ForgePlatform
 internal class ForgePlatformPlugin(private val platform: ForgePlatform) : Plugin<Project> {
 
     private fun applyLocal(target: Project) {
-        val jar = target.rootProject.file(".gradle")
+        val jar = target.isolated.rootProject
+            .projectDirectory
+            .asFile
+            .resolve(".gradle")
             .resolve("mavenizer")
             .resolve("repo")
             .resolve("net")

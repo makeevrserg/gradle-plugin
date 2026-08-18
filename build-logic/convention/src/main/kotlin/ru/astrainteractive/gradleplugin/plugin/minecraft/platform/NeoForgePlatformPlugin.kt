@@ -7,7 +7,10 @@ import ru.astrainteractive.gradleplugin.plugin.minecraft.model.NeoForgePlatform
 
 internal class NeoForgePlatformPlugin(private val platform: NeoForgePlatform) : Plugin<Project> {
     private fun applyLocal(target: Project) {
-        val jar = target.rootProject.file(".gradle")
+        val jar = target.isolated.rootProject
+            .projectDirectory
+            .asFile
+            .resolve(".gradle")
             .resolve("repositories")
             .resolve("ng_dummy_ng")
             .resolve("net")

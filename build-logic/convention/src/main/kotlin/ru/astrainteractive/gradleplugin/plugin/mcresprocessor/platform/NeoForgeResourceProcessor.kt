@@ -1,9 +1,6 @@
 package ru.astrainteractive.gradleplugin.plugin.mcresprocessor.platform
 
 import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.file.SourceDirectorySet
-import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.jvm.tasks.ProcessResources
 import ru.astrainteractive.gradleplugin.plugin.mcresprocessor.api.ResourceProcessor
@@ -54,12 +51,8 @@ internal class NeoForgeResourceProcessor(
         task.configure {
             filteringCharset = "UTF-8"
             duplicatesStrategy = DuplicatesStrategy.WARN
-            val sourceSets = project.extensions.getByName("sourceSets") as SourceSetContainer
-            val resDirs = sourceSets
-                .map(SourceSet::getResources)
-                .map(SourceDirectorySet::getSrcDirs)
-            from(resDirs) {
-                include("META-INF/mods.toml")
+            // Forge-era templates use META-INF/mods.toml, NeoForge 20.5+ reads META-INF/neoforge.mods.toml
+            filesMatching(listOf("META-INF/mods.toml", "META-INF/neoforge.mods.toml")) {
                 expand(getDefaultProperties().plus(customProperties))
             }
         }

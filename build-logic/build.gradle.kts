@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("ru.astrainteractive.gradleplugin.detekt") version "2.3.0" apply true
+    id("ru.astrainteractive.gradleplugin.detekt") version "2.7.2" apply true
 }
 
 private fun registerAggregateTask(taskName: String, taskGroup: String, taskDescription: String) {

@@ -6,6 +6,7 @@ import java.io.File
 
 internal class IsolatedProjectsBuild(private val rootDirectory: File) {
     private val moduleNames = mutableListOf<String>()
+    private var offline = true
 
     private fun writeFile(path: String, content: String) {
         val file = File(rootDirectory, path)
@@ -14,6 +15,15 @@ internal class IsolatedProjectsBuild(private val rootDirectory: File) {
     }
 
     fun file(path: String): File = File(rootDirectory, path)
+
+    /**
+     * Lets the build download dependencies, for a plugin that resolves a tool at execution time; the TestKit
+     * Gradle home starts with an empty cache.
+     */
+    fun online(): IsolatedProjectsBuild {
+        offline = false
+        return this
+    }
 
     fun withRootBuildScript(content: String): IsolatedProjectsBuild {
         writeFile("build.gradle.kts", content)
@@ -63,7 +73,7 @@ internal class IsolatedProjectsBuild(private val rootDirectory: File) {
         .withProjectDir(rootDirectory)
         .withPluginClasspath()
         .forwardOutput()
-        .withArguments(arguments.toList() + listOf("--offline", "--stacktrace"))
+        .withArguments(arguments.toList() + listOfNotNull("--offline".takeIf { offline }, "--stacktrace"))
 
     private companion object {
         val GRADLE_PROPERTIES = """

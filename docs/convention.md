@@ -115,6 +115,48 @@ plugins {
 
 ---
 
+### Linter
+
+**ID:** `ru.astrainteractive.gradleplugin.linter`
+
+One plugin for the architecture rules of
+[rules-architecture](https://github.com/Astra-Interactive/rules-architecture). Apply it to every unit instead of
+the Detekt plugin.
+
+```kotlin
+plugins {
+    alias(libs.plugins.klibs.gradle.linter)
+}
+```
+
+- Applies the Detekt plugin above
+- Adds the architecture detekt rules (`ru.astrainteractive.klibs.rules:detekt`) and their `detekt-architecture.yml`
+  settings, listed after `detekt.yml` so they win
+- Passes the module's explicit API mode to the `detekt` task, so `RedundantVisibilityModifier` accepts the
+  `public` that explicit API mode demands
+- Registers `architectureCheck`, which `check` depends on: the Konsist checks of the unit's package layout, run in
+  a separate JVM, and the checks of its README, nested units and project dependencies
+- Registers `architectureBaseline`, which writes the current violations to `architecture-baseline.txt`; the check
+  accepts what the file lists, so old code can stay as it is
+
+The unit kind decides which layout rules apply. It is detected by convention and can be set:
+
+```kotlin
+linter {
+    unitKind.set("library") // context, library, api, contract or entry-point
+    rootPackage.set("ru.astrainteractive.aspekt.module.jail")
+}
+```
+
+| Detected as | When |
+|---|---|
+| `api`, `contract` | the last segment of the project path |
+| `entry-point` | the `application` or `com.android.application` plugin, or a path under `:instances` |
+| `library` | Kotlin explicit API mode strict |
+| `context` | anything else |
+
+---
+
 ### Dokka
 
 **ID:** `ru.astrainteractive.gradleplugin.dokka`

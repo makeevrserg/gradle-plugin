@@ -31,6 +31,7 @@ klibs-gradleplugin = "<latest-version>"
 klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
 klibs-gradle-dokka = { id = "ru.astrainteractive.gradleplugin.dokka", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-version = { id = "ru.astrainteractive.gradleplugin.java.version", version.ref = "klibs-gradleplugin" }
+klibs-gradle-linter = { id = "ru.astrainteractive.gradleplugin.linter", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-utf8 = { id = "ru.astrainteractive.gradleplugin.java.utf8", version.ref = "klibs-gradleplugin" }
 klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.rootinfo", version.ref = "klibs-gradleplugin" }
 klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
@@ -75,6 +76,7 @@ plugins {
     alias(libs.plugins.klibs.gradle.detekt) apply false
     alias(libs.plugins.klibs.gradle.dokka)
     alias(libs.plugins.klibs.gradle.java.version) apply false
+    alias(libs.plugins.klibs.gradle.linter) apply false
     alias(libs.plugins.klibs.gradle.java.utf8) apply false
     alias(libs.plugins.klibs.gradle.rootinfo) apply false
     alias(libs.plugins.klibs.gradle.publication) apply false

@@ -143,7 +143,7 @@ The unit kind decides which layout rules apply. It is detected by convention and
 
 ```kotlin
 linter {
-    unitKind.set("library") // context, library, api, contract or entry-point
+    unitKind.set("library") // context, library, api, contract, entry-point or technology
     rootPackage.set("ru.astrainteractive.aspekt.module.jail")
 }
 ```
@@ -151,6 +151,7 @@ linter {
 | Detected as | When |
 |---|---|
 | `api`, `contract` | the last segment of the project path |
+| `technology` | a technology name as the last segment of the project path (`data/exposed`, `data/room`) |
 | `entry-point` | the `application` or `com.android.application` plugin, or a path under `:instances` |
 | `library` | Kotlin explicit API mode strict |
 | `context` | anything else |

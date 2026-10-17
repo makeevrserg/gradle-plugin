@@ -80,6 +80,8 @@ internal abstract class ArchitectureTask : DefaultTask() {
         add(kind.cliName)
         add("--report")
         add(reportFile.absolutePath)
+        add("--unit-path")
+        add(projectPath.get())
         rootPackage.orNull?.let { packageName ->
             add("--root-package")
             add(packageName)

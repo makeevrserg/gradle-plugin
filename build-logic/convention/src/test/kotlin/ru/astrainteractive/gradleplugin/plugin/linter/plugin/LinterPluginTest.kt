@@ -23,11 +23,11 @@ class LinterPluginTest {
         .withModule(name = "jail", buildScript = javaModuleScript)
         .withSourceFile("jail/README.md", "Jails players for a sentence and frees them when it ends.")
         .withSourceFile(
-            "jail/src/main/kotlin/com/example/jail/JailPlayer.kt",
+            "jail/src/main/kotlin/com/example/jail/jail/usecase/JailPlayerUseCase.kt",
             """
-            package com.example.jail
+            package com.example.jail.jail.usecase
 
-            class JailPlayer {
+            class JailPlayerUseCase {
                 operator fun invoke() = Unit
             }
             """.trimIndent()
@@ -41,9 +41,9 @@ class LinterPluginTest {
             """.trimIndent()
         )
         .withSourceFile(
-            "jail/src/main/kotlin/com/example/jail/model/Cell.kt",
+            "jail/src/main/kotlin/com/example/jail/jail/model/Cell.kt",
             """
-            package com.example.jail.model
+            package com.example.jail.jail.model
 
             class Cell
             """.trimIndent()
@@ -56,10 +56,10 @@ class LinterPluginTest {
         val result = jailBuild(rootDirectory).runAndFail(":jail:check")
 
         assertTrue(
-            result.output.contains("src/main/kotlin/com/example/jail/Jail.kt: Move Jail to a role package"),
+            result.output.contains("src/main/kotlin/com/example/jail/Jail.kt: Move Jail into a kind package"),
             "the loose root file was not reported:\n${result.output}"
         )
-        assertTrue(result.output.contains("[LooseRootFile]"), "the rule was not named:\n${result.output}")
+        assertTrue(result.output.contains("[KindShape]"), "the rule was not named:\n${result.output}")
         assertTrue(
             result.output.contains("run :jail:architectureBaseline to accept"),
             "the baseline task was not suggested:\n${result.output}"
@@ -74,7 +74,7 @@ class LinterPluginTest {
         build.run(":jail:architectureCheck")
 
         val baseline = build.file("jail/architecture-baseline.txt").readLines()
-        assertEquals(listOf("LooseRootFile\tsrc/main/kotlin/com/example/jail/Jail.kt\tJail"), baseline)
+        assertEquals(listOf("KindShape\tsrc/main/kotlin/com/example/jail/Jail.kt\tJail"), baseline)
     }
 
     @Test
@@ -82,8 +82,8 @@ class LinterPluginTest {
         val build = jailBuild(rootDirectory)
         build.run(":jail:architectureBaseline")
         val loose = build.file("jail/src/main/kotlin/com/example/jail/Jail.kt")
-        val model = build.file("jail/src/main/kotlin/com/example/jail/model/Jail.kt")
-        model.writeText(loose.readText().replace("package com.example.jail", "package com.example.jail.model"))
+        val model = build.file("jail/src/main/kotlin/com/example/jail/jail/model/Jail.kt")
+        model.writeText(loose.readText().replace("package com.example.jail", "package com.example.jail.jail.model"))
         loose.delete()
 
         build.run(":jail:architectureBaseline")
@@ -200,14 +200,14 @@ class LinterPluginTest {
             .withModule(name = "api", buildScript = unitKindScript("`java-library`"))
             .withModule(name = "contract", buildScript = unitKindScript("`java-library`"))
             .withModule(name = "server", buildScript = unitKindScript("application"))
+            .withModule(name = "exposed", buildScript = unitKindScript("`java-library`"))
             .withModule(name = "jail", buildScript = unitKindScript("`java-library`"))
+        val modules = listOf("api", "contract", "server", "exposed", "jail")
 
-        build.run(":api:reportUnitKind", ":contract:reportUnitKind", ":server:reportUnitKind", ":jail:reportUnitKind")
+        build.run(*modules.map { module -> ":$module:reportUnitKind" }.toTypedArray())
 
-        val kinds = listOf("api", "contract", "server", "jail").map { module ->
-            build.file("$module/build/unit-kind.txt").readText()
-        }
-        assertEquals(listOf("api", "contract", "entry-point", "context"), kinds)
+        val kinds = modules.map { module -> build.file("$module/build/unit-kind.txt").readText() }
+        assertEquals(listOf("api", "contract", "entry-point", "technology", "context"), kinds)
     }
 
     @Test

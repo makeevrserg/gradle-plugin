@@ -2,6 +2,7 @@ package ru.astrainteractive.gradleplugin.plugin.linter.util
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
+import ru.astrainteractive.gradleplugin.plugin.linter.model.UnitKind
 
 private const val ENTRY_POINT_PATH_PREFIX = ":instances:"
 
@@ -26,13 +27,14 @@ private fun Project.isEntryPointByConvention(): Boolean =
  * The unit kind by convention: the path segment `api` or `contract`, an application plugin or a path under
  * `:instances` for an entry point, explicit API strict for a library, a context otherwise.
  */
-internal fun Project.detectUnitKind(): String {
+internal fun Project.detectUnitKind(): UnitKind {
     val unitName = path.substringAfterLast(':')
     return when {
-        unitName == "api" || unitName == "contract" -> unitName
-        isEntryPointByConvention() -> "entry-point"
-        hasKotlinPlugin() && explicitApiMode() == "strict" -> "library"
-        else -> "context"
+        unitName == UnitKind.API.cliName -> UnitKind.API
+        unitName == UnitKind.CONTRACT.cliName -> UnitKind.CONTRACT
+        isEntryPointByConvention() -> UnitKind.ENTRY_POINT
+        hasKotlinPlugin() && explicitApiMode() == "strict" -> UnitKind.LIBRARY
+        else -> UnitKind.CONTEXT
     }
 }
 

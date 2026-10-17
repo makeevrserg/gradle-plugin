@@ -16,6 +16,7 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.process.ExecOperations
 import ru.astrainteractive.gradleplugin.plugin.linter.model.ArchitectureFinding
+import ru.astrainteractive.gradleplugin.plugin.linter.model.UnitKind
 import ru.astrainteractive.klibs.rules.structure.graph.UnitDependency
 import ru.astrainteractive.klibs.rules.structure.nesting.NestedUnit
 import ru.astrainteractive.klibs.rules.structure.nesting.RootSources
@@ -68,11 +69,15 @@ internal abstract class ArchitectureTask : DefaultTask() {
             .filter { directory -> directory.isDirectory }
             .sortedBy { directory -> directory.path }
 
-    private fun konsistArguments(mainDirectories: List<File>, reportFile: File): List<String> = buildList {
+    private fun konsistArguments(
+        kind: UnitKind,
+        mainDirectories: List<File>,
+        reportFile: File
+    ): List<String> = buildList {
         add("--project-dir")
         add(projectDirectory.get().asFile.absolutePath)
         add("--unit-kind")
-        add(unitKind.get())
+        add(kind.cliName)
         add("--report")
         add(reportFile.absolutePath)
         rootPackage.orNull?.let { packageName ->
@@ -89,25 +94,25 @@ internal abstract class ArchitectureTask : DefaultTask() {
         }
     }
 
-    private fun runKonsist(): List<ArchitectureFinding> {
+    private fun runKonsist(kind: UnitKind): List<ArchitectureFinding> {
         val mainDirectories = sourceDirectories(isTest = false)
         if (rootOfBuild.get() || mainDirectories.isEmpty()) return emptyList()
         val reportFile = File(temporaryDir, KONSIST_REPORT)
         execOperations.javaexec {
             classpath = konsistClasspath
             mainClass.set(KONSIST_MAIN_CLASS)
-            args(konsistArguments(mainDirectories, reportFile))
+            args(konsistArguments(kind, mainDirectories, reportFile))
         }
         return reportFile.readLines()
             .filter { line -> line.isNotBlank() }
             .map { line -> ArchitectureFinding.parse(line) }
     }
 
-    private fun runStructureChecks(): List<ArchitectureFinding> {
+    private fun runStructureChecks(kind: UnitKind): List<ArchitectureFinding> {
         val unit = BuildUnit(
             path = projectPath.get(),
             directory = projectDirectory.get().asFile,
-            isEntryPoint = unitKind.get() == ENTRY_POINT,
+            isEntryPoint = kind == UnitKind.ENTRY_POINT,
             isRoot = rootOfBuild.get(),
             projectDependencies = projectDependencies.get()
         )
@@ -118,22 +123,19 @@ internal abstract class ArchitectureTask : DefaultTask() {
     }
 
     protected fun findFindings(): List<ArchitectureFinding> {
-        if (unitKind.get() !in UNIT_KINDS) {
-            throw GradleException(
-                "linter.unitKind of ${projectPath.get()} is '${unitKind.get()}', expected one of $UNIT_KINDS"
-            )
-        }
-        return runKonsist() + runStructureChecks()
+        val kind = UnitKind.fromCliName(unitKind.get()) ?: throw GradleException(
+            "linter.unitKind of ${projectPath.get()} is '${unitKind.get()}', expected one of " +
+                UnitKind.entries.joinToString { entry -> entry.cliName }
+        )
+        return runKonsist(kind) + runStructureChecks(kind)
     }
 
     private companion object {
         const val SOURCE_ROOT = "src"
         const val TEST_MARKER = "test"
-        const val ENTRY_POINT = "entry-point"
         const val KONSIST_REPORT = "konsist.tsv"
         const val KONSIST_MAIN_CLASS = "ru.astrainteractive.klibs.rules.konsist.cli.KonsistCli"
 
         val LANGUAGE_DIRECTORIES = listOf("kotlin", "java")
-        val UNIT_KINDS = listOf("context", "library", "api", "contract", ENTRY_POINT)
     }
 }

@@ -121,7 +121,7 @@ class LinterPlugin : Plugin<Project> {
         target.configureDetekt(rulesVersion)
 
         val extension = target.extensions.create<LinterExtension>(EXTENSION_NAME)
-        extension.unitKind.convention(target.provider { target.detectUnitKind() })
+        extension.unitKind.convention(target.provider { target.detectUnitKind().cliName })
         val classpath = target.konsistClasspath(rulesVersion)
 
         val checkTask = target.tasks.register<ArchitectureCheckTask>(CHECK_TASK_NAME) {

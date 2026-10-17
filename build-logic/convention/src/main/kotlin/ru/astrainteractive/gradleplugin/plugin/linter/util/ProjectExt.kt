@@ -38,9 +38,11 @@ internal fun Project.detectUnitKind(): UnitKind {
     }
 }
 
-private fun isProductionConfiguration(name: String): Boolean =
-    PRODUCTION_CONFIGURATION_SUFFIXES.any { suffix -> name.endsWith(suffix, ignoreCase = true) } &&
-        !name.contains("test", ignoreCase = true)
+private fun isProductionConfiguration(name: String): Boolean {
+    return PRODUCTION_CONFIGURATION_SUFFIXES
+        .any { suffix -> name.endsWith(suffix, ignoreCase = true) }
+        .and(!name.contains("test", ignoreCase = true))
+}
 
 /**
  * Paths of the projects the production code of this project depends on; test configurations are left out.

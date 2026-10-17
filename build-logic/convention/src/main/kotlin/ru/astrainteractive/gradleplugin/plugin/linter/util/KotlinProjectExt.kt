@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.plugin.linter
+package ru.astrainteractive.gradleplugin.plugin.linter.util
 
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode

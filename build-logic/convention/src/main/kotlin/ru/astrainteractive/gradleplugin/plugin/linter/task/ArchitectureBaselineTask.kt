@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.plugin.linter
+package ru.astrainteractive.gradleplugin.plugin.linter.task
 
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.OutputFile

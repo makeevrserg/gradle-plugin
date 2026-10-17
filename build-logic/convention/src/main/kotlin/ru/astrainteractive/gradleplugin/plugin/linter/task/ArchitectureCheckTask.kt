@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.plugin.linter
+package ru.astrainteractive.gradleplugin.plugin.linter.task
 
 import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileCollection
@@ -10,6 +10,7 @@ import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.work.DisableCachingByDefault
 import ru.astrainteractive.gradleplugin.plugin.linter.model.ArchitectureFinding
+import ru.astrainteractive.gradleplugin.plugin.linter.plugin.LinterPlugin
 
 /**
  * Fails the build on every architecture violation the baseline does not list, and writes them to [reportFile].

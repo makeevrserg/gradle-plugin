@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.plugin.linter
+package ru.astrainteractive.gradleplugin.plugin.linter.plugin
 
 import dev.detekt.gradle.Detekt
 import org.gradle.api.GradleException
@@ -20,6 +20,14 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import ru.astrainteractive.gradleplugin.plugin.detekt.DetektConfigService
 import ru.astrainteractive.gradleplugin.plugin.detekt.DetektPlugin
+import ru.astrainteractive.gradleplugin.plugin.linter.extension.LinterExtension
+import ru.astrainteractive.gradleplugin.plugin.linter.task.ArchitectureBaselineTask
+import ru.astrainteractive.gradleplugin.plugin.linter.task.ArchitectureCheckTask
+import ru.astrainteractive.gradleplugin.plugin.linter.task.ArchitectureTask
+import ru.astrainteractive.gradleplugin.plugin.linter.util.detectUnitKind
+import ru.astrainteractive.gradleplugin.plugin.linter.util.explicitApiMode
+import ru.astrainteractive.gradleplugin.plugin.linter.util.hasKotlinPlugin
+import ru.astrainteractive.gradleplugin.plugin.linter.util.productionProjectDependencies
 import java.util.Properties
 
 /**

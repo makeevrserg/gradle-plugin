@@ -1,4 +1,4 @@
-package ru.astrainteractive.gradleplugin.plugin.linter
+package ru.astrainteractive.gradleplugin.plugin.linter.task
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException

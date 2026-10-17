@@ -1,6 +1,6 @@
 @file:Suppress("FunctionNaming")
 
-package ru.astrainteractive.gradleplugin.plugin.linter
+package ru.astrainteractive.gradleplugin.plugin.linter.plugin
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -124,7 +124,7 @@ class LinterPluginTest {
     ) {
         val moduleScript = """
             import dev.detekt.gradle.Detekt
-            import ru.astrainteractive.gradleplugin.plugin.linter.LinterExtension
+            import ru.astrainteractive.gradleplugin.plugin.linter.extension.LinterExtension
 
             plugins {
                 id("org.jetbrains.kotlin.jvm")

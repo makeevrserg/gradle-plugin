@@ -77,7 +77,7 @@ gradlePlugin {
         }
         create("linter") {
             id = "${klibs.group}.$name"
-            implementationClass = "${klibs.group}.plugin.linter.LinterPlugin"
+            implementationClass = "${klibs.group}.plugin.linter.plugin.LinterPlugin"
             displayName = "Architecture Linter Plugin"
             description = "Applies detekt with the architecture rules and checks the package layout and unit graph"
             tags.set(listOf("kotlin", "static-analysis", "architecture", "klibs"))

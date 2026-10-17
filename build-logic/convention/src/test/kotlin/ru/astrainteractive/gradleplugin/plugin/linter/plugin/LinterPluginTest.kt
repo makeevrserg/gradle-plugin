@@ -172,4 +172,137 @@ class LinterPluginTest {
         assertEquals("kind=library", report[2])
         assertTrue(report[3].contains("ru.astrainteractive.klibs.rules:detekt"), "rules missing: ${report[3]}")
     }
+
+    private fun unitKindScript(plugins: String): String = """
+        import ru.astrainteractive.gradleplugin.plugin.linter.extension.LinterExtension
+
+        plugins {
+            $plugins
+            id("ru.astrainteractive.gradleplugin.linter")
+        }
+
+        val linterUnitKind = extensions.getByType<LinterExtension>().unitKind
+        val kindReport = layout.buildDirectory.file("unit-kind.txt")
+        tasks.register("reportUnitKind") {
+            val unitKind = linterUnitKind
+            val reportFile = kindReport
+            outputs.file(reportFile)
+            doLast { reportFile.get().asFile.writeText(unitKind.get()) }
+        }
+    """.trimIndent()
+
+    @Test
+    fun GIVEN_units_named_and_built_by_convention_WHEN_configured_THEN_detects_their_kind(
+        @TempDir rootDirectory: File
+    ) {
+        val build = IsolatedProjectsBuild(rootDirectory)
+            .withRootBuildScript("")
+            .withModule(name = "api", buildScript = unitKindScript("`java-library`"))
+            .withModule(name = "contract", buildScript = unitKindScript("`java-library`"))
+            .withModule(name = "server", buildScript = unitKindScript("application"))
+            .withModule(name = "jail", buildScript = unitKindScript("`java-library`"))
+
+        build.run(":api:reportUnitKind", ":contract:reportUnitKind", ":server:reportUnitKind", ":jail:reportUnitKind")
+
+        val kinds = listOf("api", "contract", "server", "jail").map { module ->
+            build.file("$module/build/unit-kind.txt").readText()
+        }
+        assertEquals(listOf("api", "contract", "entry-point", "context"), kinds)
+    }
+
+    @Test
+    fun GIVEN_unknown_unit_kind_WHEN_architecture_checked_THEN_fails_listing_the_kinds(@TempDir rootDirectory: File) {
+        val moduleScript = """
+            $javaModuleScript
+
+            linter {
+                unitKind.set("service")
+            }
+        """.trimIndent()
+        val build = IsolatedProjectsBuild(rootDirectory)
+            .online()
+            .withRootBuildScript("")
+            .withModule(name = "jail", buildScript = moduleScript)
+
+        val result = build.runAndFail(":jail:architectureCheck")
+
+        assertTrue(
+            result.output.contains(
+                "linter.unitKind of :jail is 'service', expected one of context, library, api, contract, entry-point"
+            ),
+            "the unknown kind was not reported:\n${result.output}"
+        )
+    }
+
+    @Test
+    fun GIVEN_context_depending_on_impl_only_in_tests_WHEN_architecture_checked_THEN_passes(
+        @TempDir rootDirectory: File
+    ) {
+        val moduleScript = """
+            $javaModuleScript
+
+            dependencies {
+                testImplementation(project(":impl"))
+            }
+        """.trimIndent()
+        val build = IsolatedProjectsBuild(rootDirectory)
+            .online()
+            .withRootBuildScript("")
+            .withModule(name = "jail", buildScript = moduleScript)
+            .withModule(name = "impl", buildScript = javaModuleScript)
+            .withSourceFile("jail/README.md", "Jails players for a sentence and frees them when it ends.")
+
+        build.run(":jail:architectureCheck")
+    }
+
+    @Test
+    fun GIVEN_root_project_with_sources_WHEN_architecture_checked_THEN_reports_them(@TempDir rootDirectory: File) {
+        val build = IsolatedProjectsBuild(rootDirectory)
+            .online()
+            .withRootBuildScript(javaModuleScript)
+            .withModule(name = "jail", buildScript = "")
+            .withSourceFile("src/main/kotlin/com/example/Main.kt", "package com.example\n")
+
+        val result = build.runAndFail(":architectureCheck")
+
+        assertTrue(
+            result.output.contains("src: Move the sources of the root project into a unit") &&
+                !result.output.contains("[NestedUnit]"),
+            "the root sources were not reported, or units below the root were:\n${result.output}"
+        )
+    }
+
+    @Test
+    fun GIVEN_kotlin_unit_with_explicit_api_warning_WHEN_configured_THEN_detekt_gets_the_warning_mode(
+        @TempDir rootDirectory: File
+    ) {
+        val moduleScript = """
+            import dev.detekt.gradle.Detekt
+
+            plugins {
+                id("org.jetbrains.kotlin.jvm")
+                id("ru.astrainteractive.gradleplugin.linter")
+            }
+
+            kotlin {
+                explicitApiWarning()
+            }
+
+            val detektArguments = tasks.named<Detekt>("detekt").get().freeCompilerArgs
+            val argumentsReport = layout.buildDirectory.file("detekt-arguments.txt")
+            tasks.register("reportDetektArguments") {
+                val arguments = detektArguments
+                val reportFile = argumentsReport
+                outputs.file(reportFile)
+                doLast { reportFile.get().asFile.writeText(arguments.get().joinToString()) }
+            }
+        """.trimIndent()
+        val build = IsolatedProjectsBuild(rootDirectory)
+            .withRootBuildScript("")
+            .withModule(name = "library", buildScript = moduleScript)
+
+        build.run(":library:reportDetektArguments")
+
+        assertEquals("-Xexplicit-api=warning", build.file("library/build/detekt-arguments.txt").readText())
+    }
 }

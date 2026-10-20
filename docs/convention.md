@@ -94,67 +94,18 @@ val namespace: String = project.hierarchyGroup
 
 ## Plugins
 
-### Detekt
+### Detekt and Linter
 
-**ID:** `ru.astrainteractive.gradleplugin.detekt`
+The Detekt plugin and the architecture Linter plugin live in
+[rules-architecture](https://github.com/Astra-Interactive/rules-architecture) since its 0.3.0 release, in the
+`ru.astrainteractive.klibs.rules:gradle-plugin` artifact:
 
-Applies and configures [Detekt](https://detekt.dev/) static code analysis with a bundled `detekt.yml` configuration.
+| Was                                      | Is                                              |
+|------------------------------------------|-------------------------------------------------|
+| `ru.astrainteractive.gradleplugin.detekt` | `ru.astrainteractive.klibs.rules.gradle.detekt` |
+| `ru.astrainteractive.gradleplugin.linter` | `ru.astrainteractive.klibs.rules.gradle.linter` |
 
-```kotlin
-plugins {
-    alias(libs.plugins.klibs.gradle.detekt)
-}
-```
-
-- Applies `dev.detekt` plugin
-- Registers `detektFormat` task with auto-correction enabled
-- Writes bundled `detekt.yml` to root project build directory
-- Configures HTML reports, parallel execution, source includes/excludes
-- Adds `detekt-rules-ktlint-wrapper` and `compose-rules:detekt` plugins
-- Sets JVM target from `klibs.java.target`
-
----
-
-### Linter
-
-**ID:** `ru.astrainteractive.gradleplugin.linter`
-
-One plugin for the architecture rules of
-[rules-architecture](https://github.com/Astra-Interactive/rules-architecture). Apply it to every unit instead of
-the Detekt plugin.
-
-```kotlin
-plugins {
-    alias(libs.plugins.klibs.gradle.linter)
-}
-```
-
-- Applies the Detekt plugin above
-- Adds the architecture detekt rules (`ru.astrainteractive.klibs.rules:detekt`) and their `detekt-architecture.yml`
-  settings, listed after `detekt.yml` so they win
-- Passes the module's explicit API mode to the `detekt` task, so `RedundantVisibilityModifier` accepts the
-  `public` that explicit API mode demands
-- Registers `architectureCheck`, which `check` depends on: the Konsist checks of the unit's package layout, run in
-  a separate JVM, and the checks of its README, nested units and project dependencies
-- Registers `architectureBaseline`, which writes the current violations to `architecture-baseline.txt`; the check
-  accepts what the file lists, so old code can stay as it is
-
-The unit kind decides which layout rules apply. It is detected by convention and can be set:
-
-```kotlin
-linter {
-    unitKind.set("library") // context, library, api, contract, entry-point or technology
-    rootPackage.set("ru.astrainteractive.aspekt.module.jail")
-}
-```
-
-| Detected as | When |
-|---|---|
-| `api`, `contract` | the last segment of the project path |
-| `technology` | a technology name as the last segment of the project path (`data/exposed`, `data/room`) |
-| `entry-point` | the `application` or `com.android.application` plugin, or a path under `:instances` |
-| `library` | Kotlin explicit API mode strict |
-| `context` | anything else |
+The detekt JVM target no longer comes from `klibs.java.target`: it is the Kotlin JVM target of the project.
 
 ---
 

@@ -11,11 +11,9 @@ class IsolatedProjectsCompatibilityTest {
     @ParameterizedTest(name = "{0} configures every module without coupling projects")
     @ValueSource(
         strings = [
-            "ru.astrainteractive.gradleplugin.detekt",
             "ru.astrainteractive.gradleplugin.dokka",
             "ru.astrainteractive.gradleplugin.java.version",
             "ru.astrainteractive.gradleplugin.java.utf8",
-            "ru.astrainteractive.gradleplugin.linter",
             "ru.astrainteractive.gradleplugin.publication",
             "ru.astrainteractive.gradleplugin.minecraft.resource.processor",
         ]

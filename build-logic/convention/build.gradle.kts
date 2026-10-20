@@ -27,12 +27,9 @@ dependencies {
     compileOnly(libs.forge.gradle)
     compileOnly(libs.fabric.loom) { isTransitive = false }
 
-    implementation(libs.detekt.gradle)
     implementation(libs.dokka.base)
     implementation(libs.dokka.core)
     implementation(libs.dokka.gradle)
-    implementation(libs.klibs.rules.detekt)
-    implementation(libs.klibs.rules.structure)
     implementation(libs.kobweb.gradle)
     implementation(libs.vaniktech)
     implementation(projects.property)
@@ -43,15 +40,6 @@ dependencies {
 
     // The plugins read Kotlin Gradle plugin types, which stay compileOnly in production
     add(testPluginDependencies.name, libs.kotlin.gradle)
-}
-
-val generateRulesVersion = tasks.register<WriteProperties>("generateRulesVersion") {
-    destinationFile = layout.buildDirectory.file("generated/klibs-rules/klibs-rules.properties")
-    property("version", libs.versions.klibs.rules.get())
-}
-
-sourceSets.main {
-    resources.srcDir(generateRulesVersion.map { task -> task.destinationFile.get().asFile.parentFile })
 }
 
 tasks.pluginUnderTestMetadata {
@@ -67,21 +55,6 @@ gradlePlugin {
     vcsUrl.set(klibs.url)
     description = klibs.description
     plugins {
-        create("detekt") {
-            id = "${klibs.group}.$name"
-            implementationClass = "${klibs.group}.plugin.detekt.DetektPlugin"
-            displayName = "Detekt Code Analysis Plugin"
-            description =
-                "Automatically applies detekt with KLibs configuration for static code analysis with Kotlin linting rules"
-            tags.set(listOf("kotlin", "static-analysis", "klibs"))
-        }
-        create("linter") {
-            id = "${klibs.group}.$name"
-            implementationClass = "${klibs.group}.plugin.linter.plugin.LinterPlugin"
-            displayName = "Architecture Linter Plugin"
-            description = "Applies detekt with the architecture rules and checks the package layout and unit graph"
-            tags.set(listOf("kotlin", "static-analysis", "architecture", "klibs"))
-        }
         create("dokka") {
             id = "${klibs.group}.$name"
             implementationClass = "${klibs.group}.plugin.dokka.DokkaPlugin"

@@ -19,8 +19,8 @@ val PropertyValue.stringOrEmpty: String
 val PropertyValue.requireString: String
     get() = getValue().getOrThrow()
 
-val PropertyValue.booleanOrFalse: Boolean
-    get() = stringOrNull?.toBooleanStrictOrNull() ?: false
+val PropertyValue.booleanOrNull: Boolean?
+    get() = stringOrNull?.toBooleanStrictOrNull()
 
 val PropertyValue.int: Result<Int>
     get() = getValue().mapCatching { it.toInt() }
@@ -55,7 +55,7 @@ val Project.requireJinfo: JInfo
         ktarget = klibsGradleProperty("java.ktarget").requireJvmTarget,
         jtarget = klibsGradleProperty("java.target").requireJavaVersion,
         jsource = klibsGradleProperty("java.source").requireJavaVersion,
-        useToolchain = klibsGradleProperty("java.use_toolchain").booleanOrFalse
+        useToolchain = klibsGradleProperty("java.use_toolchain").booleanOrNull ?: false
     )
 
 val Project.requireProjectInfo: ProjectInfo

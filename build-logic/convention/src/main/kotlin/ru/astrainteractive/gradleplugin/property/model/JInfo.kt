@@ -6,5 +6,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 data class JInfo(
     val ktarget: JvmTarget,
     val jtarget: JavaVersion,
-    val jsource: JavaVersion
+    val jsource: JavaVersion,
+    val useToolchain: Boolean
 )

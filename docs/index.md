@@ -55,6 +55,7 @@ klibs-gradle-android-apk-name = { id = "ru.astrainteractive.gradleplugin.android
 klibs.java.source=11
 klibs.java.target=11
 klibs.java.ktarget=11
+klibs.java.use_toolchain=false
 
 # Project
 klibs.project.name=MyProject

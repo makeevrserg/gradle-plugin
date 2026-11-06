@@ -177,6 +177,7 @@ plugins {
 - Sets `JavaPluginExtension.sourceCompatibility` from `klibs.java.source`
 - Sets `JavaPluginExtension.targetCompatibility` from `klibs.java.target`
 - Configures all `KotlinCompile` tasks JVM target from `klibs.java.ktarget`
+- Sets `JavaPluginExtension.toolchain.languageVersion` from `klibs.java.target` only when `klibs.java.use_toolchain=true` (default `false`): a toolchain request makes Gradle provision a JDK, which needs a toolchain repository in `settings.gradle.kts`
 
 ---
 

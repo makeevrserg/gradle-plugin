@@ -9,16 +9,16 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import ru.astrainteractive.gradleplugin.property.util.requireJinfo
 
-/**
- * Set javaSource, javaTarget and kotlinJvmTarget versions
- */
 class JavaVersionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val jinfo = target.requireJinfo
         target.configure<JavaPluginExtension> {
             sourceCompatibility = jinfo.jsource
             targetCompatibility = jinfo.jtarget
-            toolchain.languageVersion.set(JavaLanguageVersion.of(jinfo.jtarget.majorVersion))
+            // A toolchain request makes Gradle provision a JDK, so it is opt-in
+            if (jinfo.useToolchain) {
+                toolchain.languageVersion.set(JavaLanguageVersion.of(jinfo.jtarget.majorVersion))
+            }
         }
         target.tasks
             .withType<KotlinCompile>()
